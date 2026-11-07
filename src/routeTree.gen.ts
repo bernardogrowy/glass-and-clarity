@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FlashcardsRouteImport } from './routes/flashcards'
 import { Route as PraticaRouteImport } from './routes/pratica'
 import { Route as ProgressoRouteImport } from './routes/progresso'
 import { Route as VocabularioRouteImport } from './routes/vocabulario'
@@ -17,6 +18,11 @@ import { Route as VocabularioRouteImport } from './routes/vocabulario'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlashcardsRoute = FlashcardsRouteImport.update({
+  id: '/flashcards',
+  path: '/flashcards',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PraticaRoute = PraticaRouteImport.update({
@@ -37,12 +43,14 @@ const VocabularioRoute = VocabularioRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/flashcards': typeof FlashcardsRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
   '/vocabulario': typeof VocabularioRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/flashcards': typeof FlashcardsRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
   '/vocabulario': typeof VocabularioRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/flashcards': typeof FlashcardsRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
   '/vocabulario': typeof VocabularioRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pratica' | '/progresso' | '/vocabulario'
+  fullPaths: '/' | '/flashcards' | '/pratica' | '/progresso' | '/vocabulario'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pratica' | '/progresso' | '/vocabulario'
-  id: '__root__' | '/' | '/pratica' | '/progresso' | '/vocabulario'
+  to: '/' | '/flashcards' | '/pratica' | '/progresso' | '/vocabulario'
+  id:
+    | '__root__'
+    | '/'
+    | '/flashcards'
+    | '/pratica'
+    | '/progresso'
+    | '/vocabulario'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FlashcardsRoute: typeof FlashcardsRoute
   PraticaRoute: typeof PraticaRoute
   ProgressoRoute: typeof ProgressoRoute
   VocabularioRoute: typeof VocabularioRoute
@@ -76,6 +92,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flashcards': {
+      id: '/flashcards'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof FlashcardsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pratica': {
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FlashcardsRoute: FlashcardsRoute,
   PraticaRoute: PraticaRoute,
   ProgressoRoute: ProgressoRoute,
   VocabularioRoute: VocabularioRoute,

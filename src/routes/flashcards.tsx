@@ -102,7 +102,7 @@ function Flashcards() {
         <div className="relative mx-auto mt-10 aspect-square w-[85%]">
           <div className="absolute inset-0 translate-x-2 -translate-y-3 rotate-3 rounded-[2rem] bg-sky/60" />
           <div className="absolute inset-0 translate-x-1 -translate-y-1.5 rotate-1 rounded-[2rem] bg-sky" />
-          <button onClick={() => setFlipped(!flipped)} className="glass-dark press absolute inset-0 flex -rotate-3 flex-col items-center justify-center rounded-[2rem] p-6 text-center">
+          <button onClick={() => setFlipped(!flipped)} className="press absolute inset-0 flex -rotate-3 bg-primary text-primary-foreground shadow-xl flex-col items-center justify-center rounded-[2rem] p-6 text-center">
             <span className="glass absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full text-foreground"><Volume2 className="h-4 w-4" /></span>
             <p className="font-display text-4xl">{flipped ? c.pt : c.en}</p>
             <p className="mt-6 text-xs opacity-60">{flipped ? "toque para ver a palavra" : "toque para ver a tradução"}</p>
