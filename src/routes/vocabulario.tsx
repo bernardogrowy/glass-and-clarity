@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus, Layers } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 
@@ -30,7 +30,7 @@ function Vocab() {
       <h1 className="font-display text-4xl leading-tight">Palavras para<br />a vida real</h1>
       <div className="mt-6 grid grid-cols-2 gap-3">
         <button className="glass press flex h-12 items-center justify-center gap-2 rounded-2xl text-sm font-medium"><Plus className="h-4 w-4" />Favoritar</button>
-        <button className="glass press flex h-12 items-center justify-center gap-2 rounded-2xl text-sm font-medium"><Layers className="h-4 w-4" />Meus decks</button>
+        <Link to="/flashcards" className="glass press flex h-12 items-center justify-center gap-2 rounded-2xl text-sm font-medium"><Layers className="h-4 w-4" />Criar flashcards</Link>
       </div>
       <div className="mt-8 flex gap-10">
         <div><p className="font-display text-3xl">18%</p><p className="text-xs text-muted-foreground">Dominadas</p></div>
