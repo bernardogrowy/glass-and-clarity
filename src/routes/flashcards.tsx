@@ -88,7 +88,7 @@ function Flashcards() {
   );
 
   if (phase === "study") {
-    const c = cards[i];
+    const c = cards[i] ?? { en: "", pt: "", ex: "" };
     return (
       <AppShell hideTabs>
         {header("Praticar")}
