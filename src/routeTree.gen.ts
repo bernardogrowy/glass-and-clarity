@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PraticaRouteImport } from './routes/pratica'
+import { Route as ProgressoRouteImport } from './routes/progresso'
+import { Route as VocabularioRouteImport } from './routes/vocabulario'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PraticaRoute = PraticaRouteImport.update({
+  id: '/pratica',
+  path: '/pratica',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressoRoute = ProgressoRouteImport.update({
+  id: '/progresso',
+  path: '/progresso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VocabularioRoute = VocabularioRouteImport.update({
+  id: '/vocabulario',
+  path: '/vocabulario',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/pratica': typeof PraticaRoute
+  '/progresso': typeof ProgressoRoute
+  '/vocabulario': typeof VocabularioRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/pratica': typeof PraticaRoute
+  '/progresso': typeof ProgressoRoute
+  '/vocabulario': typeof VocabularioRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/pratica': typeof PraticaRoute
+  '/progresso': typeof ProgressoRoute
+  '/vocabulario': typeof VocabularioRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/pratica' | '/progresso' | '/vocabulario'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/pratica' | '/progresso' | '/vocabulario'
+  id: '__root__' | '/' | '/pratica' | '/progresso' | '/vocabulario'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PraticaRoute: typeof PraticaRoute
+  ProgressoRoute: typeof ProgressoRoute
+  VocabularioRoute: typeof VocabularioRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pratica': {
+      id: '/pratica'
+      path: '/pratica'
+      fullPath: '/pratica'
+      preLoaderRoute: typeof PraticaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progresso': {
+      id: '/progresso'
+      path: '/progresso'
+      fullPath: '/progresso'
+      preLoaderRoute: typeof ProgressoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vocabulario': {
+      id: '/vocabulario'
+      path: '/vocabulario'
+      fullPath: '/vocabulario'
+      preLoaderRoute: typeof VocabularioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PraticaRoute: PraticaRoute,
+  ProgressoRoute: ProgressoRoute,
+  VocabularioRoute: VocabularioRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
