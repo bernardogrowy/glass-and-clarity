@@ -1,14 +1,35 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Search, ArrowRight, Coffee, Briefcase, Stethoscope, Plane } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Bell, ArrowRight, Coffee, Briefcase, Stethoscope, Plane, Flame } from "lucide-react";
 import { AppShell, GlassIconButton } from "@/components/AppShell";
+import { ActivityWeek } from "@/components/ActivityWeek";
+import { MascotAvatar } from "@/components/MascotAvatar";
+import { useOnboardingStore } from "@/lib/onboarding-store";
+import { useProfileStore } from "@/lib/profile-store";
+import { useStreakStore } from "@/lib/streak-store";
+
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Bom dia";
+  if (hour < 18) return "Boa tarde";
+  return "Boa noite";
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Hi — Pratique conversas da sua vida real" },
-      { name: "description", content: "O Hi transforma situações reais em prática de conversação, vocabulário útil e evolução mensurável." },
+      {
+        name: "description",
+        content:
+          "O Hi transforma situações reais em prática de conversação, vocabulário útil e evolução mensurável.",
+      },
       { property: "og:title", content: "Hi — Pratique conversas da sua vida real" },
-      { property: "og:description", content: "Escolha a vida que quer viver no novo idioma. O Hi prepara você para conversar nela." },
+      {
+        property: "og:description",
+        content:
+          "Escolha a vida que quer viver no novo idioma. O Hi prepara você para conversar nela.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -24,27 +45,75 @@ const situations = [
 ];
 
 function Index() {
+  const streak = useStreakStore();
+  const profile = useProfileStore();
+  const onboarding = useOnboardingStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!onboarding.completed && !onboarding.skipped) {
+      navigate({ to: "/onboarding", replace: true });
+    }
+  }, [onboarding.completed, onboarding.skipped, navigate]);
+
   return (
     <AppShell>
       <header className="flex items-center justify-between">
-        <GlassIconButton label="Buscar"><Search className="h-5 w-5" /></GlassIconButton>
+        <Link
+          to="/perfil"
+          aria-label="Perfil"
+          className="glass press grid h-11 w-11 place-items-center overflow-hidden rounded-full"
+        >
+          <MascotAvatar
+            color={profile.avatarColor}
+            expression={profile.avatarExpression}
+            size={32}
+          />
+        </Link>
         <span className="font-display text-2xl">Hi.</span>
-        <GlassIconButton label="Notificações"><Bell className="h-5 w-5" /></GlassIconButton>
+        <div className="flex items-center gap-2">
+          <Link
+            to="/streak"
+            aria-label={`Sequência de ${streak.current} dia${streak.current === 1 ? "" : "s"}`}
+            className="glass press flex h-11 items-center gap-1.5 rounded-full px-3.5 text-sm font-medium"
+          >
+            <Flame className="h-4 w-4" />
+            {streak.current}
+          </Link>
+          <GlassIconButton label="Notificações">
+            <Bell className="h-5 w-5" />
+          </GlassIconButton>
+        </div>
       </header>
 
       <section className="mt-10 text-center">
-        <p className="text-sm text-muted-foreground">Boa tarde, Samson</p>
-        <h1 className="mt-2 font-display text-4xl leading-tight">Que conversa você quer viver hoje?</h1>
+        <p className="text-sm text-muted-foreground">
+          {getGreeting()}, {profile.name}
+        </p>
+        <h1 className="mt-2 font-display text-4xl leading-tight">
+          Que conversa você quer viver hoje?
+        </h1>
       </section>
+
+      <ActivityWeek />
 
       <article className="surface mt-8 rounded-3xl p-6">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span className="rounded-full bg-butter px-3 py-1 font-medium text-foreground">Missão do dia</span>
-          <span>10 min · B1</span>
+          <span className="rounded-full bg-butter px-3 py-1 font-medium text-foreground">
+            Missão do dia
+          </span>
+          <span>10 min · {profile.level}</span>
         </div>
-        <h2 className="mt-5 font-display text-3xl leading-snug">Contar como foi seu fim de semana</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Passado simples, conectores e 6 palavras novas para reutilizar.</p>
-        <Link to="/pratica" className="glass-dark press mt-6 flex h-14 items-center justify-center gap-2 rounded-full font-medium">
+        <h2 className="mt-5 font-display text-3xl leading-snug">
+          Contar como foi seu fim de semana
+        </h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Passado simples, conectores e 6 palavras novas para reutilizar.
+        </p>
+        <Link
+          to="/pratica"
+          className="glass-dark press mt-6 flex h-14 items-center justify-center gap-2 rounded-full font-medium"
+        >
           Começar conversa <ArrowRight className="h-4 w-4" />
         </Link>
       </article>
@@ -53,7 +122,9 @@ function Index() {
       <div className="grid grid-cols-2 gap-3">
         {situations.map(({ icon: Icon, title, time, tone }) => (
           <Link to="/pratica" key={title} className="surface press rounded-3xl p-4">
-            <div className={`grid h-10 w-10 place-items-center rounded-2xl ${tone}`}><Icon className="h-5 w-5" /></div>
+            <div className={`grid h-10 w-10 place-items-center rounded-2xl ${tone}`}>
+              <Icon className="h-5 w-5" />
+            </div>
             <p className="mt-6 font-display text-lg leading-snug">{title}</p>
             <p className="mt-1 text-xs text-muted-foreground">{time}</p>
           </Link>

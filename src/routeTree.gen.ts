@@ -10,19 +10,32 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as FlashcardsRouteImport } from './routes/flashcards'
+import { Route as BaralhosRouteImport } from './routes/baralhos'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PraticaRouteImport } from './routes/pratica'
 import { Route as ProgressoRouteImport } from './routes/progresso'
-import { Route as VocabularioRouteImport } from './routes/vocabulario'
+import { Route as StreakRouteImport } from './routes/streak'
+import { Route as FlashcardsDeckIdRouteImport } from './routes/flashcards/$deckId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FlashcardsRoute = FlashcardsRouteImport.update({
-  id: '/flashcards',
-  path: '/flashcards',
+const BaralhosRoute = BaralhosRouteImport.update({
+  id: '/baralhos',
+  path: '/baralhos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PraticaRoute = PraticaRouteImport.update({
@@ -35,54 +48,90 @@ const ProgressoRoute = ProgressoRouteImport.update({
   path: '/progresso',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VocabularioRoute = VocabularioRouteImport.update({
-  id: '/vocabulario',
-  path: '/vocabulario',
+const StreakRoute = StreakRouteImport.update({
+  id: '/streak',
+  path: '/streak',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlashcardsDeckIdRoute = FlashcardsDeckIdRouteImport.update({
+  id: '/flashcards/$deckId',
+  path: '/flashcards/$deckId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/flashcards': typeof FlashcardsRoute
+  '/baralhos': typeof BaralhosRoute
+  '/onboarding': typeof OnboardingRoute
+  '/perfil': typeof PerfilRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
-  '/vocabulario': typeof VocabularioRoute
+  '/streak': typeof StreakRoute
+  '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/flashcards': typeof FlashcardsRoute
+  '/baralhos': typeof BaralhosRoute
+  '/onboarding': typeof OnboardingRoute
+  '/perfil': typeof PerfilRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
-  '/vocabulario': typeof VocabularioRoute
+  '/streak': typeof StreakRoute
+  '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/flashcards': typeof FlashcardsRoute
+  '/baralhos': typeof BaralhosRoute
+  '/onboarding': typeof OnboardingRoute
+  '/perfil': typeof PerfilRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
-  '/vocabulario': typeof VocabularioRoute
+  '/streak': typeof StreakRoute
+  '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/flashcards' | '/pratica' | '/progresso' | '/vocabulario'
+  fullPaths:
+    | '/'
+    | '/baralhos'
+    | '/onboarding'
+    | '/perfil'
+    | '/pratica'
+    | '/progresso'
+    | '/streak'
+    | '/flashcards/$deckId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/flashcards' | '/pratica' | '/progresso' | '/vocabulario'
+  to:
+    | '/'
+    | '/baralhos'
+    | '/onboarding'
+    | '/perfil'
+    | '/pratica'
+    | '/progresso'
+    | '/streak'
+    | '/flashcards/$deckId'
   id:
     | '__root__'
     | '/'
-    | '/flashcards'
+    | '/baralhos'
+    | '/onboarding'
+    | '/perfil'
     | '/pratica'
     | '/progresso'
-    | '/vocabulario'
+    | '/streak'
+    | '/flashcards/$deckId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  FlashcardsRoute: typeof FlashcardsRoute
+  BaralhosRoute: typeof BaralhosRoute
+  OnboardingRoute: typeof OnboardingRoute
+  PerfilRoute: typeof PerfilRoute
   PraticaRoute: typeof PraticaRoute
   ProgressoRoute: typeof ProgressoRoute
-  VocabularioRoute: typeof VocabularioRoute
+  StreakRoute: typeof StreakRoute
+  FlashcardsDeckIdRoute: typeof FlashcardsDeckIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -94,11 +143,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/flashcards': {
-      id: '/flashcards'
-      path: '/flashcards'
-      fullPath: '/flashcards'
-      preLoaderRoute: typeof FlashcardsRouteImport
+    '/baralhos': {
+      id: '/baralhos'
+      path: '/baralhos'
+      fullPath: '/baralhos'
+      preLoaderRoute: typeof BaralhosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pratica': {
@@ -115,11 +178,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgressoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/vocabulario': {
-      id: '/vocabulario'
-      path: '/vocabulario'
-      fullPath: '/vocabulario'
-      preLoaderRoute: typeof VocabularioRouteImport
+    '/streak': {
+      id: '/streak'
+      path: '/streak'
+      fullPath: '/streak'
+      preLoaderRoute: typeof StreakRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flashcards/$deckId': {
+      id: '/flashcards/$deckId'
+      path: '/flashcards/$deckId'
+      fullPath: '/flashcards/$deckId'
+      preLoaderRoute: typeof FlashcardsDeckIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -127,10 +197,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  FlashcardsRoute: FlashcardsRoute,
+  BaralhosRoute: BaralhosRoute,
+  OnboardingRoute: OnboardingRoute,
+  PerfilRoute: PerfilRoute,
   PraticaRoute: PraticaRoute,
   ProgressoRoute: ProgressoRoute,
-  VocabularioRoute: VocabularioRoute,
+  StreakRoute: StreakRoute,
+  FlashcardsDeckIdRoute: FlashcardsDeckIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

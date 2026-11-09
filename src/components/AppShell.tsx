@@ -1,11 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { Home, MessageCircle, BookOpen, BarChart3 } from "lucide-react";
+import { Home, MessageCircle, Layers, BarChart3 } from "lucide-react";
 import type { ReactNode } from "react";
 
 const tabs = [
   { to: "/", icon: Home, label: "Início" },
   { to: "/pratica", icon: MessageCircle, label: "Praticar" },
-  { to: "/vocabulario", icon: BookOpen, label: "Palavras" },
+  { to: "/baralhos", icon: Layers, label: "Baralhos" },
   { to: "/progresso", icon: BarChart3, label: "Progresso" },
 ] as const;
 
