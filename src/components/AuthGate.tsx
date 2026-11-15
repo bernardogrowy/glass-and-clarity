@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth-store";
 import { CLOUD_BINDINGS } from "@/lib/cloud-bindings";
@@ -19,7 +19,12 @@ const SYNC_TIMEOUT_MS = 8000;
 export function AuthGate({ children }: { children: ReactNode }) {
   const auth = useAuth();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  // Usa a rota que está de fato na tela (resolvedLocation), não a que ainda está carregando.
+  // Com `location`, durante a ida "/" → "/login" o pathname já é "/login" (público) mas a Home
+  // ainda está montada; ela redireciona para "/onboarding", que volta para "/login"… em loop.
+  const pathname = useRouterState({
+    select: (s) => s.resolvedLocation?.pathname ?? s.location.pathname,
+  });
   const isPublic = PUBLIC_PATHS.includes(pathname);
   const uid = auth.status === "signed-in" ? auth.user.uid : null;
   const [syncedUid, setSyncedUid] = useState<string | null>(null);
