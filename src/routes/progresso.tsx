@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mic, Trophy, Flame, Plus, Check, Circle } from "lucide-react";
+import { Mic, Trophy, Flame, Plus, Check, Circle, ArrowRight } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { ActivityWeek } from "@/components/ActivityWeek";
 import { GoalWizard } from "@/components/GoalWizard";
@@ -8,6 +8,7 @@ import { StreakCelebration } from "@/components/StreakCelebration";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getVocabMasteryPct, useFlashcardsStore } from "@/lib/flashcards-store";
+import { getFirstTryPct, getWordsAtStage, useLessonStore } from "@/lib/lesson-store";
 import {
   COMPETENCY_INFO,
   COMPETENCY_LIST,
@@ -22,6 +23,8 @@ import {
   useProgressStore,
 } from "@/lib/progress-store";
 import { registerActivity, useStreakStore } from "@/lib/streak-store";
+import { ACTIVITIES } from "@/lib/trail";
+import { getCurrent, getTotalDone, getUnitProgress, useTrailStore } from "@/lib/trail-store";
 
 export const Route = createFileRoute("/progresso")({
   head: () => ({
@@ -46,7 +49,12 @@ export const Route = createFileRoute("/progresso")({
 function Progresso() {
   const progress = useProgressStore();
   const flashcards = useFlashcardsStore();
+  const lessons = useLessonStore();
   const streakState = useStreakStore();
+  const trail = useTrailStore();
+  const trailCurrent = getCurrent(trail);
+  const trailUnit = trailCurrent ? getUnitProgress(trail, trailCurrent.unit) : null;
+  const trailDone = getTotalDone(trail);
   const [wizardOpen, setWizardOpen] = useState(false);
   const [openGoalId, setOpenGoalId] = useState<string | null>(null);
   const [streakInfo, setStreakInfo] = useState<number | null>(null);
@@ -58,6 +66,15 @@ function Progresso() {
     const result = registerActivity();
     if (result.isFirstToday) setStreakInfo(result.streak);
   };
+
+  const vocabStages = [
+    { label: "Descobertas", n: getWordsAtStage(lessons, 1) },
+    { label: "Reconhecidas", n: getWordsAtStage(lessons, 2) },
+    { label: "Recordadas", n: getWordsAtStage(lessons, 3) },
+    { label: "Usadas em conversa", n: getWordsAtStage(lessons, 4) },
+  ];
+  const vocabTotal = vocabStages[0]?.n ?? 0;
+  const firstTryPct = getFirstTryPct(lessons);
 
   const vocabMasteryPct = getVocabMasteryPct(flashcards);
   const minutes = getMinutesThisWeek(progress);
@@ -120,6 +137,65 @@ function Progresso() {
       <p className="surface mt-4 rounded-2xl p-4 text-sm text-muted-foreground">{narrative}</p>
 
       <ActivityWeek practicedDates={practicedDates} />
+
+      <Link to="/trilha" className="surface press mt-8 block rounded-3xl p-5">
+        <div className="flex items-center justify-between">
+          <h2 className="font-display text-2xl">Sua trilha</h2>
+          <ArrowRight className="h-4 w-4" />
+        </div>
+        {trailCurrent ? (
+          <>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Unidade {trailCurrent.unit.number} · {trailCurrent.unit.title}
+            </p>
+            <Progress value={trailUnit?.pct ?? 0} className="mt-3" />
+            <p className="mt-2 text-xs text-muted-foreground">
+              {trailUnit?.done} de {trailUnit?.total} atividades · {trailDone} de{" "}
+              {ACTIVITIES.length} na trilha toda
+            </p>
+          </>
+        ) : (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Você concluiu todas as {ACTIVITIES.length} atividades. Novas unidades em breve.
+          </p>
+        )}
+      </Link>
+
+      <section className="surface mt-8 rounded-3xl p-5">
+        <h2 className="font-display text-2xl">Seu vocabulário</h2>
+        <p className="mt-3 flex items-baseline gap-2">
+          <span className="font-display text-5xl">{vocabTotal}</span>
+          <span className="text-muted-foreground">palavra{vocabTotal === 1 ? "" : "s"}</span>
+        </p>
+        <ul className="mt-4 space-y-3">
+          {vocabStages.map(({ label, n }) => (
+            <li key={label} className="flex items-center gap-3 text-sm">
+              <span className="w-28 shrink-0">{label}</span>
+              <Progress value={vocabTotal === 0 ? 0 : (100 * n) / vocabTotal} className="flex-1" />
+              <span className="w-6 text-right font-semibold">{n}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl bg-sky/50 p-4">
+            <p className="font-display text-3xl">
+              {firstTryPct === null ? "—" : `${firstTryPct}%`}
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">acerto na 1ª tentativa</p>
+          </div>
+          <div className="rounded-2xl bg-mint/50 p-4">
+            <p className="font-display text-3xl">
+              {vocabMasteryPct === null ? "—" : `${vocabMasteryPct}%`}
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">dominadas nos baralhos</p>
+          </div>
+        </div>
+        {vocabTotal === 0 && (
+          <p className="mt-4 text-xs text-muted-foreground">
+            Faça a lição "Palavras de hoje" no início pra ver seu vocabulário crescer aqui.
+          </p>
+        )}
+      </section>
 
       <h2 className="mt-10 mb-4 font-display text-2xl">Progresso por competência</h2>
       <div className="space-y-4">

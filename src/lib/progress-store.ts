@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { CloudBinding } from "./cloud-sync";
 
 export type Competency =
   | "conversacao"
@@ -101,12 +102,15 @@ function emptyState(): State {
   return { goals: [], sessions: [] };
 }
 
+function normalize(parsed: Partial<State> | null | undefined): State {
+  return { goals: parsed?.goals ?? [], sessions: parsed?.sessions ?? [] };
+}
+
 function loadState(): State {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return emptyState();
-    const parsed = JSON.parse(raw) as Partial<State>;
-    return { goals: parsed.goals ?? [], sessions: parsed.sessions ?? [] };
+    return normalize(JSON.parse(raw) as Partial<State>);
   } catch {
     return emptyState();
   }
@@ -272,6 +276,15 @@ export function getCompetencyTier(score: number): "low" | "mid" | "high" {
   if (score < 75) return "mid";
   return "high";
 }
+
+/** Ligação com o Firestore (users/{uid}/data/progress). Ver cloud-sync.ts. */
+export const progressCloudBinding: CloudBinding<State> = {
+  field: "progress",
+  empty: emptyState,
+  get: ensureState,
+  replace: (remote) => setState(normalize(remote)),
+  subscribe,
+};
 
 export function useProgressStore() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

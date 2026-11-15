@@ -1,12 +1,27 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Bell, ArrowRight, Coffee, Briefcase, Stethoscope, Plane, Flame } from "lucide-react";
+import {
+  Bell,
+  ArrowRight,
+  Coffee,
+  Briefcase,
+  Stethoscope,
+  Plane,
+  Flame,
+  Layers,
+  CalendarCheck,
+} from "lucide-react";
 import { AppShell, GlassIconButton } from "@/components/AppShell";
 import { ActivityWeek } from "@/components/ActivityWeek";
 import { MascotAvatar } from "@/components/MascotAvatar";
+import { getDueCards, getMasteryBuckets, useFlashcardsStore } from "@/lib/flashcards-store";
+import { getActiveSession, getLessonStagesReached, useLessonStore } from "@/lib/lesson-store";
+import { DAILY_LESSON_ID, getLesson } from "@/lib/lessons";
 import { useOnboardingStore } from "@/lib/onboarding-store";
 import { useProfileStore } from "@/lib/profile-store";
-import { useStreakStore } from "@/lib/streak-store";
+import { getActiveDates, useStreakStore } from "@/lib/streak-store";
+import { SKILLS } from "@/lib/trail";
+import { getCurrent, getUnitProgress, useTrailStore } from "@/lib/trail-store";
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -44,8 +59,43 @@ const situations = [
   { icon: Plane, title: "Check-in no aeroporto", time: "5 min", tone: "bg-lilac" },
 ];
 
+function Segments({
+  filled,
+  colors,
+  count = 4,
+}: {
+  filled: number;
+  colors?: string[];
+  count?: number;
+}) {
+  return (
+    <div className="mt-4 flex gap-1.5" aria-hidden="true">
+      {Array.from({ length: count }, (_, i) => i).map((i) => (
+        <span
+          key={i}
+          className={`h-1.5 flex-1 rounded-full ${i < filled ? (colors?.[i] ?? "bg-accent") : "bg-foreground/10"}`}
+        />
+      ))}
+    </div>
+  );
+}
+
 function Index() {
   const streak = useStreakStore();
+  const lessons = useLessonStore();
+  const flashcards = useFlashcardsStore();
+  const trail = useTrailStore();
+  // Atalho "Palavras de hoje" = atividade atual da trilha (mesma lição, mesmo progresso).
+  // Com a trilha toda concluída, volta pra lição avulsa.
+  const trailCurrent = getCurrent(trail);
+  const dailyLesson = getLesson(trailCurrent?.activity.lessonId ?? DAILY_LESSON_ID);
+  const activeSession = dailyLesson ? getActiveSession(lessons, dailyLesson.id) : null;
+  const trailUnitProgress = trailCurrent ? getUnitProgress(trail, trailCurrent.unit) : null;
+  const totalDue = flashcards.decks.reduce(
+    (sum, d) => sum + getDueCards(flashcards, d.id).length,
+    0,
+  );
+  const mastery = getMasteryBuckets(flashcards);
   const profile = useProfileStore();
   const onboarding = useOnboardingStore();
   const navigate = useNavigate();
@@ -88,14 +138,15 @@ function Index() {
 
       <section className="mt-10 text-center">
         <p className="text-sm text-muted-foreground">
-          {getGreeting()}, {profile.name}
+          {getGreeting()}
+          {profile.name ? `, ${profile.name}` : ""}
         </p>
         <h1 className="mt-2 font-display text-4xl leading-tight">
           Que conversa você quer viver hoje?
         </h1>
       </section>
 
-      <ActivityWeek />
+      <ActivityWeek practicedDates={getActiveDates(streak)} />
 
       <article className="surface mt-8 rounded-3xl p-6">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -117,6 +168,69 @@ function Index() {
           Começar conversa <ArrowRight className="h-4 w-4" />
         </Link>
       </article>
+
+      <div className="mt-10 mb-4 flex items-center justify-between">
+        <h3 className="text-sm font-medium text-muted-foreground">Vocabulário</h3>
+        <Link to="/trilha" className="flex items-center gap-1 text-sm font-medium">
+          Ver trilha <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        {dailyLesson && (
+          <Link
+            to="/licao/$id"
+            params={{ id: dailyLesson.id }}
+            className="surface press rounded-3xl p-4"
+          >
+            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-mint">
+              <Layers className="h-5 w-5" />
+            </div>
+            <p className="mt-6 font-display text-lg leading-snug">Palavras de hoje</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {activeSession
+                ? `Continuar · ${activeSession.stepIndex + 1}/${dailyLesson.steps.length}`
+                : trailCurrent
+                  ? `${SKILLS[trailCurrent.activity.skill].label} · ${dailyLesson.minutes} min`
+                  : `${dailyLesson.words.length} novas · ${dailyLesson.minutes} min`}
+            </p>
+            {trailCurrent && trailUnitProgress ? (
+              <>
+                <Segments
+                  filled={trailUnitProgress.done}
+                  count={trailUnitProgress.total}
+                />
+                <p className="mt-2 text-[11px] text-muted-foreground">
+                  Trilha · Unidade {trailCurrent.unit.number}
+                </p>
+              </>
+            ) : (
+              <Segments filled={getLessonStagesReached(lessons, dailyLesson)} />
+            )}
+          </Link>
+        )}
+        <Link to="/baralhos" className="surface press rounded-3xl p-4">
+          <div className="grid h-10 w-10 place-items-center rounded-2xl bg-peach">
+            <CalendarCheck className="h-5 w-5" />
+          </div>
+          <p className="mt-6 font-display text-lg leading-snug">Pra revisar hoje</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {totalDue} card{totalDue === 1 ? "" : "s"} · {Math.max(1, Math.ceil(totalDue / 2))} min
+          </p>
+          <div className="mt-4 flex gap-1.5" aria-hidden="true">
+            {[
+              { n: mastery.fraco, color: "bg-peach" },
+              { n: mastery.medio, color: "bg-butter" },
+              { n: mastery.forte, color: "bg-accent" },
+            ].map(({ n, color }) => (
+              <span
+                key={color}
+                className={`h-1.5 rounded-full ${color}`}
+                style={{ flexGrow: Math.max(n, 0.4) }}
+              />
+            ))}
+          </div>
+        </Link>
+      </div>
 
       <h3 className="mt-10 mb-4 text-sm font-medium text-muted-foreground">Situações reais</h3>
       <div className="grid grid-cols-2 gap-3">

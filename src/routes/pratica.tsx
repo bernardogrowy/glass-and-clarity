@@ -13,6 +13,9 @@ import {
   BarChart3,
   Layers,
   Lightbulb,
+  Square,
+  Keyboard,
+  Captions,
   Plus,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -23,6 +26,23 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { addCard, createDeck, useFlashcardsStore } from "@/lib/flashcards-store";
 import { completeSession } from "@/lib/progress-store";
 import { useProfileStore } from "@/lib/profile-store";
+import {
+  aiErrorMessage,
+  createTutorSession,
+  MAX_USER_MESSAGE_CHARS,
+  type TutorSession,
+} from "@/lib/ai";
+import { ASSUNTO_LABELS, CORRECAO_LABELS, useOnboardingStore } from "@/lib/onboarding-store";
+import { canSpeak, speak, stopSpeaking } from "@/lib/speech";
+import { canLiveCaption, startLiveCaptions } from "@/lib/live-captions";
+import { VoiceOrb, type OrbState } from "@/components/VoiceOrb";
+import {
+  MAX_RECORDING_MS,
+  recordingErrorMessage,
+  startRecording,
+  toWav16k,
+  type Recording,
+} from "@/lib/voice-recorder";
 import {
   markOnboarded,
   saveConversation,
@@ -37,15 +57,7 @@ const OPENING_MESSAGE: ChatMessage = {
   from: "hi",
   text: "Hey! How was your weekend? Did you do anything fun?",
 };
-const CORRECTION = 'Mais natural: "I went to the beach with my friends."';
-const FOLLOW_UP = "That sounds lovely! What was the best part of the day?";
-const MISSION_NEW_WORDS = ["hang out", "the best part"];
-const VOICE_LINE = "I went to the beach with my friends";
-const VOICE_MISPRONOUNCED: Record<string, string> = {
-  beach: "/biːtʃ/ — vogal mais longa, pra não soar como outra palavra parecida",
-};
-type CaptionWord = { text: string; status: "ok" | "err" | "plain" };
-type Caption = { speaker: "me" | "hi"; words: CaptionWord[] };
+const MISSION_GOAL = "tell how the learner's weekend was, using the simple past and connectors";
 const PRONUNCIATION_TIPS = [
   'Palavras terminadas em "-ed" geralmente somam só uma sílaba a mais depois de "t" ou "d" (ex: wanted, needed).',
   'O som de "th" não existe em português — tente colocar a língua entre os dentes pra praticar.',
@@ -84,7 +96,11 @@ function Pratica() {
   const profile = useProfileStore();
   const chatState = useChatStore();
   const flashcards = useFlashcardsStore();
+  const onboarding = useOnboardingStore();
 
+  const tutorRef = useRef<TutorSession | null>(null);
+  const [thinking, setThinking] = useState(false);
+  const [missionWords, setMissionWords] = useState<string[]>([]);
   const [phase, setPhase] = useState<"landing" | "chat" | "feedback">("landing");
   const [mode, setMode] = useState<"chat" | "voz">("chat");
   const [text, setText] = useState("");
@@ -95,12 +111,18 @@ function Pratica() {
   const [streakInfo, setStreakInfo] = useState<number | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [historyDetail, setHistoryDetail] = useState<Conversation | null>(null);
-  const [voicePhase, setVoicePhase] = useState<"idle" | "listening" | "speaking">("idle");
-  const [caption, setCaption] = useState<Caption | null>(null);
-  const [pronunciationIssues, setPronunciationIssues] = useState<
-    { word: string; correct: string }[]
-  >([]);
-  const voiceTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [voicePhase, setVoicePhase] = useState<"idle" | "listening" | "processing" | "speaking">(
+    "idle",
+  );
+  // Legenda ao vivo do que a pessoa está falando (só retorno visual; a transcrição final vem do Gemini).
+  const [liveText, setLiveText] = useState("");
+  const [captionsOn, setCaptionsOn] = useState(true);
+  const captionsRef = useRef<{ stop: () => void } | null>(null);
+  const endRef = useRef<HTMLDivElement | null>(null);
+  const recordingRef = useRef<Recording | null>(null);
+  const autoStopRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  // Cada fala/resposta tem um "turno"; resultados de turnos antigos são ignorados.
+  const voiceTurnRef = useRef(0);
 
   useEffect(() => {
     if (phase !== "chat") return;
@@ -108,24 +130,50 @@ function Pratica() {
     return () => clearInterval(t);
   }, [phase]);
 
-  const clearVoiceTimers = () => {
-    voiceTimers.current.forEach(clearTimeout);
-    voiceTimers.current = [];
-  };
-
-  useEffect(() => clearVoiceTimers, []);
-
   const resetVoice = () => {
-    clearVoiceTimers();
+    voiceTurnRef.current += 1;
+    clearTimeout(autoStopRef.current);
+    recordingRef.current?.cancel();
+    recordingRef.current = null;
+    stopSpeaking();
+    captionsRef.current?.stop();
+    captionsRef.current = null;
     setVoicePhase("idle");
-    setCaption(null);
+    setLiveText("");
   };
+
+  // Ao sair da tela: solta o microfone e para a fala.
+  useEffect(() => resetVoice, []);
+
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem("hi.voice.captions") === "off") setCaptionsOn(false);
+    } catch {
+      // sem localStorage: segue com o padrão (ligado)
+    }
+  }, []);
+
+  // No modo voz a conversa cresce: mantém o fim (legenda/última mensagem) à vista.
+  useEffect(() => {
+    if (mode === "voz") endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [mode, msgs.length, liveText, voicePhase]);
 
   const startMission = () => {
     markOnboarded();
+    const { answers } = onboarding;
+    tutorRef.current = createTutorSession({
+      userName: profile.name,
+      level: profile.level,
+      missionTitle: MISSION_TITLE,
+      missionGoal: MISSION_GOAL,
+      openingMessage: OPENING_MESSAGE.text,
+      correctionStyle: answers.correcaoPref ? CORRECAO_LABELS[answers.correcaoPref] : null,
+      topics: answers.assuntos.map((a) => ASSUNTO_LABELS[a]),
+    });
+    setThinking(false);
+    setMissionWords([]);
     setMsgs([OPENING_MESSAGE]);
     setAddedWords([]);
-    setPronunciationIssues([]);
     resetVoice();
     setSecs(0);
     setStartedAt(Date.now());
@@ -137,62 +185,145 @@ function Pratica() {
     setMode(m);
   };
 
-  const startVoiceTurn = () => {
+  const startVoiceTurn = async () => {
     if (voicePhase !== "idle") return;
-    setVoicePhase("listening");
-    const words = VOICE_LINE.split(" ");
-    setCaption({ speaker: "me", words: [] });
-    words.forEach((word, i) => {
-      const timer = setTimeout(() => {
-        const bare = word.toLowerCase().replace(/[.,!?]/g, "");
-        const status: CaptionWord["status"] = VOICE_MISPRONOUNCED[bare] ? "err" : "ok";
-        setCaption((c) => ({
-          speaker: "me",
-          words: [...(c?.words ?? []), { text: word, status }],
-        }));
-        if (i === words.length - 1) {
-          const finishTimer = setTimeout(finishVoiceTurn, 600);
-          voiceTimers.current.push(finishTimer);
-        }
-      }, i * 350);
-      voiceTimers.current.push(timer);
-    });
+    if (!tutorRef.current) {
+      toast.error("A IA não está disponível agora. Verifique a configuração do Firebase.");
+      return;
+    }
+    try {
+      const turnId = ++voiceTurnRef.current;
+      const recording = await startRecording();
+      if (voiceTurnRef.current !== turnId) {
+        recording.cancel(); // a pessoa saiu/trocou de modo enquanto o navegador pedia permissão
+        return;
+      }
+      recordingRef.current = recording;
+      setLiveText("");
+      setVoicePhase("listening");
+      if (captionsOn) captionsRef.current = startLiveCaptions(setLiveText);
+      autoStopRef.current = setTimeout(() => void finishVoiceTurn(), MAX_RECORDING_MS);
+    } catch (error) {
+      toast.error(recordingErrorMessage(error) ?? "Não foi possível usar o microfone.");
+    }
   };
 
-  const finishVoiceTurn = () => {
-    const issues = Object.entries(VOICE_MISPRONOUNCED).map(([word, correct]) => ({
-      word,
-      correct,
-    }));
-    setPronunciationIssues((prev) => {
-      const existing = new Set(prev.map((p) => p.word));
-      return [...prev, ...issues.filter((i) => !existing.has(i.word))];
-    });
-    const spoken: ChatMessage =
-      issues.length > 0
-        ? {
-            from: "me",
-            text: VOICE_LINE,
-            fix: `Pronúncia: preste atenção em "${issues.map((i) => i.word).join(", ")}".`,
-          }
-        : { from: "me", text: VOICE_LINE };
-    setMsgs((m) => [...m, spoken, { from: "hi", text: FOLLOW_UP }]);
-    setVoicePhase("speaking");
-    setCaption({
-      speaker: "hi",
-      words: FOLLOW_UP.split(" ").map((text) => ({ text, status: "plain" })),
-    });
-    const idleTimer = setTimeout(() => {
+  const finishVoiceTurn = async () => {
+    const recording = recordingRef.current;
+    const tutor = tutorRef.current;
+    if (!recording || !tutor) return;
+    clearTimeout(autoStopRef.current);
+    recordingRef.current = null;
+    captionsRef.current?.stop(); // a legenda fica na tela até a resposta chegar
+    captionsRef.current = null;
+    const turnId = ++voiceTurnRef.current;
+    setVoicePhase("processing");
+
+    try {
+      const wav = await toWav16k(await recording.stop());
+      const turn = await tutor.sendAudio(wav);
+      if (voiceTurnRef.current !== turnId) return;
+
+      if (!turn.transcript) {
+        // Nada inteligível: o Hi só pediu para repetir; não conta como fala da pessoa.
+        toast.message("Não consegui ouvir. Fale um pouco mais perto do microfone e tente de novo.");
+        setLiveText("");
+        setVoicePhase("idle");
+        return;
+      }
+
+      setMsgs((m) => [
+        ...m,
+        turn.correction
+          ? { from: "me", text: turn.transcript as string, fix: turn.correction }
+          : { from: "me", text: turn.transcript as string },
+        { from: "hi", text: turn.reply },
+      ]);
+      if (turn.newWords.length > 0) {
+        setMissionWords((prev) => [
+          ...prev,
+          ...turn.newWords.filter((w) => !prev.some((p) => p.toLowerCase() === w.toLowerCase())),
+        ]);
+      }
+
+      setLiveText(""); // a legenda vira a mensagem real da conversa
+      setVoicePhase("speaking");
+      const backToIdle = () => {
+        if (voiceTurnRef.current !== turnId) return;
+        setVoicePhase("idle");
+      };
+      if (canSpeak()) speak(turn.reply, "en-US", 1, backToIdle);
+      else setTimeout(backToIdle, 3000);
+    } catch (error) {
+      if (voiceTurnRef.current !== turnId) return;
+      console.error("[tutor] falha no turno de voz", error);
+      toast.error(recordingErrorMessage(error) ?? aiErrorMessage(error));
+      setLiveText("");
       setVoicePhase("idle");
-      setCaption(null);
-    }, 2200);
-    voiceTimers.current.push(idleTimer);
+    }
   };
 
-  const send = () => {
-    if (!text.trim()) return;
-    setMsgs((m) => [...m, { from: "me", text, fix: CORRECTION }, { from: "hi", text: FOLLOW_UP }]);
+  const toggleVoice = () => {
+    if (voicePhase === "idle") void startVoiceTurn();
+    else if (voicePhase === "listening") void finishVoiceTurn();
+  };
+
+  const toggleCaptions = () => {
+    const next = !captionsOn;
+    setCaptionsOn(next);
+    try {
+      window.localStorage.setItem("hi.voice.captions", next ? "on" : "off");
+    } catch {
+      // sem localStorage: vale só nesta sessão
+    }
+    if (!next) {
+      captionsRef.current?.stop();
+      captionsRef.current = null;
+      setLiveText("");
+    } else if (voicePhase === "listening") {
+      captionsRef.current = startLiveCaptions(setLiveText);
+    }
+  };
+
+  const getMicLevel = () => recordingRef.current?.level() ?? 0;
+
+  const send = async () => {
+    const message = text.trim();
+    if (!message || thinking) return;
+    const tutor = tutorRef.current;
+    if (!tutor) {
+      toast.error("A IA não está disponível agora. Verifique a configuração do Firebase.");
+      return;
+    }
+
+    setMsgs((m) => [...m, { from: "me", text: message }]);
     setText("");
+    setThinking(true);
+    try {
+      const turn = await tutor.send(message);
+      setMsgs((m) => {
+        const next = [...m];
+        // A correção fica junto da frase da pessoa (a última mensagem dela).
+        const lastMine = next.map((x) => x.from).lastIndexOf("me");
+        const mine = next[lastMine];
+        if (turn.correction && mine) next[lastMine] = { ...mine, fix: turn.correction };
+        return [...next, { from: "hi", text: turn.reply }];
+      });
+      if (turn.newWords.length > 0) {
+        setMissionWords((prev) => [
+          ...prev,
+          ...turn.newWords.filter((w) => !prev.some((p) => p.toLowerCase() === w.toLowerCase())),
+        ]);
+      }
+    } catch (error) {
+      console.error("[tutor] falha ao obter resposta", error);
+      toast.error(aiErrorMessage(error));
+      // Devolve a frase para o campo, para a pessoa tentar de novo sem digitar tudo outra vez.
+      setMsgs((m) => m.slice(0, -1));
+      setText(message);
+    } finally {
+      setThinking(false);
+    }
   };
 
   const corrections = msgs.filter((m) => m.fix).map((m) => m.fix as string);
@@ -216,7 +347,7 @@ function Pratica() {
       startedAt,
       messages: msgs,
       score,
-      newWords: MISSION_NEW_WORDS,
+      newWords: missionWords,
     });
     completeSession({ missionTitle: MISSION_TITLE, minutes: Math.max(1, Math.round(secs / 60)) });
     toast.success("Missão concluída!");
@@ -271,6 +402,47 @@ function Pratica() {
     </div>
   );
 
+  const orbState: OrbState =
+    voicePhase === "listening"
+      ? "listen"
+      : voicePhase === "processing"
+        ? "think"
+        : voicePhase === "speaking"
+          ? "speak"
+          : "idle";
+  const voiceStatusText =
+    voicePhase === "listening"
+      ? "Ouvindo… toque no botão quando terminar"
+      : voicePhase === "processing"
+        ? "Hi está ouvindo sua resposta…"
+        : voicePhase === "speaking"
+          ? "Hi está respondendo…"
+          : "Toque no microfone e responda em inglês";
+
+  const messageList = msgs.map((m, i) => (
+    <div key={i} className={m.from === "me" ? "flex flex-col items-end" : ""}>
+      <div
+        className={`surface max-w-[80%] rounded-3xl px-5 py-3 text-[15px] ${m.from === "me" ? "rounded-br-lg bg-secondary" : "rounded-bl-lg"}`}
+      >
+        {m.text}
+      </div>
+      {m.fix && (
+        <p className="mt-2 flex max-w-[80%] items-start gap-1.5 text-xs text-muted-foreground">
+          <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+          {m.fix}
+        </p>
+      )}
+    </div>
+  ));
+
+  const typingDots = (
+    <span className="inline-flex gap-1.5 py-1" aria-hidden="true">
+      <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground" />
+      <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground [animation-delay:150ms]" />
+      <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground [animation-delay:300ms]" />
+    </span>
+  );
+
   let body: ReactNode;
 
   if (phase === "landing") {
@@ -295,7 +467,9 @@ function Pratica() {
         </header>
 
         <div className="mt-10 text-center">
-          <p className="text-sm text-muted-foreground">Olá, {profile.name}</p>
+          <p className="text-sm text-muted-foreground">
+            Olá{profile.name ? `, ${profile.name}` : ""}
+          </p>
           <h1 className="mt-1 font-display text-3xl">Como posso ajudar?</h1>
         </div>
 
@@ -370,37 +544,34 @@ function Pratica() {
         {mode === "chat" ? (
           <>
             <div className="mt-8 space-y-4">
-              {msgs.map((m, i) => (
-                <div key={i} className={m.from === "me" ? "flex flex-col items-end" : ""}>
-                  <div
-                    className={`surface max-w-[80%] rounded-3xl px-5 py-3 text-[15px] ${m.from === "me" ? "rounded-br-lg bg-secondary" : "rounded-bl-lg"}`}
-                  >
-                    {m.text}
+              {messageList}
+              {thinking && (
+                <div role="status" aria-label="O Hi está escrevendo">
+                  <div className="surface inline-flex gap-1.5 rounded-3xl rounded-bl-lg px-5 py-4">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground" />
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground [animation-delay:150ms]" />
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground [animation-delay:300ms]" />
                   </div>
-                  {m.fix && (
-                    <p className="mt-2 flex max-w-[80%] items-start gap-1.5 text-xs text-muted-foreground">
-                      <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
-                      {m.fix}
-                    </p>
-                  )}
                 </div>
-              ))}
+              )}
             </div>
 
             <div className="fixed inset-x-0 bottom-6 mx-auto flex max-w-md gap-2 px-5">
               <div className="glass flex h-14 flex-1 items-center rounded-full pl-5 pr-2">
                 <input
                   value={text}
+                  maxLength={MAX_USER_MESSAGE_CHARS}
                   onChange={(e) => setText(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && send()}
+                  onKeyDown={(e) => e.key === "Enter" && void send()}
                   placeholder="Responda em inglês…"
                   className="flex-1 bg-transparent text-[15px] outline-none placeholder:text-muted-foreground"
                 />
                 {text && (
                   <button
-                    onClick={send}
+                    onClick={() => void send()}
+                    disabled={thinking}
                     aria-label="Enviar"
-                    className="glass-dark press grid h-10 w-10 place-items-center rounded-full"
+                    className="glass-dark press grid h-10 w-10 place-items-center rounded-full disabled:opacity-50"
                   >
                     <Send className="h-4 w-4" />
                   </button>
@@ -417,64 +588,66 @@ function Pratica() {
           </>
         ) : (
           <>
-            <div className="mt-14 flex flex-col items-center text-center">
-              <div
-                className={`relative grid h-40 w-40 place-items-center rounded-full glass-dark transition-transform duration-300 ${
-                  voicePhase === "listening" ? "scale-105" : ""
-                }`}
-              >
-                <div
-                  className={`absolute inset-3 rounded-full bg-accent/30 ${
-                    voicePhase !== "idle" ? "animate-pulse" : ""
-                  }`}
-                />
-                {voicePhase === "speaking" ? (
-                  <Sparkles className="relative h-9 w-9" />
-                ) : (
-                  <Mic className="relative h-9 w-9" />
-                )}
-              </div>
-              <p className="mt-5 text-sm text-muted-foreground">
-                {voicePhase === "listening"
-                  ? "Ouvindo você…"
-                  : voicePhase === "speaking"
-                    ? "Hi está respondendo…"
-                    : "Toque no microfone e responda em inglês"}
-              </p>
-              <p className="mt-8 min-h-[3.5rem] max-w-xs text-lg leading-relaxed">
-                {!caption ? (
-                  <span className="text-sm text-muted-foreground">
-                    Suas palavras aparecem aqui — verde quando a pronúncia tá boa, vermelho quando
-                    precisa de atenção.
-                  </span>
-                ) : (
-                  caption.words.map((w, i) => (
-                    <span
-                      key={i}
-                      className={
-                        w.status === "err"
-                          ? "text-destructive"
-                          : w.status === "ok"
-                            ? "text-accent"
-                            : "text-foreground"
-                      }
-                    >
-                      {w.text}{" "}
-                    </span>
-                  ))
-                )}
+            <div className="sticky top-0 z-10 -mx-5 flex flex-col items-center bg-gradient-to-b from-background via-background/95 to-transparent px-5 pb-4 pt-2">
+              <VoiceOrb state={orbState} getLevel={getMicLevel} size={168} />
+              <p className="-mt-1 text-sm text-muted-foreground" aria-live="polite">
+                {voiceStatusText}
               </p>
             </div>
 
-            <div className="fixed inset-x-0 bottom-10 flex justify-center">
-              <button
-                onClick={startVoiceTurn}
-                disabled={voicePhase !== "idle"}
-                aria-label="Falar"
-                className="glass-dark press grid h-16 w-16 place-items-center rounded-full disabled:opacity-50"
-              >
-                <Mic className="h-6 w-6" />
-              </button>
+            <div className="mt-4 space-y-4 pb-44">
+              {messageList}
+              {(voicePhase === "listening" || (voicePhase === "processing" && liveText)) && (
+                <div className="flex flex-col items-end">
+                  <div className="max-w-[80%] rounded-3xl rounded-br-lg border border-dashed border-foreground/20 bg-secondary/60 px-5 py-3 text-[15px] text-foreground/70">
+                    {liveText || typingDots}
+                  </div>
+                </div>
+              )}
+              {voicePhase === "processing" && !liveText && (
+                <div role="status" aria-label="O Hi está ouvindo">
+                  <div className="surface inline-flex rounded-3xl rounded-bl-lg px-5 py-3">
+                    {typingDots}
+                  </div>
+                </div>
+              )}
+              <div ref={endRef} />
+            </div>
+
+            <div className="fixed inset-x-0 bottom-6 mx-auto flex max-w-md justify-center px-5">
+              <div className="glass flex items-center gap-3 rounded-full p-2">
+                <button
+                  onClick={() => selectMode("chat")}
+                  aria-label="Digitar"
+                  className="press grid h-12 w-12 place-items-center rounded-full text-muted-foreground"
+                >
+                  <Keyboard className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={toggleVoice}
+                  disabled={voicePhase === "processing" || voicePhase === "speaking"}
+                  aria-label={voicePhase === "listening" ? "Enviar resposta" : "Falar"}
+                  className="glass-dark press grid h-16 w-16 place-items-center rounded-full disabled:opacity-50"
+                >
+                  {voicePhase === "listening" ? (
+                    <Square className="h-5 w-5 fill-current" />
+                  ) : (
+                    <Mic className="h-6 w-6" />
+                  )}
+                </button>
+                {canLiveCaption() ? (
+                  <button
+                    onClick={toggleCaptions}
+                    aria-label="Legendas ao vivo"
+                    aria-pressed={captionsOn}
+                    className={`press grid h-12 w-12 place-items-center rounded-full ${captionsOn ? "glass-tint" : "text-muted-foreground"}`}
+                  >
+                    <Captions className="h-5 w-5" />
+                  </button>
+                ) : (
+                  <div className="h-12 w-12" aria-hidden="true" />
+                )}
+              </div>
             </div>
           </>
         )}
@@ -528,24 +701,15 @@ function Pratica() {
           </div>
         )}
 
-        {pronunciationIssues.length > 0 && (
-          <div className="surface mt-6 rounded-3xl p-5">
-            <p className="font-medium">Pronúncia</p>
-            <ul className="mt-3 space-y-2">
-              {pronunciationIssues.map((p) => (
-                <li key={p.word} className="rounded-2xl bg-muted px-4 py-3">
-                  <p className="text-sm font-medium text-destructive">{p.word}</p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">{p.correct}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
         <div className="surface mt-6 rounded-3xl p-5">
           <p className="font-medium">Palavras novas</p>
           <ul className="mt-3 space-y-2">
-            {MISSION_NEW_WORDS.map((word) => (
+            {missionWords.length === 0 && (
+              <li className="rounded-2xl bg-muted px-4 py-3 text-sm text-muted-foreground">
+                Nenhuma palavra nova nesta conversa.
+              </li>
+            )}
+            {missionWords.map((word) => (
               <li
                 key={word}
                 className="flex items-center justify-between rounded-2xl bg-muted px-4 py-3"

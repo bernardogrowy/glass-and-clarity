@@ -14,5 +14,8 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    // Firebase Hosting serve só arquivos estáticos: gera um app SPA (index.html + assets)
+    // em vez de depender de SSR. Os dados vêm do Firebase SDK no navegador.
+    spa: { enabled: true },
   },
 });

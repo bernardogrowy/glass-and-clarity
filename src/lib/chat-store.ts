@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { CloudBinding } from "./cloud-sync";
 
 export type ChatMessage = { from: "hi" | "me"; text: string; fix?: string };
 
@@ -25,15 +26,18 @@ function emptyState(): State {
   return { conversations: [], hasOnboarded: false };
 }
 
+function normalize(parsed: Partial<State> | null | undefined): State {
+  return {
+    conversations: parsed?.conversations ?? [],
+    hasOnboarded: parsed?.hasOnboarded ?? false,
+  };
+}
+
 function loadState(): State {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return emptyState();
-    const parsed = JSON.parse(raw) as Partial<State>;
-    return {
-      conversations: parsed.conversations ?? [],
-      hasOnboarded: parsed.hasOnboarded ?? false,
-    };
+    return normalize(JSON.parse(raw) as Partial<State>);
   } catch {
     return emptyState();
   }
@@ -94,6 +98,15 @@ export function saveConversation(data: {
   setState({ ...s, conversations: [conversation, ...s.conversations] });
   return conversation;
 }
+
+/** Ligação com o Firestore (users/{uid}/data/chat). Ver cloud-sync.ts. */
+export const chatCloudBinding: CloudBinding<State> = {
+  field: "chat",
+  empty: emptyState,
+  get: ensureState,
+  replace: (remote) => setState(normalize(remote)),
+  subscribe,
+};
 
 export function useChatStore() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

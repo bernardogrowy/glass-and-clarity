@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { CloudBinding } from "./cloud-sync";
 
 export type Difficulty = "dificil" | "medio" | "facil";
 
@@ -48,50 +49,26 @@ function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
-function seedState(): State {
-  const deckId = createId();
-  const now = Date.now();
-  const seedCards: Array<Pick<Card, "front" | "back" | "example">> = [
-    {
-      front: "Grab a coffee",
-      back: "tomar um café",
-      example: "Do you want to grab a coffee after work?",
-    },
-    { front: "Deadline", back: "prazo", example: "The deadline for the report is Friday." },
-    {
-      front: "Boarding pass",
-      back: "cartão de embarque",
-      example: "Please show your boarding pass at the gate.",
-    },
-    { front: "Hang out", back: "passar tempo junto", example: "We usually hang out at the park." },
-  ];
+// Sem baralhos nem cards de exemplo: tudo que aparece foi criado pela pessoa.
+function emptyState(): State {
+  return { decks: [], cards: [], settings: DEFAULT_SETTINGS };
+}
+
+function normalize(parsed: Partial<State> | null | undefined): State {
   return {
-    decks: [{ id: deckId, name: "Fim de semana", tone: pickTone(0), createdAt: now }],
-    cards: seedCards.map((c) => ({
-      id: createId(),
-      deckId,
-      ...c,
-      dueAt: now,
-      intervalDays: 0,
-      reviewCount: 0,
-      createdAt: now,
-    })),
-    settings: DEFAULT_SETTINGS,
+    decks: parsed?.decks ?? [],
+    cards: parsed?.cards ?? [],
+    settings: { ...DEFAULT_SETTINGS, ...parsed?.settings },
   };
 }
 
 function loadState(): State {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return seedState();
-    const parsed = JSON.parse(raw) as Partial<State>;
-    return {
-      decks: parsed.decks ?? [],
-      cards: parsed.cards ?? [],
-      settings: { ...DEFAULT_SETTINGS, ...parsed.settings },
-    };
+    if (!raw) return emptyState();
+    return normalize(JSON.parse(raw) as Partial<State>);
   } catch {
-    return seedState();
+    return emptyState();
   }
 }
 
@@ -155,21 +132,43 @@ export function deleteDeck(deckId: string) {
 
 export function addCard(
   deckId: string,
-  data: { front: string; back: string; example?: string | undefined },
+  data: { front: string; back: string; example?: string | undefined; dueAt?: number },
 ): Card {
   const s = ensureState();
   const now = Date.now();
+  const { dueAt, ...content } = data;
   const card: Card = {
     id: createId(),
     deckId,
-    ...data,
-    dueAt: now,
+    ...content,
+    dueAt: dueAt ?? now,
     intervalDays: 0,
     reviewCount: 0,
     createdAt: now,
   };
   setState({ ...s, cards: [...s.cards, card] });
   return card;
+}
+
+/**
+ * Salva uma palavra no baralho `deckName` (cria o baralho se preciso). Não duplica:
+ * se já existe um card com a mesma frente no baralho, não faz nada.
+ */
+export function saveWordToDeck(
+  deckName: string,
+  data: { front: string; back: string; example?: string | undefined },
+  options: { dueInDays?: number } = {},
+): { added: boolean } {
+  const deck = ensureState().decks.find((d) => d.name === deckName) ?? createDeck(deckName);
+  const exists = ensureState().cards.some(
+    (c) => c.deckId === deck.id && c.front.toLowerCase() === data.front.toLowerCase(),
+  );
+  if (exists) return { added: false };
+  addCard(deck.id, {
+    ...data,
+    ...(options.dueInDays ? { dueAt: Date.now() + options.dueInDays * DAY_MS } : {}),
+  });
+  return { added: true };
 }
 
 export function updateCard(
@@ -228,6 +227,26 @@ export function getVocabMasteryPct(current: State): number | null {
   const mastered = reviewed.filter((c) => c.intervalDays === current.settings.facilDays);
   return Math.round((100 * mastered.length) / reviewed.length);
 }
+
+/** Distribuição de domínio das palavras: fraco / médio / forte (pelo intervalo da última revisão). */
+export function getMasteryBuckets(current: State) {
+  const buckets = { fraco: 0, medio: 0, forte: 0 };
+  for (const c of current.cards) {
+    if (c.reviewCount > 0 && c.intervalDays >= current.settings.facilDays) buckets.forte++;
+    else if (c.reviewCount > 0 && c.intervalDays >= current.settings.medioDays) buckets.medio++;
+    else buckets.fraco++;
+  }
+  return buckets;
+}
+
+/** Ligação com o Firestore (users/{uid}/data/flashcards). Ver cloud-sync.ts. */
+export const flashcardsCloudBinding: CloudBinding<State> = {
+  field: "flashcards",
+  empty: emptyState,
+  get: ensureState,
+  replace: (remote) => setState(normalize(remote)),
+  subscribe,
+};
 
 export function useFlashcardsStore() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

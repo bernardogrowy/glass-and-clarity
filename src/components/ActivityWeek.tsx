@@ -20,19 +20,14 @@ function sameDay(a: Date, b: Date) {
   return a.toDateString() === b.toDateString();
 }
 
-// Mock de dias praticados nesta semana — usado só quando nenhum dado real é passado via prop.
-const mockPracticedOffsets = [0, 1, 2, 4];
-
-export function ActivityWeek({ practicedDates }: { practicedDates?: Date[] }) {
+export function ActivityWeek({ practicedDates }: { practicedDates: Date[] }) {
   const today = new Date();
   const week = getWeekDates(today);
   const todayIndex = week.findIndex((d) => sameDay(d, today));
-  const practicedOffsets = practicedDates
-    ? week.reduce<number[]>((offsets, day, i) => {
-        if (practicedDates.some((d) => sameDay(d, day))) offsets.push(i);
-        return offsets;
-      }, [])
-    : mockPracticedOffsets;
+  const practicedOffsets = week.reduce<number[]>((offsets, day, i) => {
+    if (practicedDates.some((d) => sameDay(d, day))) offsets.push(i);
+    return offsets;
+  }, []);
   const practicedCount = practicedOffsets.filter((i) => i <= todayIndex).length;
 
   return (

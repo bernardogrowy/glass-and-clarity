@@ -11,12 +11,21 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BaralhosRouteImport } from './routes/baralhos'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as PraticaRouteImport } from './routes/pratica'
 import { Route as ProgressoRouteImport } from './routes/progresso'
 import { Route as StreakRouteImport } from './routes/streak'
+import { Route as TrilhaRouteImport } from './routes/trilha'
 import { Route as FlashcardsDeckIdRouteImport } from './routes/flashcards/$deckId'
+import { Route as LicaoIdIndexRouteImport } from './routes/licao/$id/index'
+import { Route as LicaoIdDescobrirRouteImport } from './routes/licao/$id/descobrir'
+import { Route as LicaoIdDialogoRouteImport } from './routes/licao/$id/dialogo'
+import { Route as LicaoIdEscolhaRouteImport } from './routes/licao/$id/escolha'
+import { Route as LicaoIdOrdenarRouteImport } from './routes/licao/$id/ordenar'
+import { Route as LicaoIdParesRouteImport } from './routes/licao/$id/pares'
+import { Route as LicaoIdResumoRouteImport } from './routes/licao/$id/resumo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -26,6 +35,11 @@ const IndexRoute = IndexRouteImport.update({
 const BaralhosRoute = BaralhosRouteImport.update({
   id: '/baralhos',
   path: '/baralhos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -53,85 +67,188 @@ const StreakRoute = StreakRouteImport.update({
   path: '/streak',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrilhaRoute = TrilhaRouteImport.update({
+  id: '/trilha',
+  path: '/trilha',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FlashcardsDeckIdRoute = FlashcardsDeckIdRouteImport.update({
   id: '/flashcards/$deckId',
   path: '/flashcards/$deckId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoIdIndexRoute = LicaoIdIndexRouteImport.update({
+  id: '/licao/$id/',
+  path: '/licao/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoIdDescobrirRoute = LicaoIdDescobrirRouteImport.update({
+  id: '/licao/$id/descobrir',
+  path: '/licao/$id/descobrir',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoIdDialogoRoute = LicaoIdDialogoRouteImport.update({
+  id: '/licao/$id/dialogo',
+  path: '/licao/$id/dialogo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoIdEscolhaRoute = LicaoIdEscolhaRouteImport.update({
+  id: '/licao/$id/escolha',
+  path: '/licao/$id/escolha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoIdOrdenarRoute = LicaoIdOrdenarRouteImport.update({
+  id: '/licao/$id/ordenar',
+  path: '/licao/$id/ordenar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoIdParesRoute = LicaoIdParesRouteImport.update({
+  id: '/licao/$id/pares',
+  path: '/licao/$id/pares',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LicaoIdResumoRoute = LicaoIdResumoRouteImport.update({
+  id: '/licao/$id/resumo',
+  path: '/licao/$id/resumo',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/baralhos': typeof BaralhosRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/perfil': typeof PerfilRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
   '/streak': typeof StreakRoute
+  '/trilha': typeof TrilhaRoute
   '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
+  '/licao/$id/descobrir': typeof LicaoIdDescobrirRoute
+  '/licao/$id/dialogo': typeof LicaoIdDialogoRoute
+  '/licao/$id/escolha': typeof LicaoIdEscolhaRoute
+  '/licao/$id/ordenar': typeof LicaoIdOrdenarRoute
+  '/licao/$id/pares': typeof LicaoIdParesRoute
+  '/licao/$id/resumo': typeof LicaoIdResumoRoute
+  '/licao/$id/': typeof LicaoIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/baralhos': typeof BaralhosRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/perfil': typeof PerfilRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
   '/streak': typeof StreakRoute
+  '/trilha': typeof TrilhaRoute
   '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
+  '/licao/$id/descobrir': typeof LicaoIdDescobrirRoute
+  '/licao/$id/dialogo': typeof LicaoIdDialogoRoute
+  '/licao/$id/escolha': typeof LicaoIdEscolhaRoute
+  '/licao/$id/ordenar': typeof LicaoIdOrdenarRoute
+  '/licao/$id/pares': typeof LicaoIdParesRoute
+  '/licao/$id/resumo': typeof LicaoIdResumoRoute
+  '/licao/$id': typeof LicaoIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/baralhos': typeof BaralhosRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/perfil': typeof PerfilRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
   '/streak': typeof StreakRoute
+  '/trilha': typeof TrilhaRoute
   '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
+  '/licao/$id/descobrir': typeof LicaoIdDescobrirRoute
+  '/licao/$id/dialogo': typeof LicaoIdDialogoRoute
+  '/licao/$id/escolha': typeof LicaoIdEscolhaRoute
+  '/licao/$id/ordenar': typeof LicaoIdOrdenarRoute
+  '/licao/$id/pares': typeof LicaoIdParesRoute
+  '/licao/$id/resumo': typeof LicaoIdResumoRoute
+  '/licao/$id/': typeof LicaoIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/baralhos'
+    | '/login'
     | '/onboarding'
     | '/perfil'
     | '/pratica'
     | '/progresso'
     | '/streak'
+    | '/trilha'
     | '/flashcards/$deckId'
+    | '/licao/$id/descobrir'
+    | '/licao/$id/dialogo'
+    | '/licao/$id/escolha'
+    | '/licao/$id/ordenar'
+    | '/licao/$id/pares'
+    | '/licao/$id/resumo'
+    | '/licao/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/baralhos'
+    | '/login'
     | '/onboarding'
     | '/perfil'
     | '/pratica'
     | '/progresso'
     | '/streak'
+    | '/trilha'
     | '/flashcards/$deckId'
+    | '/licao/$id/descobrir'
+    | '/licao/$id/dialogo'
+    | '/licao/$id/escolha'
+    | '/licao/$id/ordenar'
+    | '/licao/$id/pares'
+    | '/licao/$id/resumo'
+    | '/licao/$id'
   id:
     | '__root__'
     | '/'
     | '/baralhos'
+    | '/login'
     | '/onboarding'
     | '/perfil'
     | '/pratica'
     | '/progresso'
     | '/streak'
+    | '/trilha'
     | '/flashcards/$deckId'
+    | '/licao/$id/descobrir'
+    | '/licao/$id/dialogo'
+    | '/licao/$id/escolha'
+    | '/licao/$id/ordenar'
+    | '/licao/$id/pares'
+    | '/licao/$id/resumo'
+    | '/licao/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BaralhosRoute: typeof BaralhosRoute
+  LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
   PerfilRoute: typeof PerfilRoute
   PraticaRoute: typeof PraticaRoute
   ProgressoRoute: typeof ProgressoRoute
   StreakRoute: typeof StreakRoute
+  TrilhaRoute: typeof TrilhaRoute
   FlashcardsDeckIdRoute: typeof FlashcardsDeckIdRoute
+  LicaoIdDescobrirRoute: typeof LicaoIdDescobrirRoute
+  LicaoIdDialogoRoute: typeof LicaoIdDialogoRoute
+  LicaoIdEscolhaRoute: typeof LicaoIdEscolhaRoute
+  LicaoIdOrdenarRoute: typeof LicaoIdOrdenarRoute
+  LicaoIdParesRoute: typeof LicaoIdParesRoute
+  LicaoIdResumoRoute: typeof LicaoIdResumoRoute
+  LicaoIdIndexRoute: typeof LicaoIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -148,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/baralhos'
       fullPath: '/baralhos'
       preLoaderRoute: typeof BaralhosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -185,11 +309,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StreakRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/trilha': {
+      id: '/trilha'
+      path: '/trilha'
+      fullPath: '/trilha'
+      preLoaderRoute: typeof TrilhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/flashcards/$deckId': {
       id: '/flashcards/$deckId'
       path: '/flashcards/$deckId'
       fullPath: '/flashcards/$deckId'
       preLoaderRoute: typeof FlashcardsDeckIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$id/': {
+      id: '/licao/$id/'
+      path: '/licao/$id'
+      fullPath: '/licao/$id/'
+      preLoaderRoute: typeof LicaoIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$id/descobrir': {
+      id: '/licao/$id/descobrir'
+      path: '/licao/$id/descobrir'
+      fullPath: '/licao/$id/descobrir'
+      preLoaderRoute: typeof LicaoIdDescobrirRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$id/dialogo': {
+      id: '/licao/$id/dialogo'
+      path: '/licao/$id/dialogo'
+      fullPath: '/licao/$id/dialogo'
+      preLoaderRoute: typeof LicaoIdDialogoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$id/escolha': {
+      id: '/licao/$id/escolha'
+      path: '/licao/$id/escolha'
+      fullPath: '/licao/$id/escolha'
+      preLoaderRoute: typeof LicaoIdEscolhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$id/ordenar': {
+      id: '/licao/$id/ordenar'
+      path: '/licao/$id/ordenar'
+      fullPath: '/licao/$id/ordenar'
+      preLoaderRoute: typeof LicaoIdOrdenarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$id/pares': {
+      id: '/licao/$id/pares'
+      path: '/licao/$id/pares'
+      fullPath: '/licao/$id/pares'
+      preLoaderRoute: typeof LicaoIdParesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/licao/$id/resumo': {
+      id: '/licao/$id/resumo'
+      path: '/licao/$id/resumo'
+      fullPath: '/licao/$id/resumo'
+      preLoaderRoute: typeof LicaoIdResumoRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -198,12 +378,21 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BaralhosRoute: BaralhosRoute,
+  LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
   PerfilRoute: PerfilRoute,
   PraticaRoute: PraticaRoute,
   ProgressoRoute: ProgressoRoute,
   StreakRoute: StreakRoute,
+  TrilhaRoute: TrilhaRoute,
   FlashcardsDeckIdRoute: FlashcardsDeckIdRoute,
+  LicaoIdDescobrirRoute: LicaoIdDescobrirRoute,
+  LicaoIdDialogoRoute: LicaoIdDialogoRoute,
+  LicaoIdEscolhaRoute: LicaoIdEscolhaRoute,
+  LicaoIdOrdenarRoute: LicaoIdOrdenarRoute,
+  LicaoIdParesRoute: LicaoIdParesRoute,
+  LicaoIdResumoRoute: LicaoIdResumoRoute,
+  LicaoIdIndexRoute: LicaoIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

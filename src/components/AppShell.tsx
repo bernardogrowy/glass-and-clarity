@@ -1,9 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Home, MessageCircle, Layers, BarChart3 } from "lucide-react";
+import { Home, MessageCircle, Layers, BarChart3, Route } from "lucide-react";
 import type { ReactNode } from "react";
 
 const tabs = [
   { to: "/", icon: Home, label: "Início" },
+  { to: "/trilha", icon: Route, label: "Trilha" },
   { to: "/pratica", icon: MessageCircle, label: "Praticar" },
   { to: "/baralhos", icon: Layers, label: "Baralhos" },
   { to: "/progresso", icon: BarChart3, label: "Progresso" },
@@ -21,7 +22,7 @@ export function AppShell({ children, hideTabs }: { children: ReactNode; hideTabs
               to={to}
               aria-label={label}
               activeOptions={{ exact: true }}
-              className="press flex h-12 items-center gap-2 rounded-full px-4 text-muted-foreground"
+              className="press flex h-12 items-center gap-2 rounded-full px-3.5 text-muted-foreground"
               activeProps={{ className: "glass-dark text-primary-foreground" }}
             >
               {({ isActive }) => (

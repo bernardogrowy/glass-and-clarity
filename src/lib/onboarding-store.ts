@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { CloudBinding } from "./cloud-sync";
 import type { Level } from "./profile-store";
 import type { Competency } from "./progress-store";
 
@@ -239,16 +240,19 @@ function emptyState(): State {
   return { completed: false, skipped: false, answers: emptyAnswers() };
 }
 
+function normalize(parsed: Partial<State> | null | undefined): State {
+  return {
+    completed: parsed?.completed ?? false,
+    skipped: parsed?.skipped ?? false,
+    answers: { ...emptyAnswers(), ...parsed?.answers },
+  };
+}
+
 function loadState(): State {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return emptyState();
-    const parsed = JSON.parse(raw) as Partial<State>;
-    return {
-      completed: parsed.completed ?? false,
-      skipped: parsed.skipped ?? false,
-      answers: { ...emptyAnswers(), ...parsed.answers },
-    };
+    return normalize(JSON.parse(raw) as Partial<State>);
   } catch {
     return emptyState();
   }
@@ -303,6 +307,15 @@ export function skipOnboarding() {
 export function resetOnboarding() {
   setState(emptyState());
 }
+
+/** Ligação com o Firestore (users/{uid}/data/onboarding). Ver cloud-sync.ts. */
+export const onboardingCloudBinding: CloudBinding<State> = {
+  field: "onboarding",
+  empty: emptyState,
+  get: ensureState,
+  replace: (remote) => setState(normalize(remote)),
+  subscribe,
+};
 
 export function useOnboardingStore() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

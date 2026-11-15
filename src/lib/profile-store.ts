@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { CloudBinding } from "./cloud-sync";
 
 export type Level = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 export type AvatarExpression = "duvida" | "duvida-intensa" | "piscada" | "sorriso";
@@ -33,24 +34,28 @@ type ProfileState = {
 };
 
 const STORAGE_KEY = "hi.profile.v1";
+// Sem nome/nível fictícios: o nome vem do login (ou do que a pessoa digitar) e o nível do onboarding.
 const DEFAULT_STATE: ProfileState = {
-  name: "Samson",
-  level: "B1",
+  name: "",
+  level: "A1",
   avatarColor: AVATAR_COLORS[0] ?? "#F2B705",
   avatarExpression: "duvida",
 };
+
+function normalize(parsed: Partial<ProfileState> | null | undefined): ProfileState {
+  return {
+    name: parsed?.name ?? DEFAULT_STATE.name,
+    level: parsed?.level ?? DEFAULT_STATE.level,
+    avatarColor: parsed?.avatarColor ?? DEFAULT_STATE.avatarColor,
+    avatarExpression: parsed?.avatarExpression ?? DEFAULT_STATE.avatarExpression,
+  };
+}
 
 function loadState(): ProfileState {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return DEFAULT_STATE;
-    const parsed = JSON.parse(raw) as Partial<ProfileState>;
-    return {
-      name: parsed.name ?? DEFAULT_STATE.name,
-      level: parsed.level ?? DEFAULT_STATE.level,
-      avatarColor: parsed.avatarColor ?? DEFAULT_STATE.avatarColor,
-      avatarExpression: parsed.avatarExpression ?? DEFAULT_STATE.avatarExpression,
-    };
+    return normalize(JSON.parse(raw) as Partial<ProfileState>);
   } catch {
     return DEFAULT_STATE;
   }
@@ -104,6 +109,16 @@ export function updateProfile(next: {
     avatarExpression: next.avatarExpression,
   });
 }
+
+/** Ligação com o Firestore (users/{uid}/data/profile). Ver cloud-sync.ts. */
+export const profileCloudBinding: CloudBinding<ProfileState> = {
+  field: "profile",
+  empty: () => DEFAULT_STATE,
+  get: ensureState,
+  replace: (remote) => setState(normalize(remote)),
+  subscribe,
+  seed: (empty, user) => ({ ...empty, name: user.displayName?.trim() ?? "" }),
+};
 
 export function useProfileStore() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

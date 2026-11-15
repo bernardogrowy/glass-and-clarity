@@ -11,7 +11,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { createDeck, getDeckCards, getDueCards, useFlashcardsStore } from "@/lib/flashcards-store";
+import {
+  createDeck,
+  getDeckCards,
+  getDueCards,
+  getMasteryBuckets,
+  useFlashcardsStore,
+} from "@/lib/flashcards-store";
 
 export const Route = createFileRoute("/baralhos")({
   head: () => ({
@@ -41,6 +47,7 @@ function Baralhos() {
   const [name, setName] = useState("");
 
   const totalCards = state.cards.length;
+  const mastery = getMasteryBuckets(state);
   const totalDue = state.decks.reduce((sum, d) => sum + getDueCards(state, d.id).length, 0);
 
   const handleCreate = () => {
@@ -94,6 +101,35 @@ function Baralhos() {
           <p className="font-display text-2xl">{totalCards}</p>
         </div>
       </div>
+
+      {totalCards > 0 && (
+        <section className="surface mt-3 rounded-3xl p-5">
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-display text-xl">Seu domínio</h2>
+            <span className="text-xs text-muted-foreground">
+              {totalCards} palavra{totalCards === 1 ? "" : "s"}
+            </span>
+          </div>
+          <div className="mt-3 flex gap-1.5" aria-hidden="true">
+            {[
+              { n: mastery.fraco, color: "bg-peach" },
+              { n: mastery.medio, color: "bg-butter" },
+              { n: mastery.forte, color: "bg-accent" },
+            ].map(({ n, color }) => (
+              <span
+                key={color}
+                className={`h-2.5 rounded-full ${color}`}
+                style={{ flexGrow: Math.max(n, 0.3) }}
+              />
+            ))}
+          </div>
+          <p className="mt-3 flex justify-between text-sm font-medium">
+            <span>Fraco {mastery.fraco}</span>
+            <span>Médio {mastery.medio}</span>
+            <span>Forte {mastery.forte}</span>
+          </p>
+        </section>
+      )}
 
       <h2 className="mt-10 mb-4 font-display text-2xl">Baralhos ({state.decks.length})</h2>
       {state.decks.length === 0 ? (

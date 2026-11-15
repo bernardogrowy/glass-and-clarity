@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from "react";
+import type { CloudBinding } from "./cloud-sync";
 
 export type StreakState = {
   current: number;
@@ -22,17 +23,20 @@ function dayKey(d: Date) {
   return `${y}-${m}-${day}`;
 }
 
+function normalize(parsed: Partial<StreakState> | null | undefined): StreakState {
+  return {
+    current: parsed?.current ?? 0,
+    longest: parsed?.longest ?? 0,
+    lastActiveDate: parsed?.lastActiveDate ?? null,
+    activeDates: parsed?.activeDates ?? [],
+  };
+}
+
 function loadState(): StreakState {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return emptyState();
-    const parsed = JSON.parse(raw) as Partial<StreakState>;
-    return {
-      current: parsed.current ?? 0,
-      longest: parsed.longest ?? 0,
-      lastActiveDate: parsed.lastActiveDate ?? null,
-      activeDates: parsed.activeDates ?? [],
-    };
+    return normalize(JSON.parse(raw) as Partial<StreakState>);
   } catch {
     return emptyState();
   }
@@ -100,6 +104,14 @@ export function registerActivity(): { streak: number; isFirstToday: boolean } {
   return { streak: nextCurrent, isFirstToday: true };
 }
 
+/** Dias com atividade válida como `Date` (meia-noite local). */
+export function getActiveDates(state: StreakState): Date[] {
+  return state.activeDates.map((key) => {
+    const [y = 0, m = 1, d = 1] = key.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  });
+}
+
 export function isDateActive(state: StreakState, date: Date): boolean {
   return state.activeDates.includes(dayKey(date));
 }
@@ -121,6 +133,15 @@ export function getStreakInsight(state: StreakState): string {
   if (state.current > 1) return "Essa é a sua sequência mais longa até agora!";
   return "Volte amanhã pra manter sua sequência viva.";
 }
+
+/** Ligação com o Firestore (users/{uid}/data/streak). Ver cloud-sync.ts. */
+export const streakCloudBinding: CloudBinding<StreakState> = {
+  field: "streak",
+  empty: emptyState,
+  get: ensureState,
+  replace: (remote) => setState(normalize(remote)),
+  subscribe,
+};
 
 export function useStreakStore() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);

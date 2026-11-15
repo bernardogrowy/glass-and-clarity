@@ -9,7 +9,10 @@ import {
   Target,
   Check,
   ListChecks,
+  LogOut,
 } from "lucide-react";
+import { signOut } from "@/lib/auth-store";
+import { isFirebaseConfigured } from "@/lib/firebase";
 import { AppShell } from "@/components/AppShell";
 import { MascotAvatar } from "@/components/MascotAvatar";
 import { SrsSettingsSheet } from "@/components/SrsSettingsSheet";
@@ -115,7 +118,7 @@ function Perfil() {
             size={80}
           />
         </div>
-        <h1 className="mt-4 font-display text-2xl">{profile.name}</h1>
+        <h1 className="mt-4 font-display text-2xl">{profile.name || "Seu nome"}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Aprendendo inglês · Nível {profile.level}
         </p>
@@ -203,6 +206,16 @@ function Perfil() {
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </Link>
       </div>
+
+      {isFirebaseConfigured && (
+        <button
+          onClick={() => void signOut()}
+          className="surface press mt-8 flex w-full items-center justify-center gap-2 rounded-2xl px-5 py-4 text-sm font-medium text-muted-foreground"
+        >
+          <LogOut className="h-4 w-4" />
+          Sair da conta
+        </button>
+      )}
 
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="surface max-h-[85vh] overflow-y-auto rounded-3xl border-none">
