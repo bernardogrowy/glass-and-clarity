@@ -1,4 +1,4 @@
-import { Eye, Flag, Layers, MessageCircle, PenLine, type LucideIcon } from "lucide-react";
+import { BookOpen, MessageCircle, PenLine, Star, Trophy, type LucideIcon } from "lucide-react";
 import { CURRICULUM, type CurriculumUnit, type CurriculumWord } from "@/lib/curriculum";
 // Só tipos: `lessons.ts` importa este arquivo (TRAIL_LESSONS), então não pode haver import de valor de volta.
 import type { ChoiceOption, Lesson, LessonStep, LessonWord } from "@/lib/lessons";
@@ -13,11 +13,11 @@ export type SkillId = "descobrir" | "reconhecer" | "recordar" | "aplicar" | "che
 
 /** Mesmas 4 etapas da lição (Descobrir → Reconhecer → Recordar → Aplicar) + o checkpoint da unidade. */
 export const SKILLS: Record<SkillId, { label: string; tone: string; icon: LucideIcon }> = {
-  descobrir: { label: "Descobrir", tone: "bg-butter", icon: Layers },
-  reconhecer: { label: "Reconhecer", tone: "bg-sky", icon: Eye },
+  descobrir: { label: "Descobrir", tone: "bg-butter", icon: BookOpen },
+  reconhecer: { label: "Reconhecer", tone: "bg-sky", icon: Star },
   recordar: { label: "Recordar", tone: "bg-lilac", icon: PenLine },
   aplicar: { label: "Aplicar", tone: "bg-peach", icon: MessageCircle },
-  checkpoint: { label: "Checkpoint", tone: "bg-mint", icon: Flag },
+  checkpoint: { label: "Checkpoint", tone: "bg-mint", icon: Trophy },
 };
 
 /** Acerto mínimo (%) no checkpoint pra abrir a próxima unidade. */

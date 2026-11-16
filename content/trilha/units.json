@@ -1,0 +1,3474 @@
+{
+  "source": "FluentPath — Conteúdo da Trilha de Inglês (v1)",
+  "totals": {
+    "units": 24,
+    "modules": 72,
+    "final_tests": 24,
+    "by_level": {
+      "A1": 6,
+      "A2": 6,
+      "B1": 6,
+      "B2": 6
+    }
+  },
+  "units": [
+    {
+      "id": "EN-01",
+      "title": "Cumprimentos e apresentações",
+      "level": "A1",
+      "objective": "Cumprimentar, apresentar-se e pedir o nome de alguém.",
+      "vocabulary": [
+        {
+          "en": "hello",
+          "pt": "olá"
+        },
+        {
+          "en": "good morning",
+          "pt": "bom dia"
+        },
+        {
+          "en": "name",
+          "pt": "nome"
+        },
+        {
+          "en": "from",
+          "pt": "de, origem"
+        },
+        {
+          "en": "nice",
+          "pt": "agradável"
+        },
+        {
+          "en": "meet",
+          "pt": "conhecer"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Hi! My name is Jo. What is your name?"
+        },
+        {
+          "speaker": "B",
+          "text": "I am Rafa. Nice to meet you!"
+        },
+        {
+          "speaker": "A",
+          "text": "Nice to meet you too."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "How's it going?",
+          "pt": "Como vão as coisas?"
+        },
+        {
+          "en": "What do you do?",
+          "pt": "O que você faz?"
+        },
+        {
+          "en": "Nice to see you.",
+          "pt": "Bom ver você."
+        }
+      ],
+      "common_mistake": "Não use 'I have 16 years' para idade; em inglês diga 'I am 16'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Cumprimente com naturalidade",
+          "explanation": "Use Hi em situações informais e Hello em contextos neutros. Good morning é usado pela manhã.",
+          "key_expression": {
+            "en": "Good morning!",
+            "pt": "Bom dia!"
+          },
+          "practice_prompt": "Diga bom dia para uma pessoa nova.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Good morning!”?",
+            "cloze": "Good ____!",
+            "production": "Diga bom dia para uma pessoa nova."
+          },
+          "answer_key": {
+            "interpretation": "Bom dia!",
+            "cloze": "morning",
+            "production_example": "Good morning!"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Diga seu nome",
+          "explanation": "Use My name is ou I am. I am pode ser abreviado como I’m.",
+          "key_expression": {
+            "en": "My name is Rafa.",
+            "pt": "Meu nome é Rafa."
+          },
+          "practice_prompt": "Apresente-se usando seu nome.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “My name is Rafa.”?",
+            "cloze": "My ____ is Rafa.",
+            "production": "Apresente-se usando seu nome."
+          },
+          "answer_key": {
+            "interpretation": "Meu nome é Rafa.",
+            "cloze": "name",
+            "production_example": "My name is Rafa."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Inicie uma conversa",
+          "explanation": "Para saber o nome de alguém, use What is your name?; Nice to meet you responde a uma apresentação.",
+          "key_expression": {
+            "en": "Nice to meet you.",
+            "pt": "Prazer em conhecer você."
+          },
+          "practice_prompt": "Cumprimente e diga que é um prazer conhecer alguém.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Nice to meet you.”?",
+            "cloze": "Nice to ____ you.",
+            "production": "Cumprimente e diga que é um prazer conhecer alguém."
+          },
+          "answer_key": {
+            "interpretation": "Prazer em conhecer você.",
+            "cloze": "meet",
+            "production_example": "Hello! Nice to meet you."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "Good ____!",
+          "My ____ is Rafa.",
+          "Nice to ____ you."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "morning",
+          "name",
+          "meet"
+        ]
+      }
+    },
+    {
+      "id": "EN-02",
+      "title": "De onde você é?",
+      "level": "A1",
+      "objective": "Dizer origem, nacionalidade e idiomas com frases simples.",
+      "vocabulary": [
+        {
+          "en": "Brazil",
+          "pt": "Brasil"
+        },
+        {
+          "en": "city",
+          "pt": "cidade"
+        },
+        {
+          "en": "country",
+          "pt": "país"
+        },
+        {
+          "en": "live",
+          "pt": "morar"
+        },
+        {
+          "en": "speak",
+          "pt": "falar"
+        },
+        {
+          "en": "Portuguese",
+          "pt": "português"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Where are you from?"
+        },
+        {
+          "speaker": "B",
+          "text": "I am from Brazil. I live in Recife."
+        },
+        {
+          "speaker": "A",
+          "text": "Do you speak English?"
+        },
+        {
+          "speaker": "B",
+          "text": "A little."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "Where are you based?",
+          "pt": "Onde você mora/trabalha atualmente?"
+        },
+        {
+          "en": "I'm originally from Brazil.",
+          "pt": "Sou originalmente do Brasil."
+        },
+        {
+          "en": "I was born in Brazil.",
+          "pt": "Nasci no Brasil."
+        }
+      ],
+      "common_mistake": "Evite 'I live at São Paulo'; para cidades, prefira 'in São Paulo'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Indique sua origem",
+          "explanation": "A estrutura I am from + país ou cidade explica origem. Não use have para nacionalidade.",
+          "key_expression": {
+            "en": "I am from Brazil.",
+            "pt": "Eu sou do Brasil."
+          },
+          "practice_prompt": "Diga de qual país você é.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I am from Brazil.”?",
+            "cloze": "I am ____ Brazil.",
+            "production": "Diga de qual país você é."
+          },
+          "answer_key": {
+            "interpretation": "Eu sou do Brasil.",
+            "cloze": "from",
+            "production_example": "I am from Brazil."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Fale sobre onde mora",
+          "explanation": "Use I live in + cidade. Para perguntar, Where do you live?",
+          "key_expression": {
+            "en": "I live in Recife.",
+            "pt": "Eu moro em Recife."
+          },
+          "practice_prompt": "Diga onde você mora.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I live in Recife.”?",
+            "cloze": "I ____ in Recife.",
+            "production": "Diga onde você mora."
+          },
+          "answer_key": {
+            "interpretation": "Eu moro em Recife.",
+            "cloze": "live",
+            "production_example": "I live in Recife."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Diga quais idiomas fala",
+          "explanation": "Use I speak + idioma; a little significa um pouco.",
+          "key_expression": {
+            "en": "I speak a little English.",
+            "pt": "Eu falo um pouco de inglês."
+          },
+          "practice_prompt": "Diga que fala um pouco de inglês.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I speak a little English.”?",
+            "cloze": "I speak a ____ English.",
+            "production": "Diga que fala um pouco de inglês."
+          },
+          "answer_key": {
+            "interpretation": "Eu falo um pouco de inglês.",
+            "cloze": "little",
+            "production_example": "I speak a little English."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I am ____ Brazil.",
+          "I ____ in Recife.",
+          "I speak a ____ English."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "from",
+          "live",
+          "little"
+        ]
+      }
+    },
+    {
+      "id": "EN-03",
+      "title": "Pessoas e profissões",
+      "level": "A1",
+      "objective": "Apresentar pessoas e falar sobre ocupações e estudos.",
+      "vocabulary": [
+        {
+          "en": "friend",
+          "pt": "amigo"
+        },
+        {
+          "en": "teacher",
+          "pt": "professor"
+        },
+        {
+          "en": "student",
+          "pt": "estudante"
+        },
+        {
+          "en": "work",
+          "pt": "trabalhar"
+        },
+        {
+          "en": "study",
+          "pt": "estudar"
+        },
+        {
+          "en": "colleague",
+          "pt": "colega"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Who is she?"
+        },
+        {
+          "speaker": "B",
+          "text": "She is my friend. She is a teacher."
+        },
+        {
+          "speaker": "A",
+          "text": "And you?"
+        },
+        {
+          "speaker": "B",
+          "text": "I am a student."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "This is my colleague.",
+          "pt": "Este é meu colega."
+        },
+        {
+          "en": "What do you do for work?",
+          "pt": "Com o que você trabalha?"
+        },
+        {
+          "en": "I'm currently studying.",
+          "pt": "Estou estudando atualmente."
+        }
+      ],
+      "common_mistake": "Em profissão singular, não omita 'a/an': 'She is a designer'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Apresente outras pessoas",
+          "explanation": "Use he para ele, she para ela e they para eles/elas ou singular neutro. O verbo be muda: he is, she is, they are.",
+          "key_expression": {
+            "en": "She is my friend.",
+            "pt": "Ela é minha amiga."
+          },
+          "practice_prompt": "Apresente uma amiga em inglês.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “She is my friend.”?",
+            "cloze": "She is my ____.",
+            "production": "Apresente uma amiga em inglês."
+          },
+          "answer_key": {
+            "interpretation": "Ela é minha amiga.",
+            "cloze": "friend",
+            "production_example": "She is my friend."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Fale de ocupações",
+          "explanation": "Use a/an antes de profissão singular contável: a teacher, an engineer.",
+          "key_expression": {
+            "en": "I am a student.",
+            "pt": "Eu sou estudante."
+          },
+          "practice_prompt": "Diga qual é sua ocupação atual.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I am a student.”?",
+            "cloze": "I am a ____.",
+            "production": "Diga qual é sua ocupação atual."
+          },
+          "answer_key": {
+            "interpretation": "Eu sou estudante.",
+            "cloze": "student",
+            "production_example": "I am a student."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Fale de trabalho ou estudo",
+          "explanation": "Use I work e I study para hábitos atuais.",
+          "key_expression": {
+            "en": "I study English.",
+            "pt": "Eu estudo inglês."
+          },
+          "practice_prompt": "Conte o que você estuda.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I study English.”?",
+            "cloze": "I ____ English.",
+            "production": "Conte o que você estuda."
+          },
+          "answer_key": {
+            "interpretation": "Eu estudo inglês.",
+            "cloze": "study",
+            "production_example": "I study English."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "She is my ____.",
+          "I am a ____.",
+          "I ____ English."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "friend",
+          "student",
+          "study"
+        ]
+      }
+    },
+    {
+      "id": "EN-04",
+      "title": "Números, horários e agenda",
+      "level": "A1",
+      "objective": "Falar sobre horas, dias e compromissos simples.",
+      "vocabulary": [
+        {
+          "en": "today",
+          "pt": "hoje"
+        },
+        {
+          "en": "tomorrow",
+          "pt": "amanhã"
+        },
+        {
+          "en": "Monday",
+          "pt": "segunda-feira"
+        },
+        {
+          "en": "meeting",
+          "pt": "reunião"
+        },
+        {
+          "en": "time",
+          "pt": "horário"
+        },
+        {
+          "en": "at",
+          "pt": "às"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "What time is the meeting?"
+        },
+        {
+          "speaker": "B",
+          "text": "It is at nine."
+        },
+        {
+          "speaker": "A",
+          "text": "Is it today?"
+        },
+        {
+          "speaker": "B",
+          "text": "No, it is tomorrow."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "Does that time work for you?",
+          "pt": "Esse horário funciona para você?"
+        },
+        {
+          "en": "I'm free tomorrow.",
+          "pt": "Estou livre amanhã."
+        },
+        {
+          "en": "Let's meet at nine.",
+          "pt": "Vamos nos encontrar às nove."
+        }
+      ],
+      "common_mistake": "Use 'on Monday', 'at nine' e 'in November'; para 'tomorrow', não há preposição.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Identifique horários",
+          "explanation": "What time...? pergunta o horário; em inglês use at para horas específicas.",
+          "key_expression": {
+            "en": "What time is it?",
+            "pt": "Que horas são?"
+          },
+          "practice_prompt": "Pergunte as horas.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “What time is it?”?",
+            "cloze": "What ____ is it?",
+            "production": "Pergunte as horas."
+          },
+          "answer_key": {
+            "interpretation": "Que horas são?",
+            "cloze": "time",
+            "production_example": "What time is it?"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Agende uma atividade",
+          "explanation": "It is at nine significa às nove. Você também pode usar at 9 a.m.",
+          "key_expression": {
+            "en": "The meeting is at nine.",
+            "pt": "A reunião é às nove."
+          },
+          "practice_prompt": "Avise que a reunião é às nove.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “The meeting is at nine.”?",
+            "cloze": "The meeting is at ____.",
+            "production": "Avise que a reunião é às nove."
+          },
+          "answer_key": {
+            "interpretation": "A reunião é às nove.",
+            "cloze": "nine",
+            "production_example": "The meeting is at nine."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Comunique o dia",
+          "explanation": "Use today, tomorrow e dias da semana; on Monday, mas today não requer preposição.",
+          "key_expression": {
+            "en": "See you tomorrow.",
+            "pt": "Até amanhã."
+          },
+          "practice_prompt": "Despeça-se e diga até amanhã.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “See you tomorrow.”?",
+            "cloze": "See you ____.",
+            "production": "Despeça-se e diga até amanhã."
+          },
+          "answer_key": {
+            "interpretation": "Até amanhã.",
+            "cloze": "tomorrow",
+            "production_example": "See you tomorrow."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "What ____ is it?",
+          "The meeting is at ____.",
+          "See you ____."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "time",
+          "nine",
+          "tomorrow"
+        ]
+      }
+    },
+    {
+      "id": "EN-05",
+      "title": "Rotina e hábitos",
+      "level": "A1",
+      "objective": "Descrever hábitos e fazer perguntas sobre rotina.",
+      "vocabulary": [
+        {
+          "en": "wake up",
+          "pt": "acordar"
+        },
+        {
+          "en": "breakfast",
+          "pt": "café da manhã"
+        },
+        {
+          "en": "start",
+          "pt": "começar"
+        },
+        {
+          "en": "finish",
+          "pt": "terminar"
+        },
+        {
+          "en": "usually",
+          "pt": "geralmente"
+        },
+        {
+          "en": "every day",
+          "pt": "todos os dias"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "What do you do in the morning?"
+        },
+        {
+          "speaker": "B",
+          "text": "I usually have breakfast at seven."
+        },
+        {
+          "speaker": "A",
+          "text": "When do you start work?"
+        },
+        {
+          "speaker": "B",
+          "text": "At eight."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "I get ready for the day.",
+          "pt": "Eu me preparo para o dia."
+        },
+        {
+          "en": "I usually start at eight.",
+          "pt": "Geralmente começo às oito."
+        },
+        {
+          "en": "What time do you finish?",
+          "pt": "Que horas você termina?"
+        }
+      ],
+      "common_mistake": "Na terceira pessoa do present simple, o verbo costuma receber -s: 'she works'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Descreva uma rotina",
+          "explanation": "Present simple comunica hábitos: I work, you study, we live.",
+          "key_expression": {
+            "en": "I work every day.",
+            "pt": "Eu trabalho todos os dias."
+          },
+          "practice_prompt": "Diga que trabalha todos os dias.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I work every day.”?",
+            "cloze": "I ____ every day.",
+            "production": "Diga que trabalha todos os dias."
+          },
+          "answer_key": {
+            "interpretation": "Eu trabalho todos os dias.",
+            "cloze": "work",
+            "production_example": "I work every day."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Use frequência",
+          "explanation": "Usually expressa hábito frequente. Em geral aparece antes do verbo principal.",
+          "key_expression": {
+            "en": "I usually wake up early.",
+            "pt": "Eu geralmente acordo cedo."
+          },
+          "practice_prompt": "Diga que costuma acordar cedo.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I usually wake up early.”?",
+            "cloze": "I ____ wake up early.",
+            "production": "Diga que costuma acordar cedo."
+          },
+          "answer_key": {
+            "interpretation": "Eu geralmente acordo cedo.",
+            "cloze": "usually",
+            "production_example": "I usually wake up early."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Faça perguntas sobre hábitos",
+          "explanation": "Use Do you + verbo base? Evite Do you works?.",
+          "key_expression": {
+            "en": "Do you study every day?",
+            "pt": "Você estuda todos os dias?"
+          },
+          "practice_prompt": "Pergunte se alguém estuda diariamente.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Do you study every day?”?",
+            "cloze": "Do you ____ every day?",
+            "production": "Pergunte se alguém estuda diariamente."
+          },
+          "answer_key": {
+            "interpretation": "Você estuda todos os dias?",
+            "cloze": "study",
+            "production_example": "Do you study every day?"
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I ____ every day.",
+          "I ____ wake up early.",
+          "Do you ____ every day?"
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "work",
+          "usually",
+          "study"
+        ]
+      }
+    },
+    {
+      "id": "EN-06",
+      "title": "Comida, pedidos e compras",
+      "level": "A1",
+      "objective": "Pedir itens com cortesia e dizer preferências básicas.",
+      "vocabulary": [
+        {
+          "en": "water",
+          "pt": "água"
+        },
+        {
+          "en": "coffee",
+          "pt": "café"
+        },
+        {
+          "en": "menu",
+          "pt": "cardápio"
+        },
+        {
+          "en": "price",
+          "pt": "preço"
+        },
+        {
+          "en": "please",
+          "pt": "por favor"
+        },
+        {
+          "en": "bill",
+          "pt": "conta"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Hello! Can I have a coffee, please?"
+        },
+        {
+          "speaker": "B",
+          "text": "Of course. Anything else?"
+        },
+        {
+          "speaker": "A",
+          "text": "Just water, thanks."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "Could I see the menu?",
+          "pt": "Poderia ver o cardápio?"
+        },
+        {
+          "en": "I'd like a coffee, please.",
+          "pt": "Eu gostaria de um café, por favor."
+        },
+        {
+          "en": "Could we have the bill?",
+          "pt": "Pode trazer a conta?"
+        }
+      ],
+      "common_mistake": "Para pedir educadamente, prefira 'I'd like...' a 'I want...' em restaurantes.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Peça com educação",
+          "explanation": "Can I have...? é uma forma natural e cortês de pedir algo em cafés e lojas.",
+          "key_expression": {
+            "en": "Can I have some water?",
+            "pt": "Posso pedir um pouco de água?"
+          },
+          "practice_prompt": "Peça água educadamente.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Can I have some water?”?",
+            "cloze": "Can I have some ____?",
+            "production": "Peça água educadamente."
+          },
+          "answer_key": {
+            "interpretation": "Posso pedir um pouco de água?",
+            "cloze": "water",
+            "production_example": "Can I have some water, please?"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Expresse preferências",
+          "explanation": "Use I like + coisa, ou I don’t like para rejeitar.",
+          "key_expression": {
+            "en": "I like coffee.",
+            "pt": "Eu gosto de café."
+          },
+          "practice_prompt": "Diga que gosta de café.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I like coffee.”?",
+            "cloze": "I ____ coffee.",
+            "production": "Diga que gosta de café."
+          },
+          "answer_key": {
+            "interpretation": "Eu gosto de café.",
+            "cloze": "like",
+            "production_example": "I like coffee."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Pergunte o preço",
+          "explanation": "How much is it? pergunta o preço de um item. How much are they? para plural.",
+          "key_expression": {
+            "en": "How much is it?",
+            "pt": "Quanto custa?"
+          },
+          "practice_prompt": "Pergunte quanto custa um item.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “How much is it?”?",
+            "cloze": "How ____ is it?",
+            "production": "Pergunte quanto custa um item."
+          },
+          "answer_key": {
+            "interpretation": "Quanto custa?",
+            "cloze": "much",
+            "production_example": "How much is it?"
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "Can I have some ____?",
+          "I ____ coffee.",
+          "How ____ is it?"
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "water",
+          "like",
+          "much"
+        ]
+      }
+    },
+    {
+      "id": "EN-07",
+      "title": "Direções e transporte",
+      "level": "A2",
+      "objective": "Pedir e explicar caminhos pela cidade.",
+      "vocabulary": [
+        {
+          "en": "turn",
+          "pt": "virar"
+        },
+        {
+          "en": "left",
+          "pt": "esquerda"
+        },
+        {
+          "en": "right",
+          "pt": "direita"
+        },
+        {
+          "en": "straight",
+          "pt": "em frente"
+        },
+        {
+          "en": "station",
+          "pt": "estação"
+        },
+        {
+          "en": "near",
+          "pt": "perto"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Excuse me, where is the station?"
+        },
+        {
+          "speaker": "B",
+          "text": "Go straight and turn left."
+        },
+        {
+          "speaker": "A",
+          "text": "Is it far?"
+        },
+        {
+          "speaker": "B",
+          "text": "No, it is near."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "How do I get there?",
+          "pt": "Como chego lá?"
+        },
+        {
+          "en": "It's across from the bank.",
+          "pt": "Fica em frente ao banco."
+        },
+        {
+          "en": "Go past the traffic lights.",
+          "pt": "Passe pelo semáforo."
+        }
+      ],
+      "common_mistake": "Não traduza 'virar à esquerda' como 'go to left'; use 'turn left'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Peça ajuda",
+          "explanation": "Excuse me abre um pedido educado a alguém desconhecido.",
+          "key_expression": {
+            "en": "Excuse me, where is the station?",
+            "pt": "Com licença, onde fica a estação?"
+          },
+          "practice_prompt": "Pergunte onde é a estação.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Excuse me, where is the station?”?",
+            "cloze": "Excuse me, where is the ____?",
+            "production": "Pergunte onde é a estação."
+          },
+          "answer_key": {
+            "interpretation": "Com licença, onde fica a estação?",
+            "cloze": "station",
+            "production_example": "Excuse me, where is the station?"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Dê direções",
+          "explanation": "Use imperativos curtos: go straight, turn left, turn right.",
+          "key_expression": {
+            "en": "Turn left at the corner.",
+            "pt": "Vire à esquerda na esquina."
+          },
+          "practice_prompt": "Instrua a pessoa a virar à esquerda.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Turn left at the corner.”?",
+            "cloze": "Turn ____ at the corner.",
+            "production": "Instrua a pessoa a virar à esquerda."
+          },
+          "answer_key": {
+            "interpretation": "Vire à esquerda na esquina.",
+            "cloze": "left",
+            "production_example": "Turn left at the corner."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Diga distância",
+          "explanation": "Near e far expressam distância; Is it far? verifica se algo está longe.",
+          "key_expression": {
+            "en": "It is near the park.",
+            "pt": "Fica perto do parque."
+          },
+          "practice_prompt": "Diga que fica perto do parque.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “It is near the park.”?",
+            "cloze": "It is ____ the park.",
+            "production": "Diga que fica perto do parque."
+          },
+          "answer_key": {
+            "interpretation": "Fica perto do parque.",
+            "cloze": "near",
+            "production_example": "It is near the park."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "Excuse me, where is the ____?",
+          "Turn ____ at the corner.",
+          "It is ____ the park."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "station",
+          "left",
+          "near"
+        ]
+      }
+    },
+    {
+      "id": "EN-08",
+      "title": "Passado: experiências e viagens",
+      "level": "A2",
+      "objective": "Contar eventos concluídos no passado.",
+      "vocabulary": [
+        {
+          "en": "yesterday",
+          "pt": "ontem"
+        },
+        {
+          "en": "last week",
+          "pt": "semana passada"
+        },
+        {
+          "en": "went",
+          "pt": "fui, foi"
+        },
+        {
+          "en": "visited",
+          "pt": "visitei"
+        },
+        {
+          "en": "stayed",
+          "pt": "fiquei hospedado"
+        },
+        {
+          "en": "trip",
+          "pt": "viagem"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "How was your trip?"
+        },
+        {
+          "speaker": "B",
+          "text": "It was great! I visited my cousin."
+        },
+        {
+          "speaker": "A",
+          "text": "Did you travel by bus?"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes, I did."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "How did it go?",
+          "pt": "Como foi?"
+        },
+        {
+          "en": "I had a great time.",
+          "pt": "Eu me diverti muito."
+        },
+        {
+          "en": "What happened next?",
+          "pt": "O que aconteceu depois?"
+        }
+      ],
+      "common_mistake": "Depois de 'did', use verbo base: 'Did you go?', não 'Did you went?'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Diga o que aconteceu",
+          "explanation": "No simple past, verbos regulares levam -ed: visit → visited. Verbos irregulares variam.",
+          "key_expression": {
+            "en": "I visited my cousin yesterday.",
+            "pt": "Visitei meu primo ontem."
+          },
+          "practice_prompt": "Diga que visitou um parente ontem.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I visited my cousin yesterday.”?",
+            "cloze": "I ____ my cousin yesterday.",
+            "production": "Diga que visitou um parente ontem."
+          },
+          "answer_key": {
+            "interpretation": "Visitei meu primo ontem.",
+            "cloze": "visited",
+            "production_example": "I visited my cousin yesterday."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Use verbos irregulares",
+          "explanation": "Go no passado é went; não escreva goed.",
+          "key_expression": {
+            "en": "I went to the museum.",
+            "pt": "Eu fui ao museu."
+          },
+          "practice_prompt": "Diga que você foi ao museu.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I went to the museum.”?",
+            "cloze": "I ____ to the museum.",
+            "production": "Diga que você foi ao museu."
+          },
+          "answer_key": {
+            "interpretation": "Eu fui ao museu.",
+            "cloze": "went",
+            "production_example": "I went to the museum."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Pergunte sobre o passado",
+          "explanation": "Did + sujeito + verbo base: Did you travel? Não use Did you went?.",
+          "key_expression": {
+            "en": "Did you enjoy the trip?",
+            "pt": "Você gostou da viagem?"
+          },
+          "practice_prompt": "Pergunte se a viagem foi boa.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Did you enjoy the trip?”?",
+            "cloze": "____ you enjoy the trip?",
+            "production": "Pergunte se a viagem foi boa."
+          },
+          "answer_key": {
+            "interpretation": "Você gostou da viagem?",
+            "cloze": "Did",
+            "production_example": "Did you enjoy the trip?"
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I ____ my cousin yesterday.",
+          "I ____ to the museum.",
+          "____ you enjoy the trip?"
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "visited",
+          "went",
+          "Did"
+        ]
+      }
+    },
+    {
+      "id": "EN-09",
+      "title": "Planos e convites",
+      "level": "A2",
+      "objective": "Convidar, aceitar e falar de planos futuros.",
+      "vocabulary": [
+        {
+          "en": "weekend",
+          "pt": "fim de semana"
+        },
+        {
+          "en": "plan",
+          "pt": "plano"
+        },
+        {
+          "en": "later",
+          "pt": "mais tarde"
+        },
+        {
+          "en": "available",
+          "pt": "disponível"
+        },
+        {
+          "en": "join",
+          "pt": "participar"
+        },
+        {
+          "en": "maybe",
+          "pt": "talvez"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Are you free on Saturday?"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes. What are you planning?"
+        },
+        {
+          "speaker": "A",
+          "text": "I am going to visit a museum."
+        },
+        {
+          "speaker": "B",
+          "text": "Sounds good!"
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "Are you free this weekend?",
+          "pt": "Você está livre neste fim de semana?"
+        },
+        {
+          "en": "I'd love to.",
+          "pt": "Eu adoraria."
+        },
+        {
+          "en": "Maybe another time.",
+          "pt": "Talvez em outra ocasião."
+        }
+      ],
+      "common_mistake": "Não misture 'will' e 'going to' indiscriminadamente: escolha conforme intenção ou previsão.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Fale de intenções",
+          "explanation": "Be going to + verbo base expressa planos ou intenções.",
+          "key_expression": {
+            "en": "I am going to study tonight.",
+            "pt": "Vou estudar hoje à noite."
+          },
+          "practice_prompt": "Diga que pretende estudar hoje à noite.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I am going to study tonight.”?",
+            "cloze": "I am ____ to study tonight.",
+            "production": "Diga que pretende estudar hoje à noite."
+          },
+          "answer_key": {
+            "interpretation": "Vou estudar hoje à noite.",
+            "cloze": "going",
+            "production_example": "I am going to study tonight."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Faça convites",
+          "explanation": "Would you like to...? é uma estrutura educada para convidar alguém.",
+          "key_expression": {
+            "en": "Would you like to join us?",
+            "pt": "Você gostaria de se juntar a nós?"
+          },
+          "practice_prompt": "Convide alguém a participar.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Would you like to join us?”?",
+            "cloze": "Would you like to ____ us?",
+            "production": "Convide alguém a participar."
+          },
+          "answer_key": {
+            "interpretation": "Você gostaria de se juntar a nós?",
+            "cloze": "join",
+            "production_example": "Would you like to join us?"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Responda naturalmente",
+          "explanation": "Sounds good significa parece bom/ótima ideia; talvez: Maybe next time.",
+          "key_expression": {
+            "en": "That sounds good to me.",
+            "pt": "Parece uma boa ideia para mim."
+          },
+          "practice_prompt": "Aceite uma sugestão com naturalidade.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “That sounds good to me.”?",
+            "cloze": "That ____ good to me.",
+            "production": "Aceite uma sugestão com naturalidade."
+          },
+          "answer_key": {
+            "interpretation": "Parece uma boa ideia para mim.",
+            "cloze": "sounds",
+            "production_example": "That sounds good to me."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I am ____ to study tonight.",
+          "Would you like to ____ us?",
+          "That ____ good to me."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "going",
+          "join",
+          "sounds"
+        ]
+      }
+    },
+    {
+      "id": "EN-10",
+      "title": "Problemas e pedidos de ajuda",
+      "level": "A2",
+      "objective": "Pedir esclarecimento e lidar com pequenos problemas.",
+      "vocabulary": [
+        {
+          "en": "problem",
+          "pt": "problema"
+        },
+        {
+          "en": "help",
+          "pt": "ajuda"
+        },
+        {
+          "en": "repeat",
+          "pt": "repetir"
+        },
+        {
+          "en": "slowly",
+          "pt": "devagar"
+        },
+        {
+          "en": "understand",
+          "pt": "entender"
+        },
+        {
+          "en": "wrong",
+          "pt": "errado"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Sorry, I didn’t catch that."
+        },
+        {
+          "speaker": "B",
+          "text": "No problem. The meeting is at three."
+        },
+        {
+          "speaker": "A",
+          "text": "Could you repeat that slowly?"
+        },
+        {
+          "speaker": "B",
+          "text": "Sure."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "I didn't catch that.",
+          "pt": "Não consegui entender o que você disse."
+        },
+        {
+          "en": "What does this mean?",
+          "pt": "O que isso significa?"
+        },
+        {
+          "en": "Can you show me?",
+          "pt": "Você pode me mostrar?"
+        }
+      ],
+      "common_mistake": "Pedir repetição e confirmação não é erro; é uma habilidade comunicativa importante.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Peça repetição",
+          "explanation": "Could you...? é um pedido de cortesia. Em fala rápida, Sorry, I didn’t catch that é natural.",
+          "key_expression": {
+            "en": "Could you repeat that, please?",
+            "pt": "Você poderia repetir isso, por favor?"
+          },
+          "practice_prompt": "Peça para alguém repetir algo.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Could you repeat that, please?”?",
+            "cloze": "Could you ____ that, please?",
+            "production": "Peça para alguém repetir algo."
+          },
+          "answer_key": {
+            "interpretation": "Você poderia repetir isso, por favor?",
+            "cloze": "repeat",
+            "production_example": "Could you repeat that, please?"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Explique dificuldade",
+          "explanation": "I don’t understand descreve incompreensão; explique o ponto exato sempre que possível.",
+          "key_expression": {
+            "en": "I do not understand this word.",
+            "pt": "Eu não entendo esta palavra."
+          },
+          "practice_prompt": "Diga que não compreendeu uma palavra.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I do not understand this word.”?",
+            "cloze": "I do not ____ this word.",
+            "production": "Diga que não compreendeu uma palavra."
+          },
+          "answer_key": {
+            "interpretation": "Eu não entendo esta palavra.",
+            "cloze": "understand",
+            "production_example": "I do not understand this word."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Peça para falar mais devagar",
+          "explanation": "Could you speak more slowly? evita interromper de forma brusca.",
+          "key_expression": {
+            "en": "Could you speak more slowly?",
+            "pt": "Você poderia falar mais devagar?"
+          },
+          "practice_prompt": "Peça que falem mais devagar.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Could you speak more slowly?”?",
+            "cloze": "Could you speak more ____?",
+            "production": "Peça que falem mais devagar."
+          },
+          "answer_key": {
+            "interpretation": "Você poderia falar mais devagar?",
+            "cloze": "slowly",
+            "production_example": "Could you speak more slowly?"
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "Could you ____ that, please?",
+          "I do not ____ this word.",
+          "Could you speak more ____?"
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "repeat",
+          "understand",
+          "slowly"
+        ]
+      }
+    },
+    {
+      "id": "EN-11",
+      "title": "Trabalho, estudos e responsabilidades",
+      "level": "A2",
+      "objective": "Descrever tarefas, capacidades e obrigações.",
+      "vocabulary": [
+        {
+          "en": "task",
+          "pt": "tarefa"
+        },
+        {
+          "en": "deadline",
+          "pt": "prazo"
+        },
+        {
+          "en": "team",
+          "pt": "equipe"
+        },
+        {
+          "en": "skill",
+          "pt": "habilidade"
+        },
+        {
+          "en": "responsible",
+          "pt": "responsável"
+        },
+        {
+          "en": "report",
+          "pt": "relatório"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "What do you do?"
+        },
+        {
+          "speaker": "B",
+          "text": "I work with a small team."
+        },
+        {
+          "speaker": "A",
+          "text": "Can you prepare reports?"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes, I can, and I have to send one today."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "I'm in charge of this task.",
+          "pt": "Sou responsável por esta tarefa."
+        },
+        {
+          "en": "Can you help me with this?",
+          "pt": "Pode me ajudar com isso?"
+        },
+        {
+          "en": "When is it due?",
+          "pt": "Qual é o prazo?"
+        }
+      ],
+      "common_mistake": "'Can' não leva 'to' antes do verbo principal: 'I can write', não 'I can to write'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Fale de funções",
+          "explanation": "Work with indica colaboração; work on indica o projeto ou tarefa.",
+          "key_expression": {
+            "en": "I work with a small team.",
+            "pt": "Eu trabalho com uma equipe pequena."
+          },
+          "practice_prompt": "Diga que trabalha em equipe.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I work with a small team.”?",
+            "cloze": "I work with a small ____.",
+            "production": "Diga que trabalha em equipe."
+          },
+          "answer_key": {
+            "interpretation": "Eu trabalho com uma equipe pequena.",
+            "cloze": "team",
+            "production_example": "I work with a small team."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Descreva habilidades",
+          "explanation": "Can + verbo base: I can write, she can speak. Nunca can to write.",
+          "key_expression": {
+            "en": "I can write reports.",
+            "pt": "Eu consigo escrever relatórios."
+          },
+          "practice_prompt": "Diga que consegue escrever relatórios.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I can write reports.”?",
+            "cloze": "I ____ write reports.",
+            "production": "Diga que consegue escrever relatórios."
+          },
+          "answer_key": {
+            "interpretation": "Eu consigo escrever relatórios.",
+            "cloze": "can",
+            "production_example": "I can write reports."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Explique obrigações",
+          "explanation": "Have to + verbo: I have to finish this. Indica necessidade prática.",
+          "key_expression": {
+            "en": "I have to finish this today.",
+            "pt": "Eu preciso terminar isto hoje."
+          },
+          "practice_prompt": "Diga que precisa terminar hoje.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I have to finish this today.”?",
+            "cloze": "I have to ____ this today.",
+            "production": "Diga que precisa terminar hoje."
+          },
+          "answer_key": {
+            "interpretation": "Eu preciso terminar isto hoje.",
+            "cloze": "finish",
+            "production_example": "I have to finish this today."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I work with a small ____.",
+          "I ____ write reports.",
+          "I have to ____ this today."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "team",
+          "can",
+          "finish"
+        ]
+      }
+    },
+    {
+      "id": "EN-12",
+      "title": "Comparações e opiniões simples",
+      "level": "A2",
+      "objective": "Comparar opções e justificar uma preferência.",
+      "vocabulary": [
+        {
+          "en": "cheap",
+          "pt": "barato"
+        },
+        {
+          "en": "expensive",
+          "pt": "caro"
+        },
+        {
+          "en": "easy",
+          "pt": "fácil"
+        },
+        {
+          "en": "fast",
+          "pt": "rápido"
+        },
+        {
+          "en": "better",
+          "pt": "melhor"
+        },
+        {
+          "en": "because",
+          "pt": "porque"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Which option is better?"
+        },
+        {
+          "speaker": "B",
+          "text": "The train is faster."
+        },
+        {
+          "speaker": "A",
+          "text": "But the bus is cheaper."
+        },
+        {
+          "speaker": "B",
+          "text": "True. I prefer the train because it is quicker."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "On the other hand...",
+          "pt": "Por outro lado..."
+        },
+        {
+          "en": "It's worth the price.",
+          "pt": "Vale o preço."
+        },
+        {
+          "en": "I would rather take the train.",
+          "pt": "Eu preferiria pegar o trem."
+        }
+      ],
+      "common_mistake": "Evite 'more better'; o comparativo de 'good' é 'better'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Compare características",
+          "explanation": "Adjetivos curtos frequentemente recebem -er: faster, cheaper.",
+          "key_expression": {
+            "en": "This option is cheaper.",
+            "pt": "Esta opção é mais barata."
+          },
+          "practice_prompt": "Diga que uma opção é mais barata.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “This option is cheaper.”?",
+            "cloze": "This option is ____.",
+            "production": "Diga que uma opção é mais barata."
+          },
+          "answer_key": {
+            "interpretation": "Esta opção é mais barata.",
+            "cloze": "cheaper",
+            "production_example": "This option is cheaper."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Use comparativos irregulares",
+          "explanation": "Good → better, bad → worse. Evite more better.",
+          "key_expression": {
+            "en": "This plan is better.",
+            "pt": "Este plano é melhor."
+          },
+          "practice_prompt": "Diga que um plano é melhor.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “This plan is better.”?",
+            "cloze": "This plan is ____.",
+            "production": "Diga que um plano é melhor."
+          },
+          "answer_key": {
+            "interpretation": "Este plano é melhor.",
+            "cloze": "better",
+            "production_example": "This plan is better."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Justifique preferências",
+          "explanation": "Use because + oração para explicar o motivo.",
+          "key_expression": {
+            "en": "I prefer it because it is easier.",
+            "pt": "Eu prefiro isso porque é mais fácil."
+          },
+          "practice_prompt": "Explique que prefere porque é mais fácil.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I prefer it because it is easier.”?",
+            "cloze": "I prefer it ____ it is easier.",
+            "production": "Explique que prefere porque é mais fácil."
+          },
+          "answer_key": {
+            "interpretation": "Eu prefiro isso porque é mais fácil.",
+            "cloze": "because",
+            "production_example": "I prefer it because it is easier."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "This option is ____.",
+          "This plan is ____.",
+          "I prefer it ____ it is easier."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "cheaper",
+          "better",
+          "because"
+        ]
+      }
+    },
+    {
+      "id": "EN-13",
+      "title": "Histórias, experiências e conquistas",
+      "level": "B1",
+      "objective": "Narrar eventos com contexto, sequência e consequência.",
+      "vocabulary": [
+        {
+          "en": "achievement",
+          "pt": "conquista"
+        },
+        {
+          "en": "challenge",
+          "pt": "desafio"
+        },
+        {
+          "en": "managed to",
+          "pt": "conseguiu"
+        },
+        {
+          "en": "eventually",
+          "pt": "finalmente"
+        },
+        {
+          "en": "learned",
+          "pt": "aprendeu"
+        },
+        {
+          "en": "improved",
+          "pt": "melhorou"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "How did your project go?"
+        },
+        {
+          "speaker": "B",
+          "text": "At first, it was difficult, but we eventually finished."
+        },
+        {
+          "speaker": "A",
+          "text": "What did you learn?"
+        },
+        {
+          "speaker": "B",
+          "text": "I learned to plan better."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "To cut a long story short...",
+          "pt": "Resumindo uma longa história..."
+        },
+        {
+          "en": "The turning point was...",
+          "pt": "O ponto de virada foi..."
+        },
+        {
+          "en": "I learned a lot from it.",
+          "pt": "Aprendi muito com isso."
+        }
+      ],
+      "common_mistake": "Uma boa narrativa usa ordem temporal clara e explica por que o resultado importa.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Organize uma narrativa",
+          "explanation": "At first inicia a situação; then e eventually mostram sequência.",
+          "key_expression": {
+            "en": "At first, it was difficult.",
+            "pt": "No começo, foi difícil."
+          },
+          "practice_prompt": "Comece uma história dizendo que foi difícil no início.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “At first, it was difficult.”?",
+            "cloze": "At ____, it was difficult.",
+            "production": "Comece uma história dizendo que foi difícil no início."
+          },
+          "answer_key": {
+            "interpretation": "No começo, foi difícil.",
+            "cloze": "first",
+            "production_example": "At first, it was difficult."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Descreva uma conquista",
+          "explanation": "Managed to enfatiza conseguir após esforço.",
+          "key_expression": {
+            "en": "We managed to finish on time.",
+            "pt": "Conseguimos terminar no prazo."
+          },
+          "practice_prompt": "Conte que a equipe conseguiu terminar no prazo.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “We managed to finish on time.”?",
+            "cloze": "We ____ to finish on time.",
+            "production": "Conte que a equipe conseguiu terminar no prazo."
+          },
+          "answer_key": {
+            "interpretation": "Conseguimos terminar no prazo.",
+            "cloze": "managed",
+            "production_example": "We managed to finish on time."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Fale do aprendizado",
+          "explanation": "Learned to + verbo indica habilidade desenvolvida.",
+          "key_expression": {
+            "en": "I learned to plan better.",
+            "pt": "Aprendi a planejar melhor."
+          },
+          "practice_prompt": "Diga o que aprendeu com a experiência.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I learned to plan better.”?",
+            "cloze": "I ____ to plan better.",
+            "production": "Diga o que aprendeu com a experiência."
+          },
+          "answer_key": {
+            "interpretation": "Aprendi a planejar melhor.",
+            "cloze": "learned",
+            "production_example": "I learned to plan better."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "At ____, it was difficult.",
+          "We ____ to finish on time.",
+          "I ____ to plan better."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "first",
+          "managed",
+          "learned"
+        ]
+      }
+    },
+    {
+      "id": "EN-14",
+      "title": "Experiências de vida: present perfect",
+      "level": "B1",
+      "objective": "Relacionar experiências anteriores com o presente.",
+      "vocabulary": [
+        {
+          "en": "already",
+          "pt": "já"
+        },
+        {
+          "en": "yet",
+          "pt": "ainda"
+        },
+        {
+          "en": "ever",
+          "pt": "alguma vez"
+        },
+        {
+          "en": "never",
+          "pt": "nunca"
+        },
+        {
+          "en": "since",
+          "pt": "desde"
+        },
+        {
+          "en": "for",
+          "pt": "há, durante"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Have you ever worked remotely?"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes, I have. I have worked remotely for two years."
+        },
+        {
+          "speaker": "A",
+          "text": "Have you finished the course yet?"
+        },
+        {
+          "speaker": "B",
+          "text": "Not yet."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "I've never tried that.",
+          "pt": "Nunca tentei isso."
+        },
+        {
+          "en": "I've just finished.",
+          "pt": "Acabei de terminar."
+        },
+        {
+          "en": "I haven't finished yet.",
+          "pt": "Ainda não terminei."
+        }
+      ],
+      "common_mistake": "Não use present perfect com tempo passado concluído explícito: 'I visited yesterday'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Fale de experiências",
+          "explanation": "Present perfect: have/has + particípio. Não é usado com yesterday para evento datado.",
+          "key_expression": {
+            "en": "I have worked remotely before.",
+            "pt": "Já trabalhei remotamente antes."
+          },
+          "practice_prompt": "Diga que já trabalhou remotamente.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I have worked remotely before.”?",
+            "cloze": "I ____ worked remotely before.",
+            "production": "Diga que já trabalhou remotamente."
+          },
+          "answer_key": {
+            "interpretation": "Já trabalhei remotamente antes.",
+            "cloze": "have",
+            "production_example": "I have worked remotely before."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Pergunte sobre experiências",
+          "explanation": "Have you ever...? pergunta se algo já aconteceu na vida.",
+          "key_expression": {
+            "en": "Have you ever visited London?",
+            "pt": "Você já visitou Londres alguma vez?"
+          },
+          "practice_prompt": "Pergunte se a pessoa já visitou Londres.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Have you ever visited London?”?",
+            "cloze": "Have you ____ visited London?",
+            "production": "Pergunte se a pessoa já visitou Londres."
+          },
+          "answer_key": {
+            "interpretation": "Você já visitou Londres alguma vez?",
+            "cloze": "ever",
+            "production_example": "Have you ever visited London?"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Explique duração",
+          "explanation": "Use for + período, since + ponto de partida.",
+          "key_expression": {
+            "en": "I have studied English for two years.",
+            "pt": "Estudo inglês há dois anos."
+          },
+          "practice_prompt": "Explique que estuda inglês há dois anos.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I have studied English for two years.”?",
+            "cloze": "I have studied English ____ two years.",
+            "production": "Explique que estuda inglês há dois anos."
+          },
+          "answer_key": {
+            "interpretation": "Estudo inglês há dois anos.",
+            "cloze": "for",
+            "production_example": "I have studied English for two years."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I ____ worked remotely before.",
+          "Have you ____ visited London?",
+          "I have studied English ____ two years."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "have",
+          "ever",
+          "for"
+        ]
+      }
+    },
+    {
+      "id": "EN-15",
+      "title": "Reuniões e colaboração",
+      "level": "B1",
+      "objective": "Participar de reuniões e fazer sugestões de modo claro.",
+      "vocabulary": [
+        {
+          "en": "agenda",
+          "pt": "pauta"
+        },
+        {
+          "en": "update",
+          "pt": "atualização"
+        },
+        {
+          "en": "priority",
+          "pt": "prioridade"
+        },
+        {
+          "en": "feedback",
+          "pt": "retorno"
+        },
+        {
+          "en": "agree",
+          "pt": "concordar"
+        },
+        {
+          "en": "suggest",
+          "pt": "sugerir"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Can we start with a quick update?"
+        },
+        {
+          "speaker": "B",
+          "text": "Sure. I suggest we focus on the deadline."
+        },
+        {
+          "speaker": "A",
+          "text": "I agree. Let’s discuss the main risk first."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "Let's move on to the next item.",
+          "pt": "Vamos passar ao próximo item."
+        },
+        {
+          "en": "Could you clarify that?",
+          "pt": "Você poderia esclarecer isso?"
+        },
+        {
+          "en": "Let's recap the key points.",
+          "pt": "Vamos recapitular os pontos principais."
+        }
+      ],
+      "common_mistake": "Em reuniões, explicite decisões, responsáveis e próximos passos em vez de só concordar.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Abra uma reunião",
+          "explanation": "Can we start with...? cria uma transição direta e educada.",
+          "key_expression": {
+            "en": "Can we start with a quick update?",
+            "pt": "Podemos começar com uma atualização rápida?"
+          },
+          "practice_prompt": "Peça para começar com uma atualização rápida.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Can we start with a quick update?”?",
+            "cloze": "Can we start with a quick ____?",
+            "production": "Peça para começar com uma atualização rápida."
+          },
+          "answer_key": {
+            "interpretation": "Podemos começar com uma atualização rápida?",
+            "cloze": "update",
+            "production_example": "Can we start with a quick update?"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Proponha ações",
+          "explanation": "I suggest we + verbo ou I suggest + -ing.",
+          "key_expression": {
+            "en": "I suggest we review the plan.",
+            "pt": "Sugiro que revisemos o plano."
+          },
+          "practice_prompt": "Sugira revisar o plano.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I suggest we review the plan.”?",
+            "cloze": "I ____ we review the plan.",
+            "production": "Sugira revisar o plano."
+          },
+          "answer_key": {
+            "interpretation": "Sugiro que revisemos o plano.",
+            "cloze": "suggest",
+            "production_example": "I suggest we review the plan."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Concorde e avance",
+          "explanation": "I agree with you e Let’s... mantêm a colaboração.",
+          "key_expression": {
+            "en": "I agree with your point.",
+            "pt": "Concordo com seu argumento."
+          },
+          "practice_prompt": "Concorde com um ponto levantado.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I agree with your point.”?",
+            "cloze": "I ____ with your point.",
+            "production": "Concorde com um ponto levantado."
+          },
+          "answer_key": {
+            "interpretation": "Concordo com seu argumento.",
+            "cloze": "agree",
+            "production_example": "I agree with your point."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "Can we start with a quick ____?",
+          "I ____ we review the plan.",
+          "I ____ with your point."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "update",
+          "suggest",
+          "agree"
+        ]
+      }
+    },
+    {
+      "id": "EN-16",
+      "title": "E-mails e mensagens profissionais",
+      "level": "B1",
+      "objective": "Escrever solicitações e atualizações claras e corteses.",
+      "vocabulary": [
+        {
+          "en": "subject",
+          "pt": "assunto"
+        },
+        {
+          "en": "attachment",
+          "pt": "anexo"
+        },
+        {
+          "en": "request",
+          "pt": "pedido"
+        },
+        {
+          "en": "confirm",
+          "pt": "confirmar"
+        },
+        {
+          "en": "follow-up",
+          "pt": "acompanhamento"
+        },
+        {
+          "en": "regards",
+          "pt": "atenciosamente"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Did you send the report?"
+        },
+        {
+          "speaker": "B",
+          "text": "Yes. I attached the file and asked them to confirm receipt."
+        },
+        {
+          "speaker": "A",
+          "text": "Great, thanks for the update."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "I'm following up on...",
+          "pt": "Estou retomando o assunto de..."
+        },
+        {
+          "en": "Please find the document attached.",
+          "pt": "Segue o documento em anexo."
+        },
+        {
+          "en": "I look forward to your reply.",
+          "pt": "Aguardo sua resposta."
+        }
+      ],
+      "common_mistake": "Evite traduções literais de fechamentos de e-mail; escolha conforme registro e contexto.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Peça informações",
+          "explanation": "Could you please...? é uma abertura educada para solicitações.",
+          "key_expression": {
+            "en": "Could you please send the file?",
+            "pt": "Você poderia enviar o arquivo, por favor?"
+          },
+          "practice_prompt": "Peça o envio de um arquivo por e-mail.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Could you please send the file?”?",
+            "cloze": "Could you please ____ the file?",
+            "production": "Peça o envio de um arquivo por e-mail."
+          },
+          "answer_key": {
+            "interpretation": "Você poderia enviar o arquivo, por favor?",
+            "cloze": "send",
+            "production_example": "Could you please send the file?"
+          }
+        },
+        {
+          "number": 2,
+          "title": "Anexe e contextualize",
+          "explanation": "I’ve attached... é natural para mencionar um anexo.",
+          "key_expression": {
+            "en": "I have attached the report.",
+            "pt": "Anexei o relatório."
+          },
+          "practice_prompt": "Avise que anexou um relatório.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I have attached the report.”?",
+            "cloze": "I have ____ the report.",
+            "production": "Avise que anexou um relatório."
+          },
+          "answer_key": {
+            "interpretation": "Anexei o relatório.",
+            "cloze": "attached",
+            "production_example": "I have attached the report."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Finalize cordialmente",
+          "explanation": "Thank you for your time e Best regards são fechamentos profissionais adequados.",
+          "key_expression": {
+            "en": "Thank you for your time.",
+            "pt": "Agradeço pelo seu tempo."
+          },
+          "practice_prompt": "Encerre uma mensagem agradecendo pelo tempo da pessoa.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Thank you for your time.”?",
+            "cloze": "Thank you for your ____.",
+            "production": "Encerre uma mensagem agradecendo pelo tempo da pessoa."
+          },
+          "answer_key": {
+            "interpretation": "Agradeço pelo seu tempo.",
+            "cloze": "time",
+            "production_example": "Thank you for your time."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "Could you please ____ the file?",
+          "I have ____ the report.",
+          "Thank you for your ____."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "send",
+          "attached",
+          "time"
+        ]
+      }
+    },
+    {
+      "id": "EN-17",
+      "title": "Conselhos, possibilidades e condições",
+      "level": "B1",
+      "objective": "Dar conselhos e explicar consequências prováveis.",
+      "vocabulary": [
+        {
+          "en": "advice",
+          "pt": "conselho"
+        },
+        {
+          "en": "option",
+          "pt": "opção"
+        },
+        {
+          "en": "possible",
+          "pt": "possível"
+        },
+        {
+          "en": "risk",
+          "pt": "risco"
+        },
+        {
+          "en": "if",
+          "pt": "se"
+        },
+        {
+          "en": "should",
+          "pt": "deveria"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "I am nervous about the interview."
+        },
+        {
+          "speaker": "B",
+          "text": "You should practise your answers."
+        },
+        {
+          "speaker": "A",
+          "text": "What if I forget a word?"
+        },
+        {
+          "speaker": "B",
+          "text": "If that happens, explain it another way."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "If I were you...",
+          "pt": "Se eu fosse você..."
+        },
+        {
+          "en": "It's worth a try.",
+          "pt": "Vale a tentativa."
+        },
+        {
+          "en": "That might help.",
+          "pt": "Isso talvez ajude."
+        }
+      ],
+      "common_mistake": "No primeiro condicional, não coloque 'will' normalmente na oração introduzida por 'if'.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Dê conselhos",
+          "explanation": "Should + verbo base expressa recomendação, não obrigação absoluta.",
+          "key_expression": {
+            "en": "You should practise every day.",
+            "pt": "Você deveria praticar todos os dias."
+          },
+          "practice_prompt": "Aconselhe alguém a praticar diariamente.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “You should practise every day.”?",
+            "cloze": "You ____ practise every day.",
+            "production": "Aconselhe alguém a praticar diariamente."
+          },
+          "answer_key": {
+            "interpretation": "Você deveria praticar todos os dias.",
+            "cloze": "should",
+            "production_example": "You should practise every day."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Descreva possibilidades",
+          "explanation": "Might indica possibilidade, mas não certeza.",
+          "key_expression": {
+            "en": "It might take longer.",
+            "pt": "Isso pode levar mais tempo."
+          },
+          "practice_prompt": "Avise que algo pode demorar mais.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “It might take longer.”?",
+            "cloze": "It ____ take longer.",
+            "production": "Avise que algo pode demorar mais."
+          },
+          "answer_key": {
+            "interpretation": "Isso pode levar mais tempo.",
+            "cloze": "might",
+            "production_example": "It might take longer."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Use condições reais",
+          "explanation": "First conditional: If + presente, will + verbo na consequência provável.",
+          "key_expression": {
+            "en": "If we start now, we will finish early.",
+            "pt": "Se começarmos agora, terminaremos cedo."
+          },
+          "practice_prompt": "Explique o benefício de começar agora.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “If we start now, we will finish early.”?",
+            "cloze": "____ we start now, we will finish early.",
+            "production": "Explique o benefício de começar agora."
+          },
+          "answer_key": {
+            "interpretation": "Se começarmos agora, terminaremos cedo.",
+            "cloze": "If",
+            "production_example": "If we start now, we will finish early."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "You ____ practise every day.",
+          "It ____ take longer.",
+          "____ we start now, we will finish early."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "should",
+          "might",
+          "If"
+        ]
+      }
+    },
+    {
+      "id": "EN-18",
+      "title": "Entrevistas e apresentação de projetos",
+      "level": "B1",
+      "objective": "Apresentar experiência, resultados e objetivos.",
+      "vocabulary": [
+        {
+          "en": "background",
+          "pt": "experiência, trajetória"
+        },
+        {
+          "en": "strength",
+          "pt": "ponto forte"
+        },
+        {
+          "en": "improve",
+          "pt": "melhorar"
+        },
+        {
+          "en": "goal",
+          "pt": "objetivo"
+        },
+        {
+          "en": "result",
+          "pt": "resultado"
+        },
+        {
+          "en": "experience",
+          "pt": "experiência"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Tell me about a project you worked on."
+        },
+        {
+          "speaker": "B",
+          "text": "I helped organise a school event. My main role was planning."
+        },
+        {
+          "speaker": "A",
+          "text": "What was the result?"
+        },
+        {
+          "speaker": "B",
+          "text": "We reached our goal."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "My main responsibility was...",
+          "pt": "Minha principal responsabilidade era..."
+        },
+        {
+          "en": "I contributed to...",
+          "pt": "Contribuí para..."
+        },
+        {
+          "en": "One lesson I learned was...",
+          "pt": "Uma lição que aprendi foi..."
+        }
+      ],
+      "common_mistake": "Exemplos concretos e verificáveis são mais fortes que adjetivos vagos sobre si mesmo.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Resuma sua trajetória",
+          "explanation": "My background is in... contextualiza sua área; para iniciantes pode usar I have experience in....",
+          "key_expression": {
+            "en": "I have experience in teamwork.",
+            "pt": "Tenho experiência em trabalho em equipe."
+          },
+          "practice_prompt": "Descreva experiência em trabalho em equipe.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I have experience in teamwork.”?",
+            "cloze": "I have ____ in teamwork.",
+            "production": "Descreva experiência em trabalho em equipe."
+          },
+          "answer_key": {
+            "interpretation": "Tenho experiência em trabalho em equipe.",
+            "cloze": "experience",
+            "production_example": "I have experience in teamwork."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Explique sua contribuição",
+          "explanation": "My main role was... esclarece suas responsabilidades.",
+          "key_expression": {
+            "en": "My main role was planning.",
+            "pt": "Minha principal função era planejar."
+          },
+          "practice_prompt": "Explique que sua principal função era planejar.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “My main role was planning.”?",
+            "cloze": "My main ____ was planning.",
+            "production": "Explique que sua principal função era planejar."
+          },
+          "answer_key": {
+            "interpretation": "Minha principal função era planejar.",
+            "cloze": "role",
+            "production_example": "My main role was planning."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Enfatize resultados",
+          "explanation": "As a result introduz efeito de uma ação.",
+          "key_expression": {
+            "en": "As a result, we finished early.",
+            "pt": "Como resultado, terminamos antes."
+          },
+          "practice_prompt": "Conte que, como resultado, vocês terminaram cedo.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “As a result, we finished early.”?",
+            "cloze": "As a ____, we finished early.",
+            "production": "Conte que, como resultado, vocês terminaram cedo."
+          },
+          "answer_key": {
+            "interpretation": "Como resultado, terminamos antes.",
+            "cloze": "result",
+            "production_example": "As a result, we finished early."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I have ____ in teamwork.",
+          "My main ____ was planning.",
+          "As a ____, we finished early."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "experience",
+          "role",
+          "result"
+        ]
+      }
+    },
+    {
+      "id": "EN-19",
+      "title": "Argumentação e contrapontos",
+      "level": "B2",
+      "objective": "Defender uma opinião e reconhecer argumentos opostos.",
+      "vocabulary": [
+        {
+          "en": "claim",
+          "pt": "afirmação"
+        },
+        {
+          "en": "evidence",
+          "pt": "evidência"
+        },
+        {
+          "en": "trade-off",
+          "pt": "compensação"
+        },
+        {
+          "en": "however",
+          "pt": "entretanto"
+        },
+        {
+          "en": "although",
+          "pt": "embora"
+        },
+        {
+          "en": "therefore",
+          "pt": "portanto"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Remote work is more efficient."
+        },
+        {
+          "speaker": "B",
+          "text": "I see your point. However, some teams need face-to-face collaboration."
+        },
+        {
+          "speaker": "A",
+          "text": "That is fair. It depends on the role."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "To some extent...",
+          "pt": "Até certo ponto..."
+        },
+        {
+          "en": "That's a fair point.",
+          "pt": "Esse é um argumento justo."
+        },
+        {
+          "en": "It depends on the context.",
+          "pt": "Depende do contexto."
+        }
+      ],
+      "common_mistake": "Reconhecer uma objeção não significa abandonar sua tese; explique os limites da conclusão.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Apresente um ponto de vista",
+          "explanation": "From my perspective introduz opinião sem parecer verdade absoluta.",
+          "key_expression": {
+            "en": "From my perspective, it is useful.",
+            "pt": "Do meu ponto de vista, isso é útil."
+          },
+          "practice_prompt": "Dê uma opinião pessoal sobre uma ferramenta.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “From my perspective, it is useful.”?",
+            "cloze": "From my ____, it is useful.",
+            "production": "Dê uma opinião pessoal sobre uma ferramenta."
+          },
+          "answer_key": {
+            "interpretation": "Do meu ponto de vista, isso é útil.",
+            "cloze": "perspective",
+            "production_example": "From my perspective, it is useful."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Reconheça contrapontos",
+          "explanation": "I see your point mostra escuta; however abre contraste.",
+          "key_expression": {
+            "en": "I see your point; however, I disagree.",
+            "pt": "Entendo seu ponto; entretanto, discordo."
+          },
+          "practice_prompt": "Discorde de forma respeitosa.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I see your point; however, I disagree.”?",
+            "cloze": "I see your point; ____, I disagree.",
+            "production": "Discorde de forma respeitosa."
+          },
+          "answer_key": {
+            "interpretation": "Entendo seu ponto; entretanto, discordo.",
+            "cloze": "however",
+            "production_example": "I see your point; however, I disagree."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Apresente uma conclusão",
+          "explanation": "Therefore sinaliza inferência apoiada pelo argumento anterior.",
+          "key_expression": {
+            "en": "Therefore, we need more evidence.",
+            "pt": "Portanto, precisamos de mais evidências."
+          },
+          "practice_prompt": "Conclua que faltam evidências.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Therefore, we need more evidence.”?",
+            "cloze": "____, we need more evidence.",
+            "production": "Conclua que faltam evidências."
+          },
+          "answer_key": {
+            "interpretation": "Portanto, precisamos de mais evidências.",
+            "cloze": "Therefore",
+            "production_example": "Therefore, we need more evidence."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "From my ____, it is useful.",
+          "I see your point; ____, I disagree.",
+          "____, we need more evidence."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "perspective",
+          "however",
+          "Therefore"
+        ]
+      }
+    },
+    {
+      "id": "EN-20",
+      "title": "Negociação e resolução de conflitos",
+      "level": "B2",
+      "objective": "Negociar possibilidades, limites e compromissos.",
+      "vocabulary": [
+        {
+          "en": "compromise",
+          "pt": "acordo intermediário"
+        },
+        {
+          "en": "concern",
+          "pt": "preocupação"
+        },
+        {
+          "en": "deadline",
+          "pt": "prazo"
+        },
+        {
+          "en": "flexible",
+          "pt": "flexível"
+        },
+        {
+          "en": "proposal",
+          "pt": "proposta"
+        },
+        {
+          "en": "alternative",
+          "pt": "alternativa"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "The deadline is too tight."
+        },
+        {
+          "speaker": "B",
+          "text": "I understand your concern. Could we adjust the scope?"
+        },
+        {
+          "speaker": "A",
+          "text": "That could work if we agree on priorities."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "What would be a fair compromise?",
+          "pt": "Qual seria um acordo equilibrado?"
+        },
+        {
+          "en": "Let's find a middle ground.",
+          "pt": "Vamos encontrar um meio-termo."
+        },
+        {
+          "en": "I can be flexible on that.",
+          "pt": "Posso ser flexível nesse ponto."
+        }
+      ],
+      "common_mistake": "Evite confundir 'compromise' com 'compromisso' no sentido de obrigação; significa concessão ou acordo.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Valide preocupações",
+          "explanation": "I understand your concern reduz atrito sem admitir concordância total.",
+          "key_expression": {
+            "en": "I understand your concern.",
+            "pt": "Entendo sua preocupação."
+          },
+          "practice_prompt": "Reconheça a preocupação de alguém.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I understand your concern.”?",
+            "cloze": "I understand your ____.",
+            "production": "Reconheça a preocupação de alguém."
+          },
+          "answer_key": {
+            "interpretation": "Entendo sua preocupação.",
+            "cloze": "concern",
+            "production_example": "I understand your concern."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Proponha alternativa",
+          "explanation": "Could we...? suaviza uma proposta de mudança.",
+          "key_expression": {
+            "en": "Could we adjust the timeline?",
+            "pt": "Poderíamos ajustar o cronograma?"
+          },
+          "practice_prompt": "Sugira ajustar o cronograma.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Could we adjust the timeline?”?",
+            "cloze": "Could we ____ the timeline?",
+            "production": "Sugira ajustar o cronograma."
+          },
+          "answer_key": {
+            "interpretation": "Poderíamos ajustar o cronograma?",
+            "cloze": "adjust",
+            "production_example": "Could we adjust the timeline?"
+          }
+        },
+        {
+          "number": 3,
+          "title": "Construa compromissos",
+          "explanation": "That could work if... apresenta concordância condicionada.",
+          "key_expression": {
+            "en": "That could work if we reduce the scope.",
+            "pt": "Isso pode funcionar se reduzirmos o escopo."
+          },
+          "practice_prompt": "Aceite uma proposta com condição de reduzir o escopo.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “That could work if we reduce the scope.”?",
+            "cloze": "That could work if we reduce the ____.",
+            "production": "Aceite uma proposta com condição de reduzir o escopo."
+          },
+          "answer_key": {
+            "interpretation": "Isso pode funcionar se reduzirmos o escopo.",
+            "cloze": "scope",
+            "production_example": "That could work if we reduce the scope."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I understand your ____.",
+          "Could we ____ the timeline?",
+          "That could work if we reduce the ____."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "concern",
+          "adjust",
+          "scope"
+        ]
+      }
+    },
+    {
+      "id": "EN-21",
+      "title": "Apresentações e storytelling",
+      "level": "B2",
+      "objective": "Construir apresentações com mensagens e transições claras.",
+      "vocabulary": [
+        {
+          "en": "insight",
+          "pt": "percepção importante"
+        },
+        {
+          "en": "takeaway",
+          "pt": "conclusão principal"
+        },
+        {
+          "en": "trend",
+          "pt": "tendência"
+        },
+        {
+          "en": "impact",
+          "pt": "impacto"
+        },
+        {
+          "en": "highlight",
+          "pt": "destacar"
+        },
+        {
+          "en": "outline",
+          "pt": "resumo do plano"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "What is the key takeaway?"
+        },
+        {
+          "speaker": "B",
+          "text": "Customer satisfaction improved."
+        },
+        {
+          "speaker": "A",
+          "text": "What evidence supports it?"
+        },
+        {
+          "speaker": "B",
+          "text": "The survey results show a consistent trend."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "Let's walk through the results.",
+          "pt": "Vamos examinar os resultados juntos."
+        },
+        {
+          "en": "This chart illustrates...",
+          "pt": "Este gráfico ilustra..."
+        },
+        {
+          "en": "In summary...",
+          "pt": "Em resumo..."
+        }
+      ],
+      "common_mistake": "Dados que 'sugerem' uma relação não necessariamente 'provam' causalidade.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Estruture a fala",
+          "explanation": "I’d like to begin by... introduz o objetivo da apresentação.",
+          "key_expression": {
+            "en": "I would like to begin with the main finding.",
+            "pt": "Gostaria de começar pela descoberta principal."
+          },
+          "practice_prompt": "Comece sua apresentação pela principal descoberta.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I would like to begin with the main finding.”?",
+            "cloze": "I would like to ____ with the main finding.",
+            "production": "Comece sua apresentação pela principal descoberta."
+          },
+          "answer_key": {
+            "interpretation": "Gostaria de começar pela descoberta principal.",
+            "cloze": "begin",
+            "production_example": "I would like to begin with the main finding."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Destaque evidências",
+          "explanation": "The data suggests indica interpretação prudente, não prova absoluta.",
+          "key_expression": {
+            "en": "The data suggests an improvement.",
+            "pt": "Os dados sugerem uma melhora."
+          },
+          "practice_prompt": "Explique que os dados sugerem melhora.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “The data suggests an improvement.”?",
+            "cloze": "The data ____ an improvement.",
+            "production": "Explique que os dados sugerem melhora."
+          },
+          "answer_key": {
+            "interpretation": "Os dados sugerem uma melhora.",
+            "cloze": "suggests",
+            "production_example": "The data suggests an improvement."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Feche com conclusão",
+          "explanation": "The key takeaway is... ajuda o público a lembrar da mensagem central.",
+          "key_expression": {
+            "en": "The key takeaway is to focus on quality.",
+            "pt": "A principal conclusão é focar na qualidade."
+          },
+          "practice_prompt": "Encerre uma apresentação com foco em qualidade.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “The key takeaway is to focus on quality.”?",
+            "cloze": "The key ____ is to focus on quality.",
+            "production": "Encerre uma apresentação com foco em qualidade."
+          },
+          "answer_key": {
+            "interpretation": "A principal conclusão é focar na qualidade.",
+            "cloze": "takeaway",
+            "production_example": "The key takeaway is to focus on quality."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "I would like to ____ with the main finding.",
+          "The data ____ an improvement.",
+          "The key ____ is to focus on quality."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "begin",
+          "suggests",
+          "takeaway"
+        ]
+      }
+    },
+    {
+      "id": "EN-22",
+      "title": "Hipóteses e situações imaginárias",
+      "level": "B2",
+      "objective": "Explorar cenários, consequências e arrependimentos.",
+      "vocabulary": [
+        {
+          "en": "assumption",
+          "pt": "hipótese"
+        },
+        {
+          "en": "scenario",
+          "pt": "cenário"
+        },
+        {
+          "en": "otherwise",
+          "pt": "caso contrário"
+        },
+        {
+          "en": "unlikely",
+          "pt": "improvável"
+        },
+        {
+          "en": "regret",
+          "pt": "arrependimento"
+        },
+        {
+          "en": "unless",
+          "pt": "a menos que"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "What would you do if the budget doubled?"
+        },
+        {
+          "speaker": "B",
+          "text": "I would hire more designers."
+        },
+        {
+          "speaker": "A",
+          "text": "And if the budget stayed the same?"
+        },
+        {
+          "speaker": "B",
+          "text": "I would prioritise the most important feature."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "If I were in your position...",
+          "pt": "Se eu estivesse no seu lugar..."
+        },
+        {
+          "en": "Had I known earlier...",
+          "pt": "Se eu soubesse antes..."
+        },
+        {
+          "en": "In that case...",
+          "pt": "Nesse caso..."
+        }
+      ],
+      "common_mistake": "Segunda e terceira condicionais tratam hipóteses diferentes; cuidado com tempos verbais.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Explore hipóteses",
+          "explanation": "Second conditional: If + past simple, would + verbo; cenário hipotético presente/futuro.",
+          "key_expression": {
+            "en": "If I had more time, I would practise more.",
+            "pt": "Se eu tivesse mais tempo, praticaria mais."
+          },
+          "practice_prompt": "Descreva o que faria com mais tempo.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “If I had more time, I would practise more.”?",
+            "cloze": "If I had more time, I ____ practise more.",
+            "production": "Descreva o que faria com mais tempo."
+          },
+          "answer_key": {
+            "interpretation": "Se eu tivesse mais tempo, praticaria mais.",
+            "cloze": "would",
+            "production_example": "If I had more time, I would practise more."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Explique restrições",
+          "explanation": "Unless significa if not; normalmente não é combinado com outra negação no mesmo trecho.",
+          "key_expression": {
+            "en": "We will continue unless something changes.",
+            "pt": "Continuaremos, a menos que algo mude."
+          },
+          "practice_prompt": "Diga que continuarão se nada mudar.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “We will continue unless something changes.”?",
+            "cloze": "We will continue ____ something changes.",
+            "production": "Diga que continuarão se nada mudar."
+          },
+          "answer_key": {
+            "interpretation": "Continuaremos, a menos que algo mude.",
+            "cloze": "unless",
+            "production_example": "We will continue unless something changes."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Reflita sobre o passado",
+          "explanation": "Third conditional: If + had + particípio, would have + particípio.",
+          "key_expression": {
+            "en": "If we had checked earlier, we would have noticed.",
+            "pt": "Se tivéssemos verificado antes, teríamos percebido."
+          },
+          "practice_prompt": "Fale de algo que poderiam ter percebido se verificassem antes.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “If we had checked earlier, we would have noticed.”?",
+            "cloze": "If we had checked earlier, we would have ____.",
+            "production": "Fale de algo que poderiam ter percebido se verificassem antes."
+          },
+          "answer_key": {
+            "interpretation": "Se tivéssemos verificado antes, teríamos percebido.",
+            "cloze": "noticed",
+            "production_example": "If we had checked earlier, we would have noticed."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "If I had more time, I ____ practise more.",
+          "We will continue ____ something changes.",
+          "If we had checked earlier, we would have ____."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "would",
+          "unless",
+          "noticed"
+        ]
+      }
+    },
+    {
+      "id": "EN-23",
+      "title": "Análise crítica de notícias e dados",
+      "level": "B2",
+      "objective": "Interpretar tendências, graus de certeza e limitações.",
+      "vocabulary": [
+        {
+          "en": "source",
+          "pt": "fonte"
+        },
+        {
+          "en": "reliable",
+          "pt": "confiável"
+        },
+        {
+          "en": "sample",
+          "pt": "amostra"
+        },
+        {
+          "en": "bias",
+          "pt": "viés"
+        },
+        {
+          "en": "correlation",
+          "pt": "correlação"
+        },
+        {
+          "en": "estimate",
+          "pt": "estimativa"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Does this chart prove the policy worked?"
+        },
+        {
+          "speaker": "B",
+          "text": "Not necessarily. The sample is small."
+        },
+        {
+          "speaker": "A",
+          "text": "What can we conclude?"
+        },
+        {
+          "speaker": "B",
+          "text": "The results suggest a possible trend."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "According to the source...",
+          "pt": "De acordo com a fonte..."
+        },
+        {
+          "en": "The evidence is limited.",
+          "pt": "A evidência é limitada."
+        },
+        {
+          "en": "We can't rule out...",
+          "pt": "Não podemos descartar..."
+        }
+      ],
+      "common_mistake": "'Correlation' não é equivalente a 'causation'; avalie hipóteses alternativas.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Diferencie conclusão de hipótese",
+          "explanation": "Not necessarily evita afirmar mais do que os dados permitem.",
+          "key_expression": {
+            "en": "Not necessarily; we need more data.",
+            "pt": "Não necessariamente; precisamos de mais dados."
+          },
+          "practice_prompt": "Responda com cautela a uma conclusão precipitada.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Not necessarily; we need more data.”?",
+            "cloze": "Not ____; we need more data.",
+            "production": "Responda com cautela a uma conclusão precipitada."
+          },
+          "answer_key": {
+            "interpretation": "Não necessariamente; precisamos de mais dados.",
+            "cloze": "necessarily",
+            "production_example": "Not necessarily; we need more data."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Reconheça limites",
+          "explanation": "The sample is too small identifica uma limitação concreta.",
+          "key_expression": {
+            "en": "The sample is too small to conclude.",
+            "pt": "A amostra é pequena demais para concluir."
+          },
+          "practice_prompt": "Explique por que uma amostra não sustenta conclusão.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “The sample is too small to conclude.”?",
+            "cloze": "The ____ is too small to conclude.",
+            "production": "Explique por que uma amostra não sustenta conclusão."
+          },
+          "answer_key": {
+            "interpretation": "A amostra é pequena demais para concluir.",
+            "cloze": "sample",
+            "production_example": "The sample is too small to conclude."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Formule incerteza",
+          "explanation": "It appears that... é útil ao relatar evidência incompleta.",
+          "key_expression": {
+            "en": "It appears that demand is increasing.",
+            "pt": "Parece que a demanda está aumentando."
+          },
+          "practice_prompt": "Descreva uma tendência sem exagerar certeza.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “It appears that demand is increasing.”?",
+            "cloze": "It ____ that demand is increasing.",
+            "production": "Descreva uma tendência sem exagerar certeza."
+          },
+          "answer_key": {
+            "interpretation": "Parece que a demanda está aumentando.",
+            "cloze": "appears",
+            "production_example": "It appears that demand is increasing."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "Not ____; we need more data.",
+          "The ____ is too small to conclude.",
+          "It ____ that demand is increasing."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "necessarily",
+          "sample",
+          "appears"
+        ]
+      }
+    },
+    {
+      "id": "EN-24",
+      "title": "Fluência profissional e entrevistas avançadas",
+      "level": "B2",
+      "objective": "Responder com profundidade e clareza a perguntas inesperadas.",
+      "vocabulary": [
+        {
+          "en": "ownership",
+          "pt": "responsabilidade direta"
+        },
+        {
+          "en": "stakeholder",
+          "pt": "parte interessada"
+        },
+        {
+          "en": "prioritise",
+          "pt": "priorizar"
+        },
+        {
+          "en": "outcome",
+          "pt": "resultado"
+        },
+        {
+          "en": "setback",
+          "pt": "contratempo"
+        },
+        {
+          "en": "adapt",
+          "pt": "adaptar"
+        }
+      ],
+      "dialogue": [
+        {
+          "speaker": "A",
+          "text": "Tell me about a setback."
+        },
+        {
+          "speaker": "B",
+          "text": "Our first plan failed, so we redesigned the process."
+        },
+        {
+          "speaker": "A",
+          "text": "What did you learn?"
+        },
+        {
+          "speaker": "B",
+          "text": "I learned to test assumptions early and communicate clearly."
+        }
+      ],
+      "extra_expressions": [
+        {
+          "en": "One example that comes to mind...",
+          "pt": "Um exemplo que me ocorre..."
+        },
+        {
+          "en": "In retrospect...",
+          "pt": "Em retrospecto..."
+        },
+        {
+          "en": "I would approach it differently.",
+          "pt": "Eu abordaria isso de outra maneira."
+        }
+      ],
+      "common_mistake": "Em entrevistas, foque sua contribuição e aprendizado, sem assumir resultados sem evidência.",
+      "guided_listening": "Ouça o diálogo sem olhar a transcrição. Resuma em uma frase a informação, pedido, decisão ou resultado principal e depois confira a transcrição.",
+      "modules": [
+        {
+          "number": 1,
+          "title": "Estruture respostas",
+          "explanation": "Situation → Action → Result é uma organização simples para exemplos concretos.",
+          "key_expression": {
+            "en": "The main challenge was limited time.",
+            "pt": "O principal desafio era o tempo limitado."
+          },
+          "practice_prompt": "Apresente o desafio principal de um projeto.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “The main challenge was limited time.”?",
+            "cloze": "The main ____ was limited time.",
+            "production": "Apresente o desafio principal de um projeto."
+          },
+          "answer_key": {
+            "interpretation": "O principal desafio era o tempo limitado.",
+            "cloze": "challenge",
+            "production_example": "The main challenge was limited time."
+          }
+        },
+        {
+          "number": 2,
+          "title": "Destaque iniciativa",
+          "explanation": "I took responsibility for... comunica iniciativa e escopo.",
+          "key_expression": {
+            "en": "I took responsibility for the schedule.",
+            "pt": "Assumi a responsabilidade pelo cronograma."
+          },
+          "practice_prompt": "Descreva responsabilidade por um cronograma.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “I took responsibility for the schedule.”?",
+            "cloze": "I took ____ for the schedule.",
+            "production": "Descreva responsabilidade por um cronograma."
+          },
+          "answer_key": {
+            "interpretation": "Assumi a responsabilidade pelo cronograma.",
+            "cloze": "responsibility",
+            "production_example": "I took responsibility for the schedule."
+          }
+        },
+        {
+          "number": 3,
+          "title": "Feche com aprendizado",
+          "explanation": "Looking back, I would... apresenta reflexão e melhoria.",
+          "key_expression": {
+            "en": "Looking back, I would communicate earlier.",
+            "pt": "Em retrospecto, eu me comunicaria mais cedo."
+          },
+          "practice_prompt": "Explique o que faria diferente em um projeto.",
+          "test": {
+            "interpretation": "Qual é o sentido em português de “Looking back, I would communicate earlier.”?",
+            "cloze": "____ back, I would communicate earlier.",
+            "production": "Explique o que faria diferente em um projeto."
+          },
+          "answer_key": {
+            "interpretation": "Em retrospecto, eu me comunicaria mais cedo.",
+            "cloze": "Looking",
+            "production_example": "Looking back, I would communicate earlier."
+          }
+        }
+      ],
+      "final_test": {
+        "cloze": [
+          "The main ____ was limited time.",
+          "I took ____ for the schedule.",
+          "____ back, I would communicate earlier."
+        ],
+        "writing": "Escreva duas frases usando duas expressões estudadas nesta unidade em uma situação real.",
+        "speaking": "Grave uma resposta de 20 a 45 segundos demonstrando o objetivo da unidade.",
+        "answer_key": [
+          "challenge",
+          "responsibility",
+          "Looking"
+        ]
+      }
+    }
+  ],
+  "expansion_outline": [
+    {
+      "id": "EN-25",
+      "level": "C1",
+      "title": "Nuances de opinião e posicionamento",
+      "objective": "Qualificar afirmações, hesitar com naturalidade e sintetizar posições."
+    },
+    {
+      "id": "EN-26",
+      "level": "C1",
+      "title": "Argumentos persuasivos",
+      "objective": "Construir argumentos com evidências, objeções e concessões."
+    },
+    {
+      "id": "EN-27",
+      "level": "C1",
+      "title": "Comunicação intercultural",
+      "objective": "Ajustar tom, registro e convenções profissionais."
+    },
+    {
+      "id": "EN-28",
+      "level": "C1",
+      "title": "Liderança e facilitação",
+      "objective": "Mediar reuniões complexas e resumir desacordos."
+    },
+    {
+      "id": "EN-29",
+      "level": "C1",
+      "title": "Leitura e síntese avançadas",
+      "objective": "Comparar fontes extensas e resumir pontos divergentes."
+    },
+    {
+      "id": "EN-30",
+      "level": "C1",
+      "title": "Escrita estratégica",
+      "objective": "Elaborar propostas, análises executivas e recomendações."
+    },
+    {
+      "id": "EN-31",
+      "level": "C2",
+      "title": "Precisão idiomática",
+      "objective": "Usar expressões idiomáticas, colocação e conotação com critério."
+    },
+    {
+      "id": "EN-32",
+      "level": "C2",
+      "title": "Debates e ambiguidades",
+      "objective": "Analisar ironia, pressupostos e linguagem indireta."
+    },
+    {
+      "id": "EN-33",
+      "level": "C2",
+      "title": "Escuta de alta complexidade",
+      "objective": "Compreender exposições rápidas, implícitos e sotaques variados."
+    },
+    {
+      "id": "EN-34",
+      "level": "C2",
+      "title": "Comunicação persuasiva sofisticada",
+      "objective": "Adaptar estilo para públicos e contextos complexos."
+    },
+    {
+      "id": "EN-35",
+      "level": "C2",
+      "title": "Especialização técnica",
+      "objective": "Dominar terminologia e gêneros da área do aluno."
+    },
+    {
+      "id": "EN-36",
+      "level": "C2",
+      "title": "Projeto integrador avançado",
+      "objective": "Produzir apresentação, debate e ensaio com avaliação humana."
+    }
+  ]
+}

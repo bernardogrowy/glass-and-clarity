@@ -113,3 +113,72 @@
   transition: transform 0.2s cubic-bezier(0.3, 0.7, 0.4, 1.4);
   &:active { transform: scale(0.95); }
 }
+
+/* ---- Trilha: nós 3D (face + base escura, como botões de arcade) ---- */
+@utility node3d {
+  --depth: 8px;
+  position: relative;
+  background: var(--face);
+  box-shadow:
+    0 var(--depth) 0 var(--edge),
+    0 calc(var(--depth) + 10px) 16px -4px oklch(0.25 0.04 230 / 0.35),
+    inset 0 3px 0 oklch(1 0 0 / 0.38),
+    inset 0 -6px 10px oklch(0 0 0 / 0.08);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 16%;
+    right: 16%;
+    top: 7%;
+    height: 34%;
+    border-radius: 999px;
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.45), transparent);
+    pointer-events: none;
+  }
+  &:active {
+    transform: translateY(calc(var(--depth) - 2px));
+    box-shadow:
+      0 2px 0 var(--edge),
+      0 6px 8px -4px oklch(0.25 0.04 230 / 0.3),
+      inset 0 3px 0 oklch(1 0 0 / 0.3);
+  }
+}
+
+@keyframes node-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes node-ping {
+  0% { transform: scale(0.95); opacity: 0.55; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes tag-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes mascot-cheer {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-8px) rotate(6deg); }
+}
+@keyframes burst-fly {
+  0% { transform: rotate(var(--a)) translateY(0) scale(1); opacity: 1; }
+  100% { transform: rotate(var(--a)) translateY(-64px) scale(0.4); opacity: 0; }
+}
+@keyframes node-pop {
+  0% { transform: scale(0.8); }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-node-bounce { animation: node-bounce 1.7s ease-in-out infinite; }
+  .anim-node-ping { animation: node-ping 2s ease-out infinite; }
+  .anim-node-ping-late { animation: node-ping 2s ease-out 1s infinite; }
+  .anim-tag-bob { animation: tag-bob 1.7s ease-in-out infinite; }
+  .anim-mascot-cheer { animation: mascot-cheer 1.7s ease-in-out infinite; transform-origin: 50% 100%; }
+  .anim-burst { animation: burst-fly 0.9s ease-out forwards; }
+  .anim-node-pop { animation: node-pop 0.5s cubic-bezier(0.3, 0.7, 0.4, 1.4); }
+}
