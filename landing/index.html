@@ -1,0 +1,2426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Acesso antecipado do Hi</title>
+<meta name="description" content="O Hi é um app de inglês para quem está começando ou recomeçando. Nivelamento, trilha de 24 unidades do A1 ao B2 e teste final. Entre na lista de acesso antecipado.">
+<meta name="theme-color" content="#EEF9FA">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Hi">
+<meta property="og:title" content="Seu inglês começa aqui. Ou recomeça.">
+<meta property="og:description" content="Nivelamento, trilha de 24 unidades e teste final. Do A1 ao B2. Entre na lista de acesso antecipado do Hi.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='52' r='46' fill='%23F2B705'/%3E%3Cg fill='none' stroke='%231B2140' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M30 46 Q34 41 38 46'/%3E%3Cpath d='M60 48 Q64 43 68 48'/%3E%3Cpath d='M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60'/%3E%3Cpath d='M42 62 Q54 74 66 60'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Figtree:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap">
+<script>
+  /* Preferência de movimento antes da primeira pintura: escolha salva no rodapé > ajuste do sistema. */
+  (function () {
+    var m = "full";
+    try {
+      var s = localStorage.getItem("hi.lp.motion");
+      if (s) m = JSON.parse(s) === "reduce" ? "reduce" : "full";
+      else if (matchMedia("(prefers-reduced-motion: reduce)").matches) m = "reduce";
+    } catch (e) {
+      try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) m = "reduce"; } catch (_) {}
+    }
+    document.documentElement.setAttribute("data-motion", m);
+    document.documentElement.classList.add("js");
+  })();
+</script>
+<style>
+/* =====================================================================
+   PALETA OFICIAL DO HI
+   Valores do próprio app (glass-and-clarity/src/styles.css), convertidos
+   de OKLCH para hex. Regras do briefing: mint só para ação e progresso;
+   sky para apoio; texto sempre com contraste AA.
+   ===================================================================== */
+:root {
+  --hi-mint: #2DC08E;       /* --accent  oklch(.72 .14 165) · botões primários, progresso */
+  --hi-mint-soft: #ACEFD1;  /* --mint    oklch(.90 .08 165) · fundos de cards, selos */
+  --hi-sky: #A8E1FD;        /* --sky     oklch(.88 .07 230) · apoio, seleção, ilustrações */
+  --hi-sky-soft: #E5F7FF;   /* sky clareado oklch(.965 .022 225) · seções alternadas */
+  --hi-ink: #0E171E;        /* --foreground oklch(.20 .02 240) · títulos e texto */
+  --hi-muted: #5F6B74;      /* --muted-foreground oklch(.52 .02 240) · legendas (5,1:1) */
+  --hi-surface: #EEF9FA;    /* --background oklch(.975 .012 200) · fundo da página */
+  --hi-line: #D9E4E6;       /* --border oklch(.91 .012 210) · divisores e contornos */
+
+  /* Apoio do app: tons das quatro etapas, cartões e estados */
+  --hi-card: #FAFEFF;
+  --hi-butter: #F8F5BF;     /* Descobrir */
+  --hi-lilac: #DAD0FC;      /* Recordar */
+  --hi-peach: #FFC9A9;      /* Aplicar e "Quase lá!" */
+  --hi-teal: #0F766E;       /* trecho percorrido da trilha */
+  --hi-teal-ink: #115E59;   /* rótulos pequenos (7,5:1) */
+  --hi-danger: #DE3B3D;
+  --hi-danger-ink: #AF2B25; /* texto de erro (6,5:1) */
+  --hi-dot: #7AC8F5;        /* pontos do meio-tom, sublinhados */
+  --hi-bubble: #AFE3CB;     /* balão da Hi no chat */
+  --mascot-ink: #1B2140;
+
+  --font-display: "Fraunces", ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Layout: editorial, blocos bem separados e coluna de leitura de ~60ch.
+     O único momento centralizado é o herói. */
+  --page: 1180px;
+  --gutter: clamp(20px, 5vw, 40px);
+  --section-y: clamp(88px, 11vw, 152px);
+  --shadow-card: 0 1px 2px rgb(14 23 30 / .04), 0 20px 40px -20px rgb(23 63 80 / .2);
+  --shadow-float: 0 2px 6px rgb(14 23 30 / .05), 0 32px 64px -28px rgb(23 63 80 / .34);
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-spring: cubic-bezier(.3, .7, .4, 1.35);
+  --gradient-app:
+    radial-gradient(120% 60% at 0% 0%, oklch(.93 .06 170 / .8), transparent 60%),
+    radial-gradient(100% 60% at 100% 30%, oklch(.92 .05 230 / .8), transparent 60%),
+    radial-gradient(90% 50% at 50% 100%, oklch(.94 .04 200), transparent 70%),
+    var(--hi-surface);
+  color-scheme: light;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(92px + env(safe-area-inset-top));
+  interpolate-size: allow-keywords;
+  overflow-x: clip;
+  background: var(--hi-surface);
+}
+html[data-motion="reduce"] { scroll-behavior: auto; }
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--hi-surface);
+  color: var(--hi-ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+img, svg, canvas { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, ol, ul, dl, dd, figure { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+a { color: inherit; }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+strong, b { font-weight: 650; }
+:focus-visible { outline: 2.5px solid var(--hi-ink); outline-offset: 3px; }
+.sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: fixed; z-index: 100; left: 16px; top: -80px;
+  padding: 12px 18px; border-radius: 999px; background: var(--hi-ink); color: #fff;
+  font-weight: 600; text-decoration: none; transition: top .2s;
+}
+.skip:focus { top: calc(16px + env(safe-area-inset-top)); }
+.i {
+  width: 1.15em; height: 1.15em; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.mascot { flex: none; }
+
+/* ---------- Componentes compartilhados ---------- */
+.glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / .66), rgb(255 255 255 / .4));
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / .75);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), inset 0 -1px 0 rgb(14 23 30 / .04), 0 8px 24px -10px rgb(23 63 80 / .25);
+}
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55em;
+  min-height: 52px; padding: 0 1.5em; border-radius: 999px; border: 0;
+  font-family: var(--font-body); font-weight: 600; font-size: 1rem; line-height: 1.15;
+  text-decoration: none; text-align: center;
+  transition: transform .25s var(--ease-spring), box-shadow .25s ease, background-color .2s ease, color .2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(.96); }
+.btn .i--arrow { transition: transform .25s var(--ease-out); }
+.btn:hover .i--arrow { transform: translateX(3px); }
+.btn--lg { min-height: 58px; padding: 0 1.75em; font-size: 1.0625rem; }
+.btn--sm { min-height: 44px; padding: 0 1.15em; font-size: .9375rem; }
+.btn--block { width: 100%; }
+.btn--mint {
+  color: var(--hi-ink);
+  background: linear-gradient(180deg, #5AD5A6 0%, var(--hi-mint) 55%, #08B384 100%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), inset 0 -1px 0 rgb(14 23 30 / .1), 0 12px 28px -12px rgb(13 140 100 / .6);
+}
+.btn--mint:hover { box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), inset 0 -1px 0 rgb(14 23 30 / .1), 0 18px 34px -12px rgb(13 140 100 / .7); }
+.btn--mint:disabled {
+  cursor: not-allowed; color: var(--hi-muted);
+  background: linear-gradient(180deg, rgb(255 255 255 / .7), rgb(255 255 255 / .5));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .9), 0 8px 24px -14px rgb(23 63 80 / .25);
+}
+.btn--ink {
+  color: #fff;
+  background: linear-gradient(180deg, #2E3339, #171B1F);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .18), 0 10px 24px -12px rgb(14 23 30 / .6);
+}
+.btn--glass { color: var(--hi-ink); }
+.btn--outline { color: var(--hi-ink); background: transparent; box-shadow: inset 0 0 0 1.5px var(--hi-ink); }
+.btn--outline:hover { background: var(--hi-ink); color: #fff; }
+.tlink {
+  display: inline-flex; align-items: center; min-height: 44px;
+  font-weight: 600; text-decoration: underline; text-decoration-color: var(--hi-dot);
+  text-decoration-thickness: 2px; text-underline-offset: 6px; transition: text-decoration-color .2s;
+}
+.tlink:hover { text-decoration-color: var(--hi-ink); }
+.linkbtn {
+  font-weight: 600; text-decoration: underline; text-decoration-color: var(--hi-dot);
+  text-decoration-thickness: 2px; text-underline-offset: 5px; min-height: 44px;
+}
+.linkbtn:hover { text-decoration-color: var(--hi-ink); }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 13px; border-radius: 999px; font-size: .875rem; font-weight: 600; line-height: 1.2;
+}
+.chip .i { width: 1em; height: 1em; }
+.chip--mint { background: var(--hi-mint-soft); }
+.chip--sky { background: var(--hi-sky); }
+.chip--butter { background: var(--hi-butter); }
+.chip--peach { background: var(--hi-peach); }
+.chip--lilac { background: var(--hi-lilac); }
+.tag {
+  display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px;
+  font: 500 .75rem/1.25 var(--font-mono); letter-spacing: .04em;
+  background: rgb(14 23 30 / .06); color: var(--hi-ink); white-space: nowrap;
+}
+.tag--ghost { background: transparent; box-shadow: inset 0 0 0 1px var(--hi-line); color: var(--hi-muted); }
+.bar { height: 8px; border-radius: 999px; background: rgb(14 23 30 / .08); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: inherit; background: var(--hi-mint); transition: width .7s var(--ease-out); }
+.speak {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  color: var(--hi-ink); transition: transform .2s var(--ease-spring);
+}
+.speak:active { transform: scale(.92); }
+.speak .i { width: 20px; height: 20px; }
+.speak--dark { color: #fff; background: linear-gradient(180deg, #2E3339, #171B1F); box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), 0 10px 22px -10px rgb(14 23 30 / .55); }
+.speak--lg { width: 56px; height: 56px; }
+.speak--sm { width: 40px; height: 40px; }
+.no-speech .speak, .no-speech .speak-slow { display: none !important; }
+
+/* ---------- Layout ---------- */
+.wrap { width: min(100% - 2 * var(--gutter), var(--page)); margin-inline: auto; }
+.section { position: relative; padding-block: var(--section-y); }
+.band-sky { background: var(--hi-sky-soft); }
+.sec-head { display: grid; gap: 18px; max-width: 780px; margin-bottom: clamp(44px, 6vw, 80px); }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font: 500 .8125rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--hi-teal-ink);
+}
+.eyebrow::before { content: ""; width: 22px; height: 1.5px; background: currentColor; opacity: .55; }
+.h2 {
+  font-family: var(--font-display); font-weight: 380;
+  font-size: clamp(2.25rem, 1.2rem + 3.6vw, 4.375rem); line-height: 1.03;
+  letter-spacing: -.022em; text-wrap: balance;
+}
+.h2--md { font-size: clamp(2.1rem, 1.2rem + 2.5vw, 3.55rem); }
+.h2--lines > span { display: block; }
+.nowrap { white-space: nowrap; }
+.lead { font-size: clamp(1.09rem, 1rem + .4vw, 1.3125rem); line-height: 1.55; color: var(--hi-muted); max-width: 58ch; text-wrap: pretty; }
+
+/* ---------- Navegação flutuante ---------- */
+.nav {
+  position: fixed; z-index: 50; left: 0; right: 0;
+  top: calc(12px + env(safe-area-inset-top));
+  padding-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right));
+  pointer-events: none;
+}
+.nav__pill {
+  pointer-events: auto; position: relative; margin-inline: auto; max-width: 1120px; height: 60px;
+  display: flex; align-items: center; gap: 6px; padding: 0 8px 0 12px; border-radius: 999px;
+}
+.brand { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding-right: 8px; text-decoration: none; border-radius: 999px; }
+.brand__mascot { width: 32px; height: 32px; }
+.brand__word { font: 500 1.625rem/1 var(--font-display); letter-spacing: -.01em; }
+.nav__links { display: flex; gap: 2px; margin-inline: auto; }
+.nav__links a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px;
+  font-size: .9375rem; font-weight: 500; color: var(--hi-muted); text-decoration: none;
+  transition: color .2s, background-color .2s;
+}
+.nav__links a:hover { color: var(--hi-ink); background: rgb(255 255 255 / .65); }
+.nav__cta { transition: opacity .3s ease, transform .3s var(--ease-out), visibility .3s; }
+html:not(.cta-docked) .nav__cta { opacity: 0; visibility: hidden; transform: translateY(-4px); }
+.nav__menu { display: none; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; margin-left: auto; border-radius: 999px; font-weight: 600; font-size: .9375rem; }
+.nav__menu .i { width: 18px; height: 18px; }
+.nav__sheet { pointer-events: auto; max-width: 1120px; margin: 8px auto 0; padding: 10px; border-radius: 28px; display: grid; gap: 2px; }
+.nav__sheet[hidden] { display: none; }
+.nav__sheet a { display: flex; align-items: center; min-height: 50px; padding: 0 16px; border-radius: 18px; font-weight: 600; text-decoration: none; }
+.nav__sheet a:hover { background: rgb(255 255 255 / .7); }
+.nav__sheet .btn { margin-top: 8px; }
+@media (max-width: 899px) {
+  .nav__links, .nav__cta { display: none; }
+  .nav__menu { display: inline-flex; }
+  .nav__pill { height: 56px; }
+}
+
+/* ---------- Herói ---------- */
+.hero { position: relative; isolation: isolate; padding-top: calc(118px + env(safe-area-inset-top)); background: var(--gradient-app); overflow: clip; }
+.hero::after { content: ""; position: absolute; z-index: 4; left: 0; right: 0; bottom: 0; height: 140px; background: linear-gradient(to bottom, rgb(238 249 250 / 0), var(--hi-surface)); pointer-events: none; }
+.hero__copy { position: relative; z-index: 5; width: min(100% - 2 * var(--gutter), 1120px); margin-inline: auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.hero__pill {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 16px 0 14px; border-radius: 999px;
+  font: 500 .8125rem/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase;
+  background: rgb(255 255 255 / .7); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .95), 0 8px 22px -12px rgb(23 63 80 / .35);
+}
+.live { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--hi-mint); }
+.live::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--hi-mint); opacity: 0; animation: live 2.4s ease-out infinite; }
+@keyframes live { 0% { transform: scale(.4); opacity: .9; } 80%, 100% { transform: scale(1.6); opacity: 0; } }
+.hero__title {
+  margin-top: 26px; font-family: var(--font-display); font-weight: 370;
+  font-size: clamp(2.7rem, 1rem + 5.6vw, 5.9rem); line-height: .98; letter-spacing: -.028em;
+}
+.hero__title .l { display: block; text-wrap: balance; }
+.hero__title em { font-style: italic; font-weight: 360; letter-spacing: -.02em; }
+.hero__sub { margin-top: 24px; max-width: 40ch; font-family: var(--font-mono); font-size: clamp(.875rem, .8rem + .3vw, 1rem); line-height: 1.6; color: var(--hi-muted); text-wrap: balance; }
+.hero__actions { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 26px; }
+.hero__note { margin-top: 12px; font-size: .875rem; color: var(--hi-muted); }
+.hero__invite, .hero__partner { margin-top: 10px; font-size: .9375rem; }
+.hero__invite { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgb(255 255 255 / .7); }
+.hero__invite[hidden], .hero__partner[hidden] { display: none; }
+
+.hero__stage { position: relative; z-index: 1; height: 790px; margin-top: clamp(32px, 4vw, 52px); }
+.halftone { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.hero__giant {
+  position: absolute; z-index: 0; left: 0; right: 0; bottom: 14%; text-align: center;
+  font: 600 clamp(15rem, 48vw, 40rem)/.8 var(--font-display); letter-spacing: -.04em;
+  color: rgb(122 200 245 / .3); user-select: none; pointer-events: none;
+}
+.hero__stage.has-halftone .hero__giant { visibility: hidden; }
+.glow {
+  position: absolute; z-index: 1; left: 50%; top: 42%; width: min(96vw, 860px); aspect-ratio: 1;
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: radial-gradient(closest-side, rgb(172 239 209 / .5), rgb(172 239 209 / 0) 70%);
+}
+.phone-wrap { position: absolute; z-index: 2; left: 50%; top: 6px; transform: translateX(-50%); animation: rise 1.1s var(--ease-out) both; }
+@keyframes rise { from { transform: translate(-50%, 34px); } to { transform: translate(-50%, 0); } }
+
+/* Celular: a tela é desenhada em 390 × 844 (tamanho real do app) e escalada. */
+.phone {
+  --scale: .72;
+  position: relative; width: calc(390px * var(--scale) + 20px); height: calc(844px * var(--scale) + 20px);
+  padding: 10px; border-radius: calc(56px * var(--scale) + 10px);
+  background: linear-gradient(150deg, #434C53 0%, #141B21 28%, #0B1116 72%, #323B42 100%);
+  box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .14), 0 60px 90px -40px rgb(10 50 70 / .5), 0 24px 40px -24px rgb(14 23 30 / .45);
+  rotate: -2.5deg;
+  animation: bob 7s ease-in-out 1.1s infinite alternate;
+}
+@keyframes bob { from { translate: 0 0; } to { translate: 0 -10px; } }
+.phone__screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: calc(56px * var(--scale)); background: var(--gradient-app); }
+.phone__island { position: absolute; z-index: 2; top: calc(10px + 12px * var(--scale)); left: 50%; width: calc(118px * var(--scale)); height: calc(34px * var(--scale)); transform: translateX(-50%); border-radius: 999px; background: #05080B; }
+.ui { position: absolute; left: 0; top: 0; width: 390px; height: 844px; transform: scale(var(--scale)); transform-origin: 0 0; padding: 0 20px; color: var(--hi-ink); font-family: var(--font-body); }
+.ui__status { height: 54px; display: flex; align-items: center; justify-content: space-between; padding: 8px 12px 0 22px; font-size: 16px; font-weight: 600; }
+.ui__status svg { width: 74px; height: 14px; }
+.ui__head { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.ui__x { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+.ui__x .i { width: 20px; height: 20px; }
+.ui__track { flex: 1; height: 8px; border-radius: 999px; background: rgb(14 23 30 / .1); overflow: hidden; }
+.ui__track i { display: block; width: 50%; height: 100%; border-radius: inherit; background: var(--hi-mint); animation: grow 1.3s .5s var(--ease-out) both; }
+@keyframes grow { from { width: 37.5%; } }
+.ui__count { width: 34px; text-align: right; font-size: 14px; font-weight: 500; color: var(--hi-muted); }
+.ui__stages { display: flex; justify-content: space-between; margin-top: 24px; }
+.ui__stages span { padding: 8px 13px; border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--hi-muted); }
+.ui__stages .on { background: var(--hi-sky); color: var(--hi-ink); }
+.ui__ask { margin-top: 30px; text-align: center; font-size: 18px; color: var(--hi-muted); }
+.ui__word { margin-top: 2px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.ui__word b { font: 500 54px/1.05 var(--font-display); letter-spacing: -.01em; }
+.ui__speak { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+.ui__speak .i { width: 20px; height: 20px; }
+.ui__opts { margin-top: 30px; display: grid; gap: 12px; }
+.ui__opt { display: flex; align-items: center; gap: 16px; height: 70px; padding: 0 20px; border-radius: 24px; border: 2px solid transparent; background: var(--hi-card); box-shadow: var(--shadow-card); font-size: 18px; font-weight: 600; }
+.ui__opt .n { width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: 14px; background: rgb(14 23 30 / .06); color: var(--hi-muted); }
+.ui__opt.right { border-color: var(--hi-mint); background: color-mix(in oklch, var(--hi-mint-soft) 60%, var(--hi-card)); }
+.ui__opt.right .n { background: var(--hi-ink); color: #fff; }
+.ui__opt .ok { margin-left: auto; width: 24px; height: 24px; }
+.ui__opt .ok path { stroke-dasharray: 26; stroke-dashoffset: 0; animation: draw .55s 1.05s ease-out both; }
+@keyframes draw { from { stroke-dashoffset: 26; } }
+.ui__cta { position: absolute; left: 20px; right: 20px; bottom: 42px; height: 58px; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; font-size: 17px; font-weight: 600; color: var(--hi-ink); background: linear-gradient(180deg, #5AD5A6, var(--hi-mint) 55%, #08B384); box-shadow: inset 0 1px 0 rgb(255 255 255 / .6), 0 14px 28px -12px rgb(13 140 100 / .6); }
+.ui__home { position: absolute; left: 50%; bottom: 9px; width: 134px; height: 5px; border-radius: 999px; background: var(--hi-ink); transform: translateX(-50%); }
+
+/* Cartões flutuantes do herói */
+.float {
+  position: absolute; z-index: 5; text-align: left; border-radius: 22px;
+  background: rgb(250 254 255 / .94); box-shadow: var(--shadow-float);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  animation: settle .9s var(--ease-spring) both, drift 6s ease-in-out infinite alternate;
+}
+@keyframes settle { from { transform: translateY(16px) scale(.94); } to { transform: none; } }
+@keyframes drift { from { translate: 0 0; } to { translate: 0 -8px; } }
+/* Os cartões ficam acima e abaixo da faixa das letras gigantes, sem cobri-las. */
+.float--progress { left: calc(50% - 478px); top: 2px; width: 270px; padding: 16px 18px 18px; animation-delay: .25s, 1.2s; }
+.float--feedback { left: calc(50% + 116px); top: 58px; display: flex; align-items: center; gap: 14px; padding: 14px 22px 14px 14px; background: rgb(228 250 239 / .95); animation-delay: .45s, 2s; }
+.float--chat { left: calc(50% + 172px); bottom: 12px; width: 300px; padding: 12px 12px 14px; animation-delay: .65s, 1.6s; }
+.f-row { display: flex; align-items: center; gap: 12px; }
+.f-kicker { font: 500 11px/1.25 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.f-title { margin-top: 3px; font-size: 15px; font-weight: 650; line-height: 1.3; }
+.f-bar { margin-top: 14px; }
+.f-meta { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12.5px; color: var(--hi-muted); font-variant-numeric: tabular-nums; }
+.ok-badge { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--hi-mint-soft); flex: none; }
+.ok-badge .i { width: 22px; height: 22px; }
+.f-big { font: 500 25px/1.05 var(--font-display); }
+.f-text { margin-top: 3px; font-size: 14px; }
+.f-who { display: flex; align-items: center; gap: 8px; margin: 2px 4px 10px; font: 500 11px/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--hi-muted); }
+.bubble { padding: 12px 16px; border-radius: 22px 22px 22px 8px; font-size: 16px; line-height: 1.4; }
+.bubble--hi { background: var(--hi-bubble); }
+.f-sub { margin: 6px 6px 0; font-size: 13px; color: var(--hi-muted); }
+
+@media (max-width: 1099px) {
+  .hero__stage { height: 700px; }
+  .phone { --scale: .66; }
+  .float--progress { left: calc(50% - 404px); top: 2px; width: 248px; }
+  .float--feedback { left: calc(50% + 100px); top: 54px; }
+  .float--chat { display: none; }
+}
+@media (max-width: 759.98px) {
+  .hero { padding-top: calc(100px + env(safe-area-inset-top)); }
+  .hero__stage { height: 540px; }
+  .phone { --scale: .56; rotate: -2deg; }
+  /* No celular os cartões ficam sobre as opções erradas e o vão acima do botão,
+     deixando visíveis a pergunta, a resposta certa e o "Continuar". */
+  .float--progress { left: max(6px, calc(50% - 190px)); top: 292px; width: 160px; padding: 12px 14px 14px; }
+  .float--progress .mascot, .float--progress .f-meta, .float--progress .f-kicker { display: none; }
+  .float--progress .f-title { margin-top: 0; font-size: 13px; }
+  .float--progress .f-bar { margin-top: 10px; }
+  .float--feedback { left: auto; right: max(6px, calc(50% - 190px)); top: 376px; padding: 10px 16px 10px 10px; gap: 10px; }
+  .ok-badge { width: 38px; height: 38px; }
+  .f-big { font-size: 21px; }
+  .f-text { font-size: 13px; }
+}
+
+/* ---------- Seção 2 · O que trava ---------- */
+.problems { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--hi-line); }
+.problem { display: flex; flex-direction: column; gap: 16px; padding: 36px clamp(20px, 2.6vw, 36px) 4px; border-left: 1px solid var(--hi-line); }
+.problem:first-child { border-left: 0; padding-left: 0; }
+.problem:last-child { padding-right: 0; }
+.problem__icon { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--tone); }
+.problem__icon .i { width: 24px; height: 24px; }
+.problem__title { font: 400 clamp(1.625rem, 1.15rem + 1vw, 2.05rem)/1.1 var(--font-display); letter-spacing: -.012em; text-wrap: balance; }
+.problem__text { color: var(--hi-muted); }
+.answer { margin-top: auto; padding-top: 22px; border-top: 1px dashed rgb(14 23 30 / .16); display: grid; gap: 12px; justify-items: start; }
+.answer__label { font: 500 .75rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.answer__text { font-size: 1rem; }
+.nextpill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px 8px 8px; border-radius: 999px; color: #fff; font-size: .875rem; font-weight: 600; background: linear-gradient(180deg, #2E3339, #171B1F); box-shadow: 0 10px 22px -12px rgb(14 23 30 / .55); }
+.nextpill__dot { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgb(255 255 255 / .14); }
+.nextpill__dot .i { width: 16px; height: 16px; }
+.nextpill small { font-weight: 500; opacity: .75; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.week { display: flex; gap: 8px; padding: 10px 12px; border-radius: 18px; background: var(--hi-card); box-shadow: var(--shadow-card); }
+.week__d { display: grid; justify-items: center; gap: 4px; font-size: 11px; color: var(--hi-muted); }
+.week__c { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; background: rgb(14 23 30 / .06); color: var(--hi-muted); }
+.week__c.on { background: var(--hi-mint); color: var(--hi-ink); }
+.week__c.on .i { width: 14px; height: 14px; }
+.week__c.today { box-shadow: inset 0 0 0 2px var(--hi-ink); background: transparent; color: var(--hi-ink); font-weight: 600; }
+@media (max-width: 899px) {
+  .problems { grid-template-columns: 1fr; border-top: 0; }
+  .problem { padding: 34px 0; border-left: 0; border-top: 1px solid var(--hi-line); }
+  .problem:first-child { border-top: 1px solid var(--hi-line); }
+}
+
+/* ---------- Seção 3 · Como funciona ---------- */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(22px, 3vw, 40px); }
+.step { display: flex; flex-direction: column; gap: 14px; }
+.step__top { display: flex; align-items: center; gap: 14px; }
+.step__num { font: 500 .875rem/1 var(--font-mono); letter-spacing: .08em; color: var(--hi-teal-ink); }
+.step__rule { flex: 1; height: 2px; background: repeating-linear-gradient(90deg, rgb(14 23 30 / .22) 0 2px, transparent 2px 9px); }
+.step:last-child .step__rule { visibility: hidden; }
+.step__title { font: 400 clamp(1.75rem, 1.3rem + 1vw, 2.25rem)/1.08 var(--font-display); letter-spacing: -.015em; }
+.step__text { color: var(--hi-muted); max-width: 42ch; }
+.step__ui { margin-top: auto; padding-top: 12px; }
+.mini { display: grid; gap: 12px; padding: 20px; border-radius: 28px; background: var(--hi-card); box-shadow: var(--shadow-card); }
+.mini__eyebrow { font-size: .75rem; font-weight: 500; color: var(--hi-muted); }
+.mini__q { margin-top: -6px; font: 400 1.25rem/1.25 var(--font-display); }
+.mopt { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 11px 14px; border-radius: 16px; background: var(--hi-surface); font-size: .9375rem; font-weight: 600; }
+.mopt .tag { background: rgb(14 23 30 / .06); color: var(--hi-muted); }
+.mopt small { grid-column: 1 / -1; font-size: .8125rem; font-weight: 400; line-height: 1.35; }
+.mopt--on { color: #fff; background: linear-gradient(180deg, #2E3339, #171B1F); }
+.mopt--on .tag { background: rgb(255 255 255 / .16); color: #fff; }
+.mopt--on small { color: rgb(255 255 255 / .8); }
+.mini__kicker { font: 500 .6875rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.mini__title { margin-top: -6px; font: 400 1.5rem/1.1 var(--font-display); }
+.mini__row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.mini__meta { display: flex; justify-content: space-between; font-size: .8125rem; color: var(--hi-muted); font-variant-numeric: tabular-nums; }
+.bar--teal > i { background: var(--hi-teal); }
+.mpath { position: relative; display: flex; justify-content: space-between; margin-top: 18px; padding-top: 4px; }
+.mpath::before, .mpath::after { content: ""; position: absolute; top: 24px; height: 0; }
+.mpath::before { left: 20px; right: 20px; border-top: 3px dotted rgb(14 23 30 / .28); }
+.mpath::after { left: 20px; width: calc(50% - 20px); border-top: 3px solid var(--hi-teal); }
+.mnode { position: relative; z-index: 1; display: grid; justify-items: center; gap: 6px; width: 20%; }
+.mnode__dot { position: relative; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--tone, var(--hi-card)); box-shadow: 0 0 0 3px var(--hi-card), var(--shadow-card); }
+.mnode__dot .i { width: 18px; height: 18px; }
+.mnode__l { font-size: .6875rem; font-weight: 600; color: var(--hi-muted); }
+.mnode--now .mnode__dot { width: 46px; height: 46px; margin-top: -3px; color: #fff; background: linear-gradient(180deg, #2E3339, #171B1F); box-shadow: 0 0 0 3px var(--hi-card), 0 0 0 9px rgb(45 192 142 / .35); }
+.mnode--now .mnode__l { color: var(--hi-ink); }
+.mnode__tag { position: absolute; top: -24px; padding: 3px 8px; border-radius: 999px; background: var(--hi-card); box-shadow: var(--shadow-card); font-size: .625rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.mnode--lock .mnode__dot { background: var(--hi-card); box-shadow: 0 0 0 3px var(--hi-card), inset 0 0 0 2px rgb(14 23 30 / .28); color: rgb(14 23 30 / .6); }
+.mnode--check .mnode__dot { border-radius: 14px; }
+.mscale { position: relative; padding: 34px 6px 4px; }
+.mscale__track { position: relative; height: 10px; border-radius: 999px; background: rgb(14 23 30 / .08); }
+.mscale__track i { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--hi-mint); }
+.mscale__lv { display: flex; justify-content: space-between; margin-top: 10px; font: 500 .8125rem/1 var(--font-mono); color: var(--hi-muted); }
+.mscale__lv li { width: 28px; text-align: center; }
+.mscale__lv .on { color: var(--hi-ink); }
+.mscale__pin { position: absolute; top: 0; display: grid; justify-items: center; gap: 4px; transform: translateX(-50%); font-size: .6875rem; font-weight: 600; white-space: nowrap; }
+.mscale__pin .mascot, .mscale__flag { width: 26px; height: 26px; }
+.mscale__flag { border-radius: 50%; display: grid; place-items: center; background: var(--hi-ink); color: #fff; }
+.mscale__flag .i { width: 14px; height: 14px; }
+.mscale + .mini__meta .i { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; }
+@media (max-width: 899px) {
+  .steps { grid-template-columns: 1fr; gap: 56px; }
+  .step__rule { visibility: hidden; }
+  .step__ui { max-width: 440px; }
+}
+
+/* ---------- Seção 4 · Experimente ---------- */
+.exp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
+.exp__copy .sec-head { margin-bottom: 30px; }
+.ticks { display: grid; gap: 14px; }
+.ticks li { display: flex; gap: 12px; align-items: flex-start; }
+.tick { flex: none; width: 26px; height: 26px; margin-top: 1px; border-radius: 50%; display: grid; place-items: center; background: var(--hi-mint-soft); }
+.tick .i { width: 15px; height: 15px; }
+.lesson {
+  position: relative; isolation: isolate; width: 100%; max-width: 432px; margin-inline: auto; min-height: 650px;
+  display: flex; flex-direction: column; padding: 16px 16px 18px; border-radius: 38px;
+  background: var(--gradient-app); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .85), var(--shadow-float); overflow: hidden;
+}
+.lesson__head { display: flex; align-items: center; gap: 12px; }
+.lesson__restart { width: 44px; height: 44px; flex: none; border-radius: 50%; display: grid; place-items: center; }
+.lesson__restart .i { width: 19px; height: 19px; }
+.lesson__track { flex: 1; height: 8px; border-radius: 999px; background: rgb(14 23 30 / .1); overflow: hidden; }
+.lesson__track i { display: block; height: 100%; border-radius: inherit; background: var(--hi-mint); transition: width .55s var(--ease-out); }
+.lesson__count { min-width: 34px; text-align: right; font-size: .875rem; font-weight: 500; color: var(--hi-muted); font-variant-numeric: tabular-nums; }
+.lesson__stages { display: flex; justify-content: space-between; gap: 2px; margin-top: 18px; }
+.lesson__stage { padding: 7px 11px; border-radius: 999px; font-size: .8125rem; font-weight: 600; color: var(--hi-muted); transition: background-color .3s, color .3s; }
+.lesson__stage[aria-current="step"] { color: var(--hi-ink); background: var(--tone); }
+.lesson__body { flex: 1; display: flex; flex-direction: column; margin-top: 22px; }
+.lesson__foot { margin-top: 18px; display: grid; gap: 10px; }
+.lesson__foot:empty { display: none; }
+.lesson [tabindex="-1"]:focus { outline: none; }
+.wordcard { display: grid; justify-items: center; padding: 22px 20px 24px; border-radius: 30px; background: var(--hi-card); box-shadow: var(--shadow-card); text-align: center; }
+.wordcard__icon { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--hi-sky); }
+.wordcard__icon .i { width: 26px; height: 26px; }
+.wordcard__word { margin-top: 16px; font: 500 3rem/1 var(--font-display); letter-spacing: -.01em; }
+.wordcard__ipa { margin-top: 10px; color: var(--hi-muted); }
+.wordcard__audio { margin-top: 14px; display: flex; align-items: center; gap: 12px; }
+.speak-slow { display: inline-flex; align-items: center; gap: 6px; min-height: 46px; padding: 0 16px; border-radius: 999px; font-size: .875rem; font-weight: 650; }
+.speak-slow .i { width: 16px; height: 16px; }
+.wordcard__label { margin-top: 18px; font-size: .875rem; color: var(--hi-muted); }
+.wordcard__pt { font: 400 1.75rem/1.15 var(--font-display); }
+.example { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 14px 14px 18px; border-radius: 24px; background: var(--hi-card); box-shadow: var(--shadow-card); }
+.example--butter { background: var(--hi-butter); box-shadow: none; }
+.example p { font-size: 1rem; line-height: 1.4; }
+.example__pt { margin-top: 2px; font-size: .875rem !important; color: var(--hi-muted); }
+.example--butter .example__pt { color: #4F5A5F; }
+.ask { text-align: center; }
+.ask__label { font-size: 1.0625rem; color: var(--hi-muted); }
+.ask__row { margin-top: 2px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+.ask__word { font: 500 2.75rem/1.1 var(--font-display); letter-spacing: -.01em; }
+.opts { margin-top: 24px; display: grid; gap: 10px; }
+.opt {
+  position: relative; display: flex; align-items: center; gap: 14px; min-height: 62px; padding: 8px 18px 8px 14px;
+  border-radius: 22px; border: 2px solid transparent; background: var(--hi-card); box-shadow: var(--shadow-card);
+  font-size: 1.0625rem; font-weight: 600; text-align: left; transition: transform .2s var(--ease-spring), border-color .2s, background-color .2s;
+}
+.opt:active { transform: scale(.98); }
+.opt__n { width: 34px; height: 34px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: .8125rem; background: rgb(14 23 30 / .06); color: var(--hi-muted); }
+.opt__t { flex: 1; }
+.opt__mark { display: inline-flex; align-items: center; gap: 6px; font-size: .6875rem; font-weight: 700; letter-spacing: .08em; color: var(--hi-teal-ink); }
+.opt__mark .i { width: 20px; height: 20px; }
+.opt[aria-pressed="true"] { border-color: var(--hi-ink); background: color-mix(in oklch, var(--hi-sky) 40%, var(--hi-card)); }
+.opt[aria-pressed="true"] .opt__n { background: var(--hi-ink); color: #fff; }
+.opt.is-right { border-color: var(--hi-mint); background: color-mix(in oklch, var(--hi-mint-soft) 60%, var(--hi-card)); }
+.opt.is-right .opt__n { background: var(--hi-ink); color: #fff; }
+.opt.is-wrong { border-color: var(--hi-danger); background: color-mix(in oklch, var(--hi-peach) 60%, var(--hi-card)); }
+.opt.is-wrong .opt__n { background: var(--hi-danger-ink); color: #fff; }
+.opt.is-wrong .opt__mark { color: var(--hi-danger-ink); }
+.opt.is-answer { border-style: dashed; border-color: var(--hi-teal); background: color-mix(in oklch, var(--hi-mint-soft) 30%, var(--hi-card)); }
+.opt:disabled { cursor: default; }
+.opt:disabled:not(.is-right):not(.is-wrong):not(.is-answer) { opacity: .6; }
+.l-center { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.l-title { font: 400 1.9rem/1.1 var(--font-display); letter-spacing: -.012em; text-align: center; }
+.prompt { margin-top: 20px; display: flex; align-items: center; gap: 10px; }
+.prompt__avatar { width: 52px; height: 52px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--hi-card); box-shadow: var(--shadow-card); }
+.prompt__bubble { flex: 1; display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border-radius: 24px 24px 24px 24px; border-top-left-radius: 8px; background: var(--hi-card); box-shadow: var(--shadow-card); }
+.prompt__bubble p { font-size: 1.0625rem; line-height: 1.35; }
+.answer-line { margin-top: 18px; min-height: 112px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; padding-bottom: 10px; border-bottom: 2px solid rgb(14 23 30 / .1); }
+.answer-line__hint { align-self: center; margin-top: 12px; font-size: .9375rem; color: var(--hi-muted); }
+.bank { margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
+.tile { height: 48px; padding: 0 17px; border-radius: 16px; background: var(--hi-card); box-shadow: var(--shadow-card); font-size: 1.0625rem; font-weight: 600; transition: transform .2s var(--ease-spring); }
+.tile:active { transform: scale(.94); }
+.tile--ghost { display: inline-flex; align-items: center; box-shadow: none; background: rgb(14 23 30 / .08); color: transparent; }
+.tile:disabled { cursor: default; }
+.answer-line.is-right .tile { background: color-mix(in oklch, var(--hi-mint-soft) 70%, var(--hi-card)); }
+.answer-line.is-wrong .tile { background: color-mix(in oklch, var(--hi-peach) 60%, var(--hi-card)); }
+.convo { margin-top: 22px; display: grid; gap: 16px; }
+.convo__hi { max-width: 88%; }
+.convo__me { justify-self: end; max-width: 92%; }
+.convo__pt { margin-top: 4px; padding-inline: 8px; font-size: .8125rem; color: var(--hi-muted); }
+.convo__me .convo__pt { text-align: right; }
+.bubble--me { color: #fff; border-radius: 22px 22px 8px 22px; background: linear-gradient(180deg, #2E3339, #171B1F); line-height: 1.9; }
+.gap { display: inline-block; min-width: 6.5rem; padding: 0 12px; border-radius: 999px; text-align: center; font-weight: 650; line-height: 1.6; color: transparent; background: rgb(248 245 191 / .4); transition: background-color .2s; }
+.gap.is-on { color: var(--hi-ink); background: var(--hi-butter); }
+.gap.is-wrong { background: var(--hi-peach); }
+.convo__hint { margin-top: 20px; font-size: .9375rem; color: var(--hi-muted); }
+.words { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px; }
+.word { min-height: 50px; padding: 0 22px; border-radius: 999px; border: 2px solid transparent; background: var(--hi-card); box-shadow: var(--shadow-card); font-size: 1.0625rem; font-weight: 650; transition: transform .2s var(--ease-spring); }
+.word:active { transform: scale(.95); }
+.word[aria-pressed="true"] { border-color: var(--hi-ink); background: var(--hi-butter); }
+.word:disabled { cursor: default; }
+.scrim { position: absolute; inset: 0; z-index: 4; background: rgb(14 23 30 / .26); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); animation: fadein .25s ease both; }
+.sheet { position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; padding: 22px 20px 20px; border-radius: 30px 30px 0 0; box-shadow: 0 -20px 50px -20px rgb(14 23 30 / .35); animation: sheetin .38s var(--ease-out) both; }
+.sheet--ok { background: #E4FAEF; }
+.sheet--almost { background: #FFEEE4; }
+@keyframes sheetin { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes fadein { from { opacity: 0; } }
+.sheet__head { display: flex; align-items: center; gap: 14px; }
+.sheet__icon { width: 52px; height: 52px; flex: none; border-radius: 50%; display: grid; place-items: center; }
+.sheet--ok .sheet__icon { background: var(--hi-mint-soft); }
+.sheet--almost .sheet__icon { background: var(--hi-peach); }
+.sheet__icon .i { width: 24px; height: 24px; }
+.sheet__title { font: 400 1.9rem/1 var(--font-display); }
+.sheet__body { margin-top: 14px; display: grid; gap: 10px; font-size: 1.0625rem; line-height: 1.45; }
+.sheet__body .example { margin-top: 0; }
+.sheet__sentence { font: 400 1.4rem/1.25 var(--font-display); }
+.sheet__actions { margin-top: 16px; }
+.summary { position: relative; display: grid; justify-items: center; text-align: center; padding-top: 6px; }
+.confetti { position: absolute; inset: 0 0 auto; height: 150px; pointer-events: none; }
+.confetti span { position: absolute; display: block; animation: pop .6s var(--ease-spring) both; }
+@keyframes pop { from { transform: scale(0) rotate(0deg); } }
+.summary__title { margin-top: 12px; font: 400 2rem/1.1 var(--font-display); letter-spacing: -.012em; text-wrap: balance; }
+.summary__stats { margin-top: 20px; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-card { padding: 14px 16px; border-radius: 22px; background: var(--hi-card); box-shadow: var(--shadow-card); text-align: left; }
+.stat-card__n { font: 400 1.75rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.stat-card__l { margin-top: 4px; font-size: .8125rem; line-height: 1.3; color: var(--hi-muted); }
+.summary__words { margin-top: 14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.summary__note { margin-top: 12px; font-size: .9375rem; color: var(--hi-muted); }
+@media (max-width: 899px) {
+  .exp { grid-template-columns: 1fr; }
+}
+@media (max-width: 380px) {
+  .lesson { padding: 14px 12px 16px; border-radius: 32px; }
+  .lesson__stage { padding: 6px 7px; font-size: .75rem; }
+  .ask__word, .wordcard__word { font-size: 2.4rem; }
+}
+
+/* ---------- Seção 5 · Trilha ---------- */
+.picker { display: grid; gap: 14px; margin-bottom: 26px; }
+.picker__label { font-weight: 650; }
+.picker__opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.pick { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px 0 8px; border-radius: 999px; background: var(--hi-card); box-shadow: inset 0 0 0 1.5px var(--hi-line); font-size: .9375rem; font-weight: 600; cursor: pointer; transition: background-color .2s, color .2s, box-shadow .2s; }
+.pick input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.pick .tag { background: rgb(14 23 30 / .06); }
+.pick:hover { box-shadow: inset 0 0 0 1.5px var(--hi-ink); }
+.pick:has(input:checked), .pick.is-checked { color: #fff; background: linear-gradient(180deg, #2E3339, #171B1F); box-shadow: 0 10px 22px -12px rgb(14 23 30 / .55); }
+.pick:has(input:checked) .tag, .pick.is-checked .tag { background: rgb(255 255 255 / .16); color: #fff; }
+.pick:has(input:focus-visible) { outline: 2.5px solid var(--hi-ink); outline-offset: 3px; }
+.picker__result { min-height: 3.2em; color: var(--hi-muted); max-width: 70ch; }
+.picker__result strong { color: var(--hi-ink); }
+.map__cap { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 20px; background: rgb(255 255 255 / .55); box-shadow: inset 0 0 0 1px var(--hi-line); }
+.map__cap p { font-size: .9688rem; }
+.map__capicon { width: 38px; height: 38px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--hi-sky); }
+.map__capicon .i { width: 18px; height: 18px; }
+.map__cap--end .map__capicon { background: var(--hi-ink); color: #fff; }
+.map__scroller { position: relative; margin-block: 18px; }
+.levels { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 10px; padding-top: 6px; }
+.levels::before { content: ""; position: absolute; left: 20px; right: 20px; top: 31px; height: 0; border-top: 3px dotted rgb(14 23 30 / .22); }
+.level { position: relative; padding: 14px 18px 18px; border-radius: 28px; transition: opacity .35s, background-color .35s, box-shadow .35s; }
+.level__node { position: relative; z-index: 1; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--hi-surface); box-shadow: inset 0 0 0 2px rgb(14 23 30 / .22); }
+.level__node::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: rgb(14 23 30 / .3); }
+.level__node .mascot { display: none; width: 34px; height: 34px; }
+.level.is-start .level__node { box-shadow: 0 0 0 4px var(--hi-card), 0 8px 18px -8px rgb(14 23 30 / .4); background: transparent; }
+.level.is-start .level__node::after { display: none; }
+.level.is-start .level__node .mascot { display: block; }
+.level__tag { margin-top: 16px; font: 500 .75rem/1.2 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.level__title { margin-top: 6px; font: 400 1.6rem/1.1 var(--font-display); letter-spacing: -.01em; }
+.level__desc { margin-top: 8px; min-height: 4.2em; font-size: .9375rem; line-height: 1.4; color: var(--hi-muted); }
+.level__skip { display: none; margin-top: 8px; font-size: .8125rem; font-weight: 600; color: var(--hi-teal-ink); }
+.level.is-skipped { opacity: .5; }
+.level.is-skipped .level__skip { display: block; }
+.level.is-start { background: var(--hi-card); box-shadow: var(--shadow-float); }
+.units { margin-top: 14px; }
+.unit { position: relative; display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: start; gap: 6px; padding: 11px 0; border-top: 1px solid var(--hi-line); font-size: .9688rem; line-height: 1.35; }
+.unit__n { font: 500 .8125rem/1.6 var(--font-mono); color: var(--hi-muted); font-variant-numeric: tabular-nums; }
+.unit.is-start { font-weight: 650; }
+.unit.is-start .unit__n { color: var(--hi-ink); }
+.unit.is-start .unit__t::after { content: "Começar"; display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; vertical-align: 2px; font-size: .625rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: var(--hi-ink); }
+.map__nav { display: none; justify-content: flex-end; gap: 8px; margin-top: -4px; margin-bottom: 14px; }
+.map__btn { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--hi-card); box-shadow: inset 0 0 0 1.5px var(--hi-line); }
+.map__btn:disabled { opacity: .35; cursor: default; }
+@media (max-width: 899px) {
+  .map__scroller {
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+  }
+  .map__scroller::-webkit-scrollbar { display: none; }
+  .levels { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(84%, 340px); gap: 0 12px; }
+  .levels::before { right: auto; width: calc(400% + 36px); }
+  .level { scroll-snap-align: start; background: rgb(255 255 255 / .45); }
+  .map__nav { display: flex; }
+}
+
+/* ---------- Seção 6 · Para quem é ---------- */
+.who-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+.who { display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 2.6vw, 32px); border-radius: 30px; background: var(--hi-card); box-shadow: var(--shadow-card); transition: transform .35s var(--ease-out), box-shadow .35s; }
+.who:hover { transform: translateY(-4px); box-shadow: var(--shadow-float); }
+.who__tag { display: flex; align-items: center; gap: 10px; font-size: .875rem; font-weight: 600; color: var(--hi-muted); }
+.who__title { font: 400 clamp(1.6rem, 1.2rem + .9vw, 2rem)/1.12 var(--font-display); letter-spacing: -.012em; text-wrap: balance; }
+.who__text { color: var(--hi-muted); }
+.who__start { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--hi-line); font-size: .9375rem; }
+.who__start span { display: block; font: 500 .6875rem/1.4 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.who .btn { align-self: flex-start; }
+.not-for { margin-top: 28px; color: var(--hi-muted); font-size: .9688rem; }
+@media (max-width: 899px) { .who-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Seção 7 · Indicação ---------- */
+.ref-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
+.ref-steps { display: grid; gap: 0; margin-top: 8px; border-top: 1px solid var(--hi-line); }
+.ref-step { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 14px; padding: 18px 0; border-bottom: 1px solid var(--hi-line); }
+.ref-step__n { grid-row: span 2; font: 500 .875rem/1.6 var(--font-mono); color: var(--hi-teal-ink); }
+.ref-step__t { font-weight: 650; }
+.ref-step__d { color: var(--hi-muted); font-size: .9688rem; }
+.refcard { position: relative; padding: clamp(22px, 3vw, 34px); border-radius: 34px; background: var(--hi-card); box-shadow: var(--shadow-float); }
+.refcard::before { content: ""; position: absolute; inset: 0 0 auto; height: 46%; border-radius: 34px 34px 0 0; background: linear-gradient(180deg, rgb(172 239 209 / .45), rgb(172 239 209 / 0)); pointer-events: none; }
+.refcard > * { position: relative; }
+.refcard__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.refcard__title { font: 400 1.6rem/1.1 var(--font-display); }
+.slots { margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.slot { display: grid; justify-items: center; gap: 8px; padding: 16px 8px 12px; border-radius: 22px; background: rgb(14 23 30 / .035); }
+.slot__face { position: relative; width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 2px rgb(14 23 30 / .22); }
+.slot__face .mascot { width: 64px; height: 64px; opacity: 0; transform: scale(.4); transition: opacity .35s, transform .5s var(--ease-spring); }
+.slot__face .i { position: absolute; width: 22px; height: 22px; color: rgb(14 23 30 / .4); transition: opacity .2s; }
+.slot.is-on .slot__face { box-shadow: none; }
+.slot.is-on .slot__face .mascot { opacity: 1; transform: none; }
+.slot.is-on .slot__face .i { opacity: 0; }
+.slot__l { font-size: .8125rem; font-weight: 600; color: var(--hi-muted); }
+.slot.is-on .slot__l { color: var(--hi-ink); }
+.refcard__bar { margin-top: 22px; height: 12px; }
+.refcard__status { margin-top: 12px; font-size: .9688rem; }
+.ticket { margin-top: 20px; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 22px; border: 2px dashed rgb(14 23 30 / .2); transition: background-color .4s, border-color .4s; }
+.ticket__icon { width: 46px; height: 46px; flex: none; border-radius: 14px; display: grid; place-items: center; background: rgb(14 23 30 / .06); transition: background-color .4s; }
+.ticket__icon .i { width: 22px; height: 22px; }
+.ticket__title { font-weight: 650; }
+.ticket__state { font-size: .875rem; color: var(--hi-muted); }
+.ticket.is-open { border-style: solid; border-color: var(--hi-mint); background: rgb(172 239 209 / .35); }
+.ticket.is-open .ticket__icon { background: var(--hi-mint); }
+.refcard__foot { margin-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .875rem; color: var(--hi-muted); }
+.refcard__mine[hidden] { display: none; }
+.refcard__mine { margin-top: 18px; display: grid; gap: 10px; }
+.linkrow { display: flex; gap: 8px; }
+.linkrow input { flex: 1; min-width: 0; height: 50px; padding: 0 14px; border-radius: 14px; border: 1.5px solid var(--hi-line); background: #fff; font-family: var(--font-mono); font-size: .875rem; color: var(--hi-ink); }
+.ref-fine { margin-top: 18px; font-size: .9375rem; color: var(--hi-muted); }
+@media (max-width: 899px) { .ref-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Seção 8 · Em números ---------- */
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--hi-ink); }
+.stat { display: flex; flex-direction: column; gap: 6px; padding: 26px clamp(16px, 2vw, 28px) 4px; border-left: 1px solid var(--hi-line); }
+.stat:first-child { border-left: 0; padding-left: 0; }
+.stat dt { font: 500 .75rem/1.3 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.stat__num { font: 300 clamp(4rem, 2.4rem + 4.6vw, 7.25rem)/.95 var(--font-display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.stat__num small { margin-left: .12em; font-size: .3em; font-weight: 400; letter-spacing: 0; }
+.stat__desc { color: var(--hi-muted); font-size: .9688rem; max-width: 26ch; }
+.stats__note { margin-top: 36px; display: flex; align-items: center; gap: 12px; color: var(--hi-muted); font-size: .9688rem; }
+.stats__note .i { width: 20px; height: 20px; color: var(--hi-teal-ink); }
+.stat[hidden] { display: none; }
+@media (max-width: 899px) {
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat { padding: 24px 16px 22px; border-left: 0; border-bottom: 1px solid var(--hi-line); }
+  .stat:nth-child(even) { border-left: 1px solid var(--hi-line); }
+  .stat:nth-child(odd) { padding-left: 0; }
+}
+
+/* ---------- Seção 9 · Dúvidas ---------- */
+.faq-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.faq-grid .sec-head { position: sticky; top: 120px; margin-bottom: 0; }
+.faq { border-top: 1px solid var(--hi-line); }
+.faq details { border-bottom: 1px solid var(--hi-line); }
+.faq summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 64px; padding: 18px 0; cursor: pointer; list-style: none; font-size: 1.125rem; font-weight: 650; line-height: 1.35; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq__plus { position: relative; width: 36px; height: 36px; flex: none; border-radius: 50%; background: var(--hi-card); box-shadow: inset 0 0 0 1.5px var(--hi-line); transition: background-color .25s, transform .35s var(--ease-out); }
+.faq__plus::before, .faq__plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; border-radius: 2px; background: var(--hi-ink); transform: translate(-50%, -50%); }
+.faq__plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faq details[open] .faq__plus { transform: rotate(45deg); background: var(--hi-sky); box-shadow: none; }
+.faq details::details-content { block-size: 0; overflow: hidden; transition: block-size .4s var(--ease-out), content-visibility .4s allow-discrete; }
+.faq details[open]::details-content { block-size: auto; }
+.faq__a { padding: 0 52px 22px 0; color: var(--hi-muted); max-width: 62ch; }
+.faq__a a { color: var(--hi-ink); }
+@media (max-width: 899px) {
+  .faq-grid { grid-template-columns: 1fr; }
+  .faq-grid .sec-head { position: static; }
+  .faq__a { padding-right: 0; }
+}
+
+/* ---------- Seção 10 · Formulário ---------- */
+.join-section { background: var(--gradient-app); }
+.join { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
+.perks { display: grid; gap: 14px; }
+.perks li { display: flex; gap: 12px; align-items: flex-start; }
+.formcard { padding: clamp(22px, 3.4vw, 38px); border-radius: 34px; background: var(--hi-card); box-shadow: var(--shadow-float); }
+.field { display: grid; gap: 8px; }
+.field + .field, .field + fieldset, fieldset + .consent { margin-top: 22px; }
+.label { font-weight: 650; font-size: .9688rem; }
+.label small { font-weight: 500; color: var(--hi-muted); font-size: .875rem; }
+.input { width: 100%; height: 56px; padding: 0 18px; border-radius: 16px; border: 1.5px solid var(--hi-line); background: #fff; font-size: 1.0625rem; transition: border-color .2s, box-shadow .2s; }
+.input::placeholder { color: #8A959C; }
+.input:hover { border-color: #B9C8CB; }
+.input:focus { outline: none; border-color: var(--hi-ink); box-shadow: 0 0 0 4px rgb(172 239 209 / .75); }
+.input[aria-invalid="true"] { border-color: var(--hi-danger); box-shadow: 0 0 0 4px rgb(222 59 61 / .12); }
+.error { display: flex; align-items: flex-start; gap: 8px; font-size: .9375rem; line-height: 1.4; color: var(--hi-danger-ink); }
+.error .i { width: 18px; height: 18px; margin-top: 1px; }
+.error[hidden], .suggest[hidden] { display: none; }
+.suggest { font-size: .9375rem; }
+.suggest button { font-weight: 650; text-decoration: underline; text-decoration-color: var(--hi-dot); text-decoration-thickness: 2px; text-underline-offset: 4px; min-height: 32px; }
+fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+legend { padding: 0; font-weight: 650; font-size: .9688rem; }
+.legend-hint { margin-top: 4px; font-size: .875rem; color: var(--hi-muted); }
+.lvls { margin-top: 12px; display: grid; gap: 8px; }
+.lvl { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 1px 12px; align-items: center; padding: 12px 16px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1.5px var(--hi-line); cursor: pointer; transition: background-color .2s, color .2s, box-shadow .2s; }
+.lvl:hover { box-shadow: inset 0 0 0 1.5px #B9C8CB; }
+.lvl input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.lvl__radio { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 2px #9AA7AE; display: grid; place-items: center; }
+.lvl__radio::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--hi-mint); transform: scale(0); transition: transform .25s var(--ease-spring); }
+.lvl__name { font-weight: 650; font-size: .9688rem; }
+.lvl__desc { grid-column: 2 / -1; font-size: .875rem; line-height: 1.35; color: var(--hi-muted); }
+.lvl .tag { background: rgb(14 23 30 / .06); }
+.lvl:has(input:checked), .lvl.is-checked { color: #fff; background: linear-gradient(180deg, #2E3339, #171B1F); box-shadow: 0 10px 24px -14px rgb(14 23 30 / .6); }
+.lvl:has(input:checked) .lvl__desc, .lvl.is-checked .lvl__desc { color: rgb(255 255 255 / .78); }
+.lvl:has(input:checked) .lvl__radio, .lvl.is-checked .lvl__radio { box-shadow: inset 0 0 0 2px var(--hi-mint); }
+.lvl:has(input:checked) .lvl__radio::after, .lvl.is-checked .lvl__radio::after { transform: scale(1); }
+.lvl:has(input:checked) .tag, .lvl.is-checked .tag { background: rgb(255 255 255 / .16); color: #fff; }
+.lvl:has(input:focus-visible) { outline: 2.5px solid var(--hi-ink); outline-offset: 3px; }
+.hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.consent { font-size: .875rem; color: var(--hi-muted); }
+.consent a { color: var(--hi-ink); }
+.formcard .btn--mint { margin-top: 18px; }
+.form-error { margin-top: 14px; }
+.spinner { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid rgb(14 23 30 / .25); border-top-color: var(--hi-ink); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.success[hidden] { display: none; }
+.success { display: grid; gap: 18px; }
+.success:focus { outline: none; }
+.success__top { display: grid; justify-items: start; gap: 12px; }
+.success__title { font: 400 clamp(2rem, 1.5rem + 1.4vw, 2.6rem)/1.05 var(--font-display); letter-spacing: -.015em; }
+.success__ref { padding: 20px; border-radius: 24px; background: color-mix(in oklch, var(--hi-mint-soft) 35%, var(--hi-card)); display: grid; gap: 12px; }
+.success__ref h4 { font: 400 1.4rem/1.15 var(--font-display); }
+.success__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.success__actions .btn { flex: 1 1 180px; }
+.demo-note { padding: 12px 14px; border-radius: 16px; border: 1.5px dashed rgb(14 23 30 / .22); font-size: .875rem; color: var(--hi-muted); }
+.demo-note[hidden] { display: none; }
+@media (max-width: 899px) { .join { grid-template-columns: 1fr; } }
+
+/* ---------- Seção 11 · CTA final e rodapé ---------- */
+.final { position: relative; overflow: clip; padding-block: clamp(88px, 11vw, 150px) clamp(64px, 8vw, 110px); text-align: center; }
+.final__word { font: 500 clamp(9rem, 30vw, 24rem)/.78 var(--font-display); letter-spacing: -.05em; color: var(--hi-ink); }
+.final__word span { display: inline-block; }
+.final__title { margin-top: clamp(20px, 3vw, 36px); font: 380 clamp(1.9rem, 1.2rem + 2.4vw, 3.25rem)/1.08 var(--font-display); letter-spacing: -.02em; text-wrap: balance; }
+.final__title em { font-style: italic; }
+.final__actions { margin-top: 30px; display: flex; justify-content: center; }
+.footer { padding: 40px 0 calc(40px + env(safe-area-inset-bottom)); border-top: 1px solid var(--hi-line); }
+.footer__grid { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 24px 48px; }
+.footer__brand p { margin-top: 8px; color: var(--hi-muted); font-size: .9375rem; max-width: 34ch; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 4px 22px; }
+.footer__links a, .footer__links button { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: .9375rem; font-weight: 500; text-decoration: underline; text-decoration-color: var(--hi-line); text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
+.footer__links a:hover, .footer__links button:hover { text-decoration-color: var(--hi-ink); }
+.switch { position: relative; width: 38px; height: 22px; border-radius: 999px; background: rgb(14 23 30 / .16); transition: background-color .2s; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgb(14 23 30 / .3); transition: transform .25s var(--ease-spring); }
+[aria-pressed="true"] > .switch { background: var(--hi-mint); }
+[aria-pressed="true"] > .switch::after { transform: translateX(16px); }
+.footer__legal { margin-top: 26px; font-size: .8125rem; color: var(--hi-muted); }
+
+/* ---------- Barra fixa (celular) e aviso ---------- */
+.dock {
+  position: fixed; z-index: 40; left: 0; right: 0; bottom: 0;
+  padding: 14px max(14px, env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-right));
+  background: linear-gradient(to bottom, rgb(238 249 250 / 0), rgb(238 249 250 / .92) 40%);
+  transform: translateY(115%); transition: transform .4s var(--ease-out); pointer-events: none;
+}
+html.cta-docked .dock { transform: none; pointer-events: auto; }
+@media (min-width: 900px) { .dock { display: none; } }
+.toast {
+  position: fixed; z-index: 60; left: 50%; bottom: calc(100px + env(safe-area-inset-bottom));
+  max-width: calc(100% - 32px); padding: 12px 18px; border-radius: 999px; text-align: center;
+  background: var(--hi-ink); color: #fff; font-size: .9375rem; font-weight: 500;
+  box-shadow: 0 14px 30px -12px rgb(14 23 30 / .5);
+  opacity: 0; visibility: hidden; transform: translate(-50%, 16px);
+  transition: opacity .25s, transform .3s var(--ease-out), visibility .25s;
+}
+.toast.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+/* ---------- Movimento ---------- */
+@supports (animation-timeline: view()) {
+  /* Termina quando o elemento entra por inteiro: sempre alcançável, até no fim da página. */
+  html[data-motion="full"] .reveal { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+}
+@keyframes reveal { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+html[data-motion="reduce"] *, html[data-motion="reduce"] *::before, html[data-motion="reduce"] *::after { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion]) *, html:not([data-motion]) *::before, html:not([data-motion]) *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+<!-- Ícones (traçados no estilo Lucide, como no app) e o mascote do Hi (MascotAvatar.tsx). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.8"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.85z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><path d="m16.24 7.76-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27z"/><circle cx="12" cy="12" r="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+
+    <symbol id="m-duvida" viewBox="0 0 100 100">
+      <g fill="none" stroke="#1B2140" stroke-width="4" stroke-linecap="round"><path d="M28 40 Q34 36 40 39"/><path d="M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60"/><path d="M46 63 Q52 66 58 62"/></g>
+      <g fill="#1B2140"><circle cx="34" cy="47" r="4"/><circle cx="63" cy="50" r="4"/><circle cx="18" cy="20" r="3"/><circle cx="24" cy="14" r="2.3"/><circle cx="31" cy="10" r="1.6"/></g>
+    </symbol>
+    <symbol id="m-sorriso" viewBox="0 0 100 100">
+      <g fill="none" stroke="#1B2140" stroke-width="4" stroke-linecap="round"><path d="M30 46 Q34 41 38 46"/><path d="M60 48 Q64 43 68 48"/><path d="M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60"/><path d="M42 62 Q54 74 66 60"/></g>
+      <path d="M78 14 L80 20 L86 22 L80 24 L78 30 L76 24 L70 22 L76 20 Z" fill="#1B2140"/>
+    </symbol>
+    <symbol id="m-piscada" viewBox="0 0 100 100">
+      <g fill="none" stroke="#1B2140" stroke-width="4" stroke-linecap="round"><path d="M58 46 Q64 42 69 46"/><path d="M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60"/><path d="M42 62 Q54 70 65 61"/></g>
+      <circle cx="34" cy="46" r="4" fill="#1B2140"/>
+      <path d="M78 14 L80 20 L86 22 L80 24 L78 30 L76 24 L70 22 L76 20 Z" fill="#1B2140"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="nav">
+  <nav class="nav__pill glass" aria-label="Principal">
+    <a class="brand" href="#inicio" aria-label="Hi, voltar ao início">
+      <svg class="mascot brand__mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg>
+      <span class="brand__word" aria-hidden="true">Hi.</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#experimente">Experimente</a></li>
+      <li><a href="#trilha">Trilha</a></li>
+      <li><a href="#indicacao">Indicação</a></li>
+      <li><a href="#duvidas">Dúvidas</a></li>
+    </ul>
+    <a class="btn btn--mint btn--sm nav__cta" href="#lista" data-cta>Entrar na lista</a>
+    <button type="button" class="nav__menu glass" aria-expanded="false" aria-controls="menu" data-menu>
+      <svg class="i" aria-hidden="true"><use href="#i-menu"/></svg>Menu
+    </button>
+  </nav>
+  <div class="nav__sheet glass" id="menu" hidden>
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#experimente">Experimente uma lição</a>
+    <a href="#trilha">A trilha</a>
+    <a href="#indicacao">Indicação</a>
+    <a href="#duvidas">Dúvidas</a>
+    <a class="btn btn--mint btn--block" href="#lista" data-cta>Quero entrar na lista</a>
+  </div>
+</header>
+
+<main id="conteudo">
+
+<!-- 1 · Herói -->
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="hero__copy">
+    <p class="hero__pill"><span class="live" aria-hidden="true"></span>Acesso antecipado</p>
+    <h1 class="hero__title" id="hero-title"><span class="l">Seu inglês começa aqui.</span> <span class="l">Ou <em>recomeça</em>.</span></h1>
+    <p class="hero__sub">Nivelamento, trilha de 24 unidades e teste final. Do A1 ao B2.</p>
+    <div class="hero__actions">
+      <a class="btn btn--mint btn--lg" href="#lista" data-cta data-hero-cta>Quero entrar na lista <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="tlink" href="#como-funciona">Ver como funciona</a>
+    </div>
+    <p class="hero__note">Entrar na lista é grátis. Só pedimos seu e-mail.</p>
+    <p class="hero__invite" data-invite hidden><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg>Você chegou por um convite. Entrando na lista, seu amigo fica mais perto do semestre grátis.</p>
+    <p class="hero__partner" data-partner hidden>Em parceria com <strong data-partner-name></strong></p>
+  </div>
+
+  <div class="hero__stage" data-stage>
+    <canvas class="halftone" data-halftone aria-hidden="true"></canvas>
+    <p class="hero__giant" aria-hidden="true">Hi.</p>
+    <div class="glow" aria-hidden="true"></div>
+
+    <div class="phone-wrap">
+      <div class="phone" role="img" aria-label="Tela de exercício do app Hi: a pergunta “O que significa deadline?” com a opção “Prazo final” marcada como certa e o botão Continuar.">
+        <div class="phone__screen">
+          <div class="ui" aria-hidden="true">
+            <div class="ui__status"><span>9:41</span>
+              <svg viewBox="0 0 74 14" fill="#0E171E"><rect x="0" y="9" width="3" height="5" rx="1"/><rect x="5" y="6.5" width="3" height="7.5" rx="1"/><rect x="10" y="4" width="3" height="10" rx="1"/><rect x="15" y="1.5" width="3" height="12.5" rx="1"/><path d="M33 4.2a9 9 0 0 1 11.8 0l1.3-1.4a11 11 0 0 0-14.4 0zm2.4 2.6a5.5 5.5 0 0 1 7 0l1.3-1.4a7.5 7.5 0 0 0-9.6 0zm3.5 3.6 2.1-2.2a2.7 2.7 0 0 0-4.2 0z"/><rect x="51" y="1.5" width="19" height="11" rx="3.2" fill="none" stroke="#0E171E" stroke-opacity=".45"/><rect x="52.8" y="3.3" width="14" height="7.4" rx="1.8"/><rect x="71" y="5" width="1.6" height="4" rx=".8" fill-opacity=".45"/></svg>
+            </div>
+            <div class="ui__head"><span class="ui__x glass"><svg class="i"><use href="#i-x"/></svg></span><span class="ui__track"><i></i></span><span class="ui__count">4/8</span></div>
+            <div class="ui__stages"><span>Descobrir</span><span class="on">Reconhecer</span><span>Recordar</span><span>Aplicar</span></div>
+            <p class="ui__ask">O que significa</p>
+            <div class="ui__word"><b>deadline</b><span class="ui__speak glass"><svg class="i"><use href="#i-volume"/></svg></span></div>
+            <div class="ui__opts">
+              <div class="ui__opt"><span class="n">1</span>Reunião</div>
+              <div class="ui__opt right"><span class="n">2</span>Prazo final<svg class="i ok" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div>
+              <div class="ui__opt"><span class="n">3</span>Contrato</div>
+              <div class="ui__opt"><span class="n">4</span>Experiência profissional</div>
+            </div>
+            <div class="ui__cta">Continuar <svg class="i"><use href="#i-arrow"/></svg></div>
+            <div class="ui__home"></div>
+          </div>
+        </div>
+        <span class="phone__island" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div class="float float--progress" aria-hidden="true">
+      <div class="f-row">
+        <svg class="mascot" width="36" height="36" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg>
+        <div><p class="f-kicker">Seção 1 · Fundamentos</p><p class="f-title">Unidade 1 de 3 concluída</p></div>
+      </div>
+      <div class="bar f-bar"><i style="width:33.3%"></i></div>
+      <p class="f-meta"><span>Próxima: Unidade 2</span><span>33%</span></p>
+    </div>
+    <div class="float float--feedback" aria-hidden="true">
+      <span class="ok-badge"><svg class="i"><use href="#i-check"/></svg></span>
+      <div><p class="f-big">Muito bom!</p><p class="f-text"><b lang="en">deadline</b> = prazo final</p></div>
+    </div>
+    <div class="float float--chat" aria-hidden="true">
+      <p class="f-who"><svg class="i" style="width:14px;height:14px"><use href="#i-message"/></svg>Conversa com a Hi</p>
+      <p class="bubble bubble--hi" lang="en">Hey! How was your weekend? Did you do anything fun?</p>
+      <p class="f-sub">Missão do dia · 10 min</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Identificação com o problema -->
+<section class="section" id="por-que" aria-labelledby="por-que-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">O que trava</p>
+      <h2 class="h2" id="por-que-title">Talvez você se reconheça aqui.</h2>
+      <p class="lead">O Hi foi desenhado em volta de três travas comuns de quem começa ou recomeça o inglês.</p>
+    </header>
+    <ol class="problems">
+      <li class="problem reveal">
+        <span class="problem__icon" style="--tone: var(--hi-butter)"><svg class="i" aria-hidden="true"><use href="#i-route"/></svg></span>
+        <h3 class="problem__title">Não sei o que estudar.</h3>
+        <p class="problem__text">Vídeo, app, apostila, lista de verbos. Muito material, nenhuma ordem, e a sensação de não sair do lugar.</p>
+        <div class="answer">
+          <p class="answer__label">No Hi</p>
+          <p class="answer__text">Uma trilha com começo, meio e fim. Você sempre sabe qual é o próximo passo.</p>
+          <span class="nextpill" aria-hidden="true"><span class="nextpill__dot"><svg class="i"><use href="#i-pen"/></svg></span>Próximo passo · Recordar <small>4 min</small></span>
+        </div>
+      </li>
+      <li class="problem reveal">
+        <span class="problem__icon" style="--tone: var(--hi-peach)"><svg class="i" aria-hidden="true"><use href="#i-message"/></svg></span>
+        <h3 class="problem__title">Tenho vergonha de errar.</h3>
+        <p class="problem__text">Medo de falar errado, de travar no meio da frase. Aí a gente prefere nem tentar.</p>
+        <div class="answer">
+          <p class="answer__label">No Hi</p>
+          <p class="answer__text">Errou? Aparece um “Quase lá!”, a resposta certa e uma explicação curta. Sem vidas pra perder.</p>
+          <div class="chips" aria-hidden="true">
+            <span class="chip chip--peach"><svg class="i"><use href="#i-alert"/></svg>Quase lá!</span>
+            <span class="chip chip--sky"><svg class="i"><use href="#i-calendar"/></svg>Volta na revisão de amanhã</span>
+          </div>
+        </div>
+      </li>
+      <li class="problem reveal">
+        <span class="problem__icon" style="--tone: var(--hi-lilac)"><svg class="i" aria-hidden="true"><use href="#i-rotate"/></svg></span>
+        <h3 class="problem__title">Começo e paro.</h3>
+        <p class="problem__text">A semana aperta, você perde uns dias e parece que vai ter que começar tudo de novo.</p>
+        <div class="answer">
+          <p class="answer__label">No Hi</p>
+          <p class="answer__text">Atividades de 2 a 4 minutos. E um dia parado não apaga o que você já aprendeu.</p>
+          <div class="week" aria-hidden="true">
+            <span class="week__d">S<span class="week__c on"><svg class="i"><use href="#i-check"/></svg></span></span>
+            <span class="week__d">T<span class="week__c on"><svg class="i"><use href="#i-check"/></svg></span></span>
+            <span class="week__d">Q<span class="week__c">12</span></span>
+            <span class="week__d">Q<span class="week__c on"><svg class="i"><use href="#i-check"/></svg></span></span>
+            <span class="week__d">S<span class="week__c today">14</span></span>
+            <span class="week__d">S<span class="week__c">15</span></span>
+            <span class="week__d">D<span class="week__c">16</span></span>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 3 · Como funciona -->
+<section class="section band-sky" id="como-funciona" aria-labelledby="como-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Como funciona</p>
+      <h2 class="h2" id="como-title">Três passos, um de cada vez.</h2>
+      <p class="lead">Você não precisa decidir o que estudar. O Hi organiza o caminho e mostra o próximo passo.</p>
+    </header>
+    <ol class="steps">
+      <li class="step reveal">
+        <div class="step__top"><span class="step__num">01</span><span class="step__rule"></span></div>
+        <h3 class="step__title">Nivelamento</h3>
+        <p class="step__text">Algumas perguntas mostram onde você está. Assim você começa no ponto certo e não repete o que já sabe.</p>
+        <div class="step__ui">
+          <div class="mini" aria-hidden="true">
+            <p class="mini__eyebrow">Pergunta 2 de 10</p>
+            <p class="mini__q">Como você se sente falando hoje?</p>
+            <div class="mopt">Iniciante<span class="tag">A1</span></div>
+            <div class="mopt mopt--on">Básico<span class="tag">A2</span><small>Consigo falar frases simples sobre assuntos conhecidos.</small></div>
+            <div class="mopt">Intermediário<span class="tag">B1</span></div>
+          </div>
+        </div>
+      </li>
+      <li class="step reveal">
+        <div class="step__top"><span class="step__num">02</span><span class="step__rule"></span></div>
+        <h3 class="step__title">Trilha</h3>
+        <p class="step__text">24 unidades, do A1 ao B2. Em cada uma, as palavras passam por quatro etapas: descobrir, reconhecer, recordar e aplicar numa conversa.</p>
+        <div class="step__ui">
+          <div class="mini" aria-hidden="true">
+            <p class="mini__kicker">Seção 1 · Unidade 3</p>
+            <p class="mini__title">Entrevista simples</p>
+            <p class="mini__meta"><span>2 de 5 atividades</span><span>40%</span></p>
+            <div class="bar bar--teal"><i style="width:40%"></i></div>
+            <ol class="mpath">
+              <li class="mnode" style="--tone: var(--hi-butter)"><span class="mnode__dot"><svg class="i"><use href="#i-layers"/></svg></span><span class="mnode__l">Descobrir</span></li>
+              <li class="mnode" style="--tone: var(--hi-sky)"><span class="mnode__dot"><svg class="i"><use href="#i-eye"/></svg></span><span class="mnode__l">Reconhecer</span></li>
+              <li class="mnode mnode--now"><span class="mnode__tag">Começar</span><span class="mnode__dot"><svg class="i"><use href="#i-pen"/></svg></span><span class="mnode__l">Recordar</span></li>
+              <li class="mnode mnode--lock"><span class="mnode__dot"><svg class="i"><use href="#i-lock"/></svg></span><span class="mnode__l">Aplicar</span></li>
+              <li class="mnode mnode--lock mnode--check"><span class="mnode__dot"><svg class="i"><use href="#i-flag"/></svg></span><span class="mnode__l">Checkpoint</span></li>
+            </ol>
+          </div>
+        </div>
+      </li>
+      <li class="step reveal">
+        <div class="step__top"><span class="step__num">03</span><span class="step__rule"></span></div>
+        <h3 class="step__title">Teste final</h3>
+        <p class="step__text">No fim da trilha, um teste mostra o que você já domina e quanto avançou desde o nivelamento.</p>
+        <div class="step__ui">
+          <div class="mini" aria-hidden="true">
+            <div class="mini__row"><p class="mini__title" style="margin-top:0">Seu caminho</p><span class="tag tag--ghost">exemplo</span></div>
+            <div class="mscale">
+              <span class="mscale__pin" style="left: calc(6px + (100% - 12px) * .333)"><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-duvida" width="100" height="100"/></svg></span>
+              <span class="mscale__pin" style="left: calc(6px + (100% - 12px) * .667)"><span class="mscale__flag"><svg class="i"><use href="#i-flag"/></svg></span></span>
+              <div class="mscale__track" style="margin-top:4px"><i style="left:33.3%;width:33.4%"></i></div>
+              <ol class="mscale__lv"><li>A1</li><li class="on">A2</li><li class="on">B1</li><li>B2</li></ol>
+            </div>
+            <p class="mini__meta"><span>Nivelamento: A2</span><span><svg class="i"><use href="#i-flag"/></svg>Teste final: B1</span></p>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 4 · Preview interativo -->
+<section class="section" id="experimente" aria-labelledby="exp-title">
+  <div class="wrap exp">
+    <div class="exp__copy">
+      <header class="sec-head reveal">
+        <p class="eyebrow">Experimente</p>
+        <h2 class="h2 h2--md h2--lines" id="exp-title"><span>Teste uma lição agora.</span> <span>Sem cadastro.</span></h2>
+        <p class="lead">Quatro telas da unidade Entrevista simples, do jeito que aparecem no app. Leva menos de um minuto.</p>
+      </header>
+      <ul class="ticks reveal">
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Ouça cada palavra em velocidade normal ou devagar.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Errou? A resposta certa aparece na hora, com uma explicação curta.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>O que você erra volta na revisão do dia seguinte.</li>
+      </ul>
+    </div>
+
+    <div class="lesson" data-lesson role="region" aria-label="Lição de exemplo do Hi">
+      <div class="lesson__head">
+        <button type="button" class="lesson__restart glass" data-act="restart" aria-label="Recomeçar a lição"><svg class="i" aria-hidden="true"><use href="#i-rotate"/></svg></button>
+        <div class="lesson__track" role="progressbar" aria-label="Progresso da lição" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" data-l-progress><i data-l-track style="width:25%"></i></div>
+        <span class="lesson__count" data-l-count>1/4</span>
+      </div>
+      <ol class="lesson__stages" aria-label="Etapas da palavra" data-l-stages>
+        <li class="lesson__stage" data-l-stage style="--tone: var(--hi-butter)" aria-current="step">Descobrir</li>
+        <li class="lesson__stage" data-l-stage style="--tone: var(--hi-sky)">Reconhecer</li>
+        <li class="lesson__stage" data-l-stage style="--tone: var(--hi-lilac)">Recordar</li>
+        <li class="lesson__stage" data-l-stage style="--tone: var(--hi-peach)">Aplicar</li>
+      </ol>
+      <div class="lesson__body" data-l-body>
+        <article class="wordcard">
+          <span class="wordcard__icon"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <h3 class="wordcard__word" lang="en" tabindex="-1" data-l-focus>deadline</h3>
+          <p class="wordcard__ipa">/ˈded.laɪn/</p>
+          <p class="wordcard__label">significa</p>
+          <p class="wordcard__pt">prazo final</p>
+        </article>
+        <div class="example example--butter">
+          <div><p lang="en">We need to meet the <strong>deadline</strong>.</p><p class="example__pt">Precisamos cumprir o prazo.</p></div>
+        </div>
+      </div>
+      <div class="lesson__foot" data-l-foot>
+        <a class="btn btn--mint btn--block btn--lg" href="#lista">Quero entrar na lista</a>
+      </div>
+      <p class="sr-only" aria-live="polite" data-l-live></p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · Mapa da trilha
+     Unidades 01–03 e os nomes das seções A1 e A2 vêm do app (src/lib/curriculum.ts).
+     As demais são RASCUNHO, montadas a partir das situações e objetivos que já aparecem no app:
+     troque pelos títulos oficiais antes de publicar. -->
+<section class="section" id="trilha" aria-labelledby="trilha-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">A trilha</p>
+      <h2 class="h2" id="trilha-title">24 unidades, do A1 ao B2.</h2>
+      <p class="lead">Cada unidade tem cinco atividades curtas e termina num checkpoint. Escolha onde você acha que está e veja por onde começaria.</p>
+    </header>
+
+    <fieldset class="picker reveal">
+      <legend class="picker__label">Onde você acha que está?</legend>
+      <div class="picker__opts">
+        <label class="pick"><input type="radio" name="start-level" id="start-a1" value="A1" checked><span class="tag">A1</span>Iniciante</label>
+        <label class="pick"><input type="radio" name="start-level" id="start-a2" value="A2"><span class="tag">A2</span>Básico</label>
+        <label class="pick"><input type="radio" name="start-level" id="start-b1" value="B1"><span class="tag">B1</span>Intermediário</label>
+        <label class="pick"><input type="radio" name="start-level" id="start-b2" value="B2"><span class="tag">B2</span>Intermediário avançado</label>
+      </div>
+      <p class="picker__result" aria-live="polite" data-trail-result>Você começaria na <strong>Unidade 01 · Apresentar-se e cumprimentar</strong>. A trilha começa do zero, sem pressupor nada.</p>
+    </fieldset>
+
+    <div class="map" data-map>
+      <div class="map__cap"><span class="map__capicon"><svg class="i" aria-hidden="true"><use href="#i-compass"/></svg></span><p><strong>Nivelamento.</strong> Antes da unidade 01, algumas perguntas mostram por onde começar.</p></div>
+      <div class="map__scroller" data-map-scroller tabindex="0" role="region" aria-label="Unidades da trilha por nível">
+        <ol class="levels">
+          <li class="level is-start" data-level-col="A1">
+            <span class="level__node" aria-hidden="true"><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg></span>
+            <p class="level__tag">A1 · Iniciante</p>
+            <h3 class="level__title">Fundamentos</h3>
+            <p class="level__desc">Se apresentar, cumprimentar e falar do seu trabalho com frases simples.</p>
+            <p class="level__skip">O nivelamento pode pular esta parte</p>
+            <ol class="units">
+              <li class="unit is-start" data-unit="1"><span class="unit__n">01</span><span class="unit__t">Apresentar-se e cumprimentar</span></li>
+              <li class="unit" data-unit="2"><span class="unit__n">02</span><span class="unit__t">Apresentações profissionais</span></li>
+              <li class="unit" data-unit="3"><span class="unit__n">03</span><span class="unit__t">Entrevista simples</span></li>
+              <li class="unit" data-unit="4"><span class="unit__n">04</span><span class="unit__t">Números, datas e horários</span></li>
+              <li class="unit" data-unit="5"><span class="unit__n">05</span><span class="unit__t">Sua rotina</span></li>
+              <li class="unit" data-unit="6"><span class="unit__n">06</span><span class="unit__t">Pedir e oferecer ajuda</span></li>
+            </ol>
+          </li>
+          <li class="level" data-level-col="A2">
+            <span class="level__node" aria-hidden="true"><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg></span>
+            <p class="level__tag">A2 · Básico</p>
+            <h3 class="level__title">Conversas do dia a dia</h3>
+            <p class="level__desc">Resolver o dia a dia: pedir, reservar, se informar e contar o que fez.</p>
+            <p class="level__skip">O nivelamento pode pular esta parte</p>
+            <ol class="units">
+              <li class="unit" data-unit="7"><span class="unit__n">07</span><span class="unit__t">Pedir um café</span></li>
+              <li class="unit" data-unit="8"><span class="unit__n">08</span><span class="unit__t">Fazer uma reserva</span></li>
+              <li class="unit" data-unit="9"><span class="unit__n">09</span><span class="unit__t">Check-in no aeroporto</span></li>
+              <li class="unit" data-unit="10"><span class="unit__n">10</span><span class="unit__t">Marcar uma consulta</span></li>
+              <li class="unit" data-unit="11"><span class="unit__n">11</span><span class="unit__t">Pedir informações</span></li>
+              <li class="unit" data-unit="12"><span class="unit__n">12</span><span class="unit__t">Contar como foi o fim de semana</span></li>
+            </ol>
+          </li>
+          <li class="level" data-level-col="B1">
+            <span class="level__node" aria-hidden="true"><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg></span>
+            <p class="level__tag">B1 · Intermediário</p>
+            <h3 class="level__title">Situações reais</h3>
+            <p class="level__desc">Se virar no trabalho e em viagens, explicar e dar opinião.</p>
+            <p class="level__skip">O nivelamento pode pular esta parte</p>
+            <ol class="units">
+              <li class="unit" data-unit="13"><span class="unit__n">13</span><span class="unit__t">Explicar seu trabalho</span></li>
+              <li class="unit" data-unit="14"><span class="unit__n">14</span><span class="unit__t">Participar de uma reunião</span></li>
+              <li class="unit" data-unit="15"><span class="unit__n">15</span><span class="unit__t">Falar dos seus hobbies</span></li>
+              <li class="unit" data-unit="16"><span class="unit__n">16</span><span class="unit__t">Resolver um problema</span></li>
+              <li class="unit" data-unit="17"><span class="unit__n">17</span><span class="unit__t">Dar sua opinião</span></li>
+              <li class="unit" data-unit="18"><span class="unit__n">18</span><span class="unit__t">Viajar sem depender de tradução</span></li>
+            </ol>
+          </li>
+          <li class="level" data-level-col="B2">
+            <span class="level__node" aria-hidden="true"><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg></span>
+            <p class="level__tag">B2 · Intermediário avançado</p>
+            <h3 class="level__title">Conversas com confiança</h3>
+            <p class="level__desc">Conversar com mais naturalidade, argumentar e entender nativos.</p>
+            <p class="level__skip">O nivelamento pode pular esta parte</p>
+            <ol class="units">
+              <li class="unit" data-unit="19"><span class="unit__n">19</span><span class="unit__t">Entender um podcast</span></li>
+              <li class="unit" data-unit="20"><span class="unit__n">20</span><span class="unit__t">Apresentar uma ideia</span></li>
+              <li class="unit" data-unit="21"><span class="unit__n">21</span><span class="unit__t">Negociar e argumentar</span></li>
+              <li class="unit" data-unit="22"><span class="unit__n">22</span><span class="unit__t">Conversa informal com naturalidade</span></li>
+              <li class="unit" data-unit="23"><span class="unit__n">23</span><span class="unit__t">Entrevista completa em inglês</span></li>
+              <li class="unit" data-unit="24"><span class="unit__n">24</span><span class="unit__t">Revisão para o teste final</span></li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+      <div class="map__nav">
+        <button type="button" class="map__btn" data-map-prev aria-label="Nível anterior"><svg class="i" aria-hidden="true"><use href="#i-chev-l"/></svg></button>
+        <button type="button" class="map__btn" data-map-next aria-label="Próximo nível"><svg class="i" aria-hidden="true"><use href="#i-chev-r"/></svg></button>
+      </div>
+      <div class="map__cap map__cap--end"><span class="map__capicon"><svg class="i" aria-hidden="true"><use href="#i-flag"/></svg></span><p><strong>Teste final.</strong> Depois da unidade 24, um teste mostra o que você já domina.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · Para quem é -->
+<section class="section band-sky" id="para-quem" aria-labelledby="quem-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Para quem é</p>
+      <h2 class="h2" id="quem-title">Feito para quem está começando ou recomeçando.</h2>
+    </header>
+    <div class="who-grid">
+      <article class="who reveal">
+        <p class="who__tag"><span class="tag">A1</span>Iniciante</p>
+        <h3 class="who__title">Estou começando do zero.</h3>
+        <p class="who__text">Você conhece algumas palavras, mas quase não consegue formar frases. A trilha começa na primeira unidade, sem pressupor nada.</p>
+        <p class="who__start"><span>Você começa em</span>Unidade 01 · Apresentar-se e cumprimentar</p>
+        <a class="btn btn--outline" href="#lista" data-pick-level="A1">Começar do A1 <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </article>
+      <article class="who reveal">
+        <p class="who__tag"><span class="tag">A2</span>Básico</p>
+        <h3 class="who__title">Já estudei, mas parei.</h3>
+        <p class="who__text">Estudou na escola ou num curso e esqueceu boa parte. O nivelamento acha o seu ponto, e você não repete o que já sabe.</p>
+        <p class="who__start"><span>Você começa em</span>Unidade 07 · Pedir um café</p>
+        <a class="btn btn--outline" href="#lista" data-pick-level="A2">Retomar meu inglês <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </article>
+      <article class="who reveal">
+        <p class="who__tag"><span class="tag">B1</span>Intermediário</p>
+        <h3 class="who__title">Entendo, mas travo pra falar.</h3>
+        <p class="who__text">Você entende bastante, mas a frase não sai na hora. Cada palavra da trilha termina numa conversa, pra você usar de verdade.</p>
+        <p class="who__start"><span>Você começa em</span>Unidade 13 · Explicar seu trabalho</p>
+        <a class="btn btn--outline" href="#lista" data-pick-level="B1">Destravar a conversa <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </article>
+    </div>
+    <p class="not-for reveal">Já conversa com naturalidade? A trilha do Hi vai até o B2, então talvez ela ainda não seja pra você.</p>
+  </div>
+</section>
+
+<!-- 7 · Acesso antecipado e indicação -->
+<section class="section" id="indicacao" aria-labelledby="ref-title">
+  <div class="wrap ref-grid">
+    <div>
+      <header class="sec-head reveal">
+        <p class="eyebrow">Acesso antecipado</p>
+        <h2 class="h2 h2--md h2--lines" id="ref-title"><span>Entre antes.</span> <span>Chame 3 amigos.</span> <span>Ganhe um semestre.</span></h2>
+        <p class="lead">Quem está na lista recebe o convite antes do lançamento. Depois de entrar, você ganha um link só seu.</p>
+      </header>
+      <ol class="ref-steps reveal">
+        <li class="ref-step"><span class="ref-step__n">01</span><span class="ref-step__t">Entre na lista</span><span class="ref-step__d">Só o e-mail é obrigatório.</span></li>
+        <li class="ref-step"><span class="ref-step__n">02</span><span class="ref-step__t">Compartilhe seu link</span><span class="ref-step__d">Mande pra quem também quer começar ou recomeçar.</span></li>
+        <li class="ref-step"><span class="ref-step__n">03</span><span class="ref-step__t">3 amigos ativados, 1 semestre grátis</span><span class="ref-step__d">Quando 3 amigos entrarem pelo seu link e ativarem a conta, o semestre é seu.</span></li>
+      </ol>
+      <p class="ref-fine reveal">As regras completas estão no <a href="#regulamento" class="tlink" data-doc="regulamento">regulamento da indicação</a>.</p>
+    </div>
+
+    <div class="refcard reveal" data-refcard>
+      <div class="refcard__head">
+        <p class="refcard__title">Sua indicação</p>
+        <span class="tag tag--ghost" data-ref-tag>exemplo</span>
+      </div>
+      <ol class="slots" aria-label="Amigos ativados">
+        <li class="slot is-on" data-slot><span class="slot__face"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#5AA9E6"/><use href="#m-piscada" width="100" height="100"/></svg></span><span class="slot__l">Amigo 1</span></li>
+        <li class="slot is-on" data-slot><span class="slot__face"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2719A"/><use href="#m-sorriso" width="100" height="100"/></svg></span><span class="slot__l">Amigo 2</span></li>
+        <li class="slot" data-slot><span class="slot__face"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#6FCF97"/><use href="#m-duvida" width="100" height="100"/></svg></span><span class="slot__l">Amigo 3</span></li>
+      </ol>
+      <div class="bar refcard__bar" role="progressbar" aria-label="Amigos ativados" aria-valuemin="0" aria-valuemax="3" aria-valuenow="2" data-ref-progress><i data-ref-bar style="width:66.6%"></i></div>
+      <p class="refcard__status" aria-live="polite"><strong data-ref-count>2 de 3</strong> amigos ativados. <span data-ref-left>Falta 1 para o semestre grátis.</span></p>
+      <div class="ticket" data-ticket>
+        <span class="ticket__icon"><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg></span>
+        <div><p class="ticket__title">1 semestre grátis</p><p class="ticket__state" data-ticket-state>Libera com 3 amigos ativados</p></div>
+      </div>
+      <div class="refcard__mine" data-ref-mine hidden>
+        <label class="label" for="ref-link-card">Seu link de convite</label>
+        <div class="linkrow"><input id="ref-link-card" type="text" readonly data-ref-input><button type="button" class="btn btn--ink" data-copy-link><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg>Copiar</button></div>
+      </div>
+      <div class="refcard__foot"><span data-ref-note>Simulação de como o progresso aparece.</span><button type="button" class="linkbtn" data-ref-replay>Ver de novo</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Prova social: só números verificáveis -->
+<section class="section band-sky" id="numeros" aria-labelledby="num-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Em números</p>
+      <h2 class="h2" id="num-title">Só números que dá pra conferir.</h2>
+      <p class="lead">O Hi ainda não lançou, então não vamos inventar depoimentos. Estes são fatos do produto. As histórias de alunos vêm depois do lançamento, de gente de verdade.</p>
+    </header>
+    <dl class="stats reveal">
+      <div class="stat"><dt>Unidades</dt><dd class="stat__num">24</dd><dd class="stat__desc">na trilha, do A1 ao B2, em quatro níveis.</dd></div>
+      <div class="stat"><dt>Etapas por palavra</dt><dd class="stat__num">4</dd><dd class="stat__desc">Descobrir, reconhecer, recordar e aplicar.</dd></div>
+      <div class="stat"><dt>Por atividade</dt><dd class="stat__num">2–4<small>min</small></dd><dd class="stat__desc">Cabe numa pausa do dia.</dd></div>
+      <div class="stat"><dt>Vidas pra perder</dt><dd class="stat__num">0</dd><dd class="stat__desc">Erre quantas vezes precisar.</dd></div>
+      <div class="stat" data-waitlist hidden><dt>Na lista</dt><dd class="stat__num" data-waitlist-num></dd><dd class="stat__desc">pessoas esperando o convite.</dd></div>
+    </dl>
+    <p class="stats__note reveal"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg>Depoimentos de alunos só entram aqui depois do lançamento, com nome e autorização.</p>
+  </div>
+</section>
+
+<!-- 9 · FAQ -->
+<section class="section" id="duvidas" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Dúvidas</p>
+      <h2 class="h2 h2--md" id="faq-title">Antes de entrar na lista.</h2>
+    </header>
+    <div class="faq reveal">
+      <details>
+        <summary>Quanto vai custar o Hi?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Entrar na lista é grátis. Os planos e preços saem antes do lançamento, e quem está na lista fica sabendo primeiro.</p>
+      </details>
+      <details>
+        <summary>Preciso saber algum inglês para começar?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Não. A trilha começa no A1, do primeiro “hi”. Se você já sabe alguma coisa, o nivelamento mostra por onde começar.</p>
+      </details>
+      <details>
+        <summary>Em quanto tempo vou ficar fluente?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">A gente não promete prazo. Isso depende da sua rotina e da sua prática. O que o Hi oferece é um caminho claro. Você sempre sabe onde está e qual é o próximo passo.</p>
+      </details>
+      <details>
+        <summary>Quanto tempo preciso por dia?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Cada atividade leva de 2 a 4 minutos, e você escolhe quantas fazer. Se ficar uns dias sem estudar, tudo bem. Um dia parado não apaga o que você já aprendeu.</p>
+      </details>
+      <details>
+        <summary>E se eu errar?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Faz parte. Você vê a resposta certa na hora, com uma explicação curta, e a palavra volta na revisão do dia seguinte. Não tem vida pra perder nem tela vermelha de “incorreto”.</p>
+      </details>
+      <details>
+        <summary>Como funciona a indicação?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Depois de entrar na lista, você recebe um link só seu. Quando 3 amigos entrarem pelo seu link e ativarem a conta, você ganha um semestre grátis. O <a href="#regulamento" data-doc="regulamento">regulamento</a> explica o que conta como ativação.</p>
+      </details>
+      <details>
+        <summary>Quando o Hi vai lançar?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Ainda não temos data fechada. Quem está na lista recebe o convite por e-mail antes de todo mundo.</p>
+      </details>
+      <details>
+        <summary>O que vocês fazem com o meu <span class="nowrap">e-mail</span>?<span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Usamos só para falar do Hi: o convite, as novidades do lançamento e a sua indicação. Você pode sair da lista quando quiser. Os detalhes estão na <a href="#privacidade" data-doc="privacidade">política de privacidade</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · Formulário -->
+<section class="section join-section" id="lista" aria-labelledby="lista-title">
+  <div class="wrap join">
+    <div>
+      <header class="sec-head reveal">
+        <p class="eyebrow">Lista de acesso antecipado</p>
+        <h2 class="h2 h2--md" id="lista-title">Entre na lista.</h2>
+        <p class="lead">Você recebe o convite por e-mail antes do lançamento, e um link pra chamar seus amigos.</p>
+      </header>
+      <ul class="perks reveal">
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Convite antes de todo mundo.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Link de indicação pra ganhar um semestre grátis.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Sai da lista quando quiser, com um clique.</li>
+      </ul>
+    </div>
+
+    <div class="formcard">
+      <form class="form" id="form-lista" novalidate data-form>
+        <div class="field">
+          <label class="label" for="email">Seu e-mail</label>
+          <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="voce@email.com" required aria-describedby="email-erro email-sugestao">
+          <p class="error" id="email-erro" hidden><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg><span data-error-text></span></p>
+          <p class="suggest" id="email-sugestao" hidden>Você quis dizer <button type="button" data-suggest></button>?</p>
+        </div>
+        <div class="field">
+          <label class="label" for="nome">Seu nome <small>(opcional)</small></label>
+          <input class="input" id="nome" name="nome" type="text" autocomplete="given-name" maxlength="60" placeholder="Como podemos te chamar?">
+        </div>
+        <fieldset class="field">
+          <legend>Como está seu inglês hoje? <small class="muted" style="font-weight:500">(opcional)</small></legend>
+          <p class="legend-hint">Não precisa acertar. No app, o nivelamento confirma.</p>
+          <div class="lvls">
+            <label class="lvl"><input type="radio" name="nivel" id="nivel-a1" value="A1"><span class="lvl__radio" aria-hidden="true"></span><span class="lvl__name">Iniciante</span><span class="tag">A1</span><span class="lvl__desc">Conheço algumas palavras, mas quase não consigo formar frases.</span></label>
+            <label class="lvl"><input type="radio" name="nivel" id="nivel-a2" value="A2"><span class="lvl__radio" aria-hidden="true"></span><span class="lvl__name">Básico</span><span class="tag">A2</span><span class="lvl__desc">Consigo falar frases simples sobre assuntos conhecidos.</span></label>
+            <label class="lvl"><input type="radio" name="nivel" id="nivel-b1" value="B1"><span class="lvl__radio" aria-hidden="true"></span><span class="lvl__name">Intermediário</span><span class="tag">B1</span><span class="lvl__desc">Entendo bastante, mas travo ao falar.</span></label>
+            <label class="lvl"><input type="radio" name="nivel" id="nivel-b2" value="B2"><span class="lvl__radio" aria-hidden="true"></span><span class="lvl__name">Intermediário avançado</span><span class="tag">B2</span><span class="lvl__desc">Consigo conversar, mas com erros e pausas.</span></label>
+            <label class="lvl"><input type="radio" name="nivel" id="nivel-nao-sei" value="nao-sei"><span class="lvl__radio" aria-hidden="true"></span><span class="lvl__name">Não sei dizer</span><span class="tag">?</span><span class="lvl__desc">Tudo bem. O nivelamento descobre com você.</span></label>
+          </div>
+        </fieldset>
+        <div class="hp" aria-hidden="true"><label for="site">Deixe em branco</label><input id="site" name="site" type="text" tabindex="-1" autocomplete="off"></div>
+        <input type="hidden" name="ref" id="ref" value="">
+        <button class="btn btn--mint btn--block btn--lg" type="submit" data-submit>Quero entrar na lista <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <p class="error form-error" role="alert" data-form-error hidden><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
+        <p class="consent" style="margin-top:14px">Ao entrar, você aceita receber e-mails sobre o Hi. Dá pra sair quando quiser. Leia a <a href="#privacidade" data-doc="privacidade">política de privacidade</a>.</p>
+      </form>
+
+      <div class="success" data-success tabindex="-1" aria-labelledby="ok-title" hidden>
+        <div class="success__top">
+          <svg class="mascot" width="72" height="72" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg>
+          <span class="chip chip--mint"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Você está na lista</span>
+          <h3 class="success__title" id="ok-title" data-ok-title>Pronto!</h3>
+          <p class="muted">Avisamos por e-mail quando o seu convite estiver pronto.</p>
+        </div>
+        <div class="success__ref">
+          <h4>Agora, chame 3 amigos.</h4>
+          <p class="muted" style="font-size:.9688rem">Quando 3 amigos entrarem pelo seu link e ativarem a conta, você ganha um semestre grátis.</p>
+          <div class="bar" role="progressbar" aria-label="Amigos ativados" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><i style="width:0%"></i></div>
+          <p style="font-size:.9375rem"><strong>0 de 3</strong> amigos ativados até agora.</p>
+          <label class="label" for="ref-link">Seu link de convite</label>
+          <div class="linkrow"><input id="ref-link" type="text" readonly data-ref-input></div>
+          <div class="success__actions">
+            <button type="button" class="btn btn--ink" data-copy-link><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg>Copiar link</button>
+            <a class="btn btn--glass glass" data-whatsapp href="https://wa.me/" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg>Enviar no WhatsApp</a>
+          </div>
+        </div>
+        <p class="demo-note" data-demo-note hidden>Modo demonstração: este formulário ainda não está conectado a um servidor, então nenhum dado foi enviado.</p>
+        <button type="button" class="linkbtn" data-reset style="justify-self:start">Inscrever outro e-mail</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · CTA final -->
+<section class="final" id="final" aria-labelledby="final-title">
+  <div class="wrap">
+    <p class="final__word reveal" aria-hidden="true">Hi.</p>
+    <h2 class="final__title reveal" id="final-title">O primeiro passo é dizer <em>hi</em>.</h2>
+    <div class="final__actions reveal">
+      <a class="btn btn--mint btn--lg" href="#lista" data-cta data-cta-final>Quero entrar na lista <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="brand" href="#inicio" aria-label="Hi, voltar ao início"><svg class="mascot brand__mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg><span class="brand__word" aria-hidden="true">Hi.</span></a>
+        <p>App de inglês para quem está começando ou recomeçando.</p>
+      </div>
+      <ul class="footer__links">
+        <li><a href="#regulamento" data-doc="regulamento">Regulamento da indicação</a></li>
+        <li><a href="#privacidade" data-doc="privacidade">Política de privacidade</a></li>
+        <li><button type="button" data-motion-toggle aria-pressed="false"><span class="switch" aria-hidden="true"></span>Reduzir movimento</button></li>
+      </ul>
+    </div>
+    <p class="footer__legal">© 2026 Hi. Nenhum depoimento, logo ou número desta página foi inventado.</p>
+  </div>
+</footer>
+
+<div class="dock" data-dock aria-hidden="true">
+  <a class="btn btn--mint btn--block btn--lg" href="#lista" tabindex="-1" data-cta data-dock-btn>Quero entrar na lista <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* =====================================================================
+     CONFIGURAÇÃO · ajuste antes de publicar
+     ===================================================================== */
+  const CONFIG = {
+    // URL que recebe as inscrições (POST com JSON). Enquanto for null, o formulário roda em
+    // modo demonstração: valida, mostra o sucesso e o link de indicação, mas não envia nada.
+    // Se a resposta trouxer { referralCode: "..." }, esse código vira o link de indicação.
+    endpoint: null,
+    // Número real de pessoas na lista. null esconde o contador. Nunca use estimativa.
+    waitlistCount: null,
+    // Endereço público da landing, usado no link de indicação. Ex.: "https://seudominio.com.br/".
+    // null usa o endereço desta página.
+    siteUrl: null,
+    // Documentos. Enquanto forem null, o clique avisa que estão em preparação.
+    links: { regulamento: null, privacidade: null },
+    // Escola parceira confirmada, ex.: { name: "Nome da escola" }. null esconde a linha.
+    partner: null,
+  };
+
+  const KEY_SIGNUP = "hi.lp.signup";
+  const KEY_MOTION = "hi.lp.motion";
+  const doc = document.documentElement;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+  const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const store = {
+    get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* sem armazenamento: segue em memória */ } },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+  };
+  const reduced = () => doc.dataset.motion === "reduce";
+  const safe = (name, fn) => { try { fn(); } catch (err) { console.warn("[Hi] " + name + ":", err); } };
+  const icon = (n, cls = "") => `<svg class="i ${cls}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+  const mascot = (color, expr, size) => `<svg class="mascot" width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="${color}"/><use href="#m-${expr}" width="100" height="100"/></svg>`;
+
+  /* ---------- Aviso curto ---------- */
+  let toastTimer = 0;
+  function toast(msg) {
+    const t = $("[data-toast]");
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add("is-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("is-on"), 3200);
+  }
+
+  /* ---------- Copiar ---------- */
+  async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); return true; } catch (e) { /* tenta o método antigo */ }
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy"); ta.remove(); return ok;
+    } catch (e) { return false; }
+  }
+
+  /* ---------- Áudio (mesma API de fala do app, src/lib/speech.ts) ---------- */
+  const canSpeak = "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+  if (!canSpeak) doc.classList.add("no-speech");
+  function speak(text, lang = "en-US", rate = 1) {
+    if (!canSpeak || !text) return;
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = lang; u.rate = rate;
+      const voice = window.speechSynthesis.getVoices().find((v) => v.lang && v.lang.replace("_", "-").startsWith(lang.slice(0, 2)) && /US|GB|BR/.test(v.lang));
+      if (voice) u.voice = voice;
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* o navegador recusou: segue sem som */ }
+  }
+
+  /* ---------- Movimento ---------- */
+  function initMotionToggle() {
+    const btn = $("[data-motion-toggle]");
+    if (!btn) return;
+    const sync = () => btn.setAttribute("aria-pressed", String(reduced()));
+    sync();
+    btn.addEventListener("click", () => {
+      const next = reduced() ? "full" : "reduce";
+      doc.dataset.motion = next;
+      store.set(KEY_MOTION, next);
+      sync();
+      toast(next === "reduce" ? "Movimento reduzido." : "Animações ligadas.");
+    });
+  }
+
+  /* ---------- Menu (celular) ---------- */
+  function initMenu() {
+    const btn = $("[data-menu]"), sheet = $("#menu");
+    if (!btn || !sheet) return;
+    const close = (focusBtn) => { sheet.hidden = true; btn.setAttribute("aria-expanded", "false"); if (focusBtn) btn.focus(); };
+    btn.addEventListener("click", () => {
+      const open = sheet.hidden;
+      sheet.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+      if (open) { const first = $("a", sheet); first && first.focus(); }
+    });
+    sheet.addEventListener("click", (e) => { if (e.target.closest("a")) close(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sheet.hidden) close(true); });
+    document.addEventListener("click", (e) => { if (!sheet.hidden && !e.target.closest(".nav")) close(false); });
+    matchMedia("(min-width: 900px)").addEventListener("change", (m) => { if (m.matches) close(false); });
+  }
+
+  /* ---------- CTA fixo: aparece depois do herói e some no formulário ---------- */
+  function initDock() {
+    const heroCta = $("[data-hero-cta]"), form = $("#lista"), fin = $("#final");
+    const dock = $("[data-dock]"), dockBtn = $("[data-dock-btn]");
+    const apply = (docked) => {
+      doc.classList.toggle("cta-docked", docked);
+      if (dock) dock.setAttribute("aria-hidden", String(!docked));
+      if (dockBtn) dockBtn.tabIndex = docked ? 0 : -1;
+    };
+    if (!("IntersectionObserver" in window) || !heroCta) { apply(true); return; }
+    const seen = new Map([[heroCta, true], [form, false], [fin, false]]);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => seen.set(en.target, en.isIntersecting));
+      apply(!seen.get(heroCta) && !seen.get(form) && !seen.get(fin));
+    }, { threshold: 0, rootMargin: "0px 0px -8% 0px" });
+    [heroCta, form, fin].forEach((el) => el && io.observe(el));
+  }
+
+  /* ---------- Meio-tom do herói: "Hi." em pontos que se acendem a partir do celular ---------- */
+  function initHalftone() {
+    const stage = $("[data-stage]"), canvas = $("[data-halftone]");
+    if (!stage || !canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const phone = $(".phone", stage);
+    let dots = [], w = 0, h = 0, dpr = 1, lastW = 0, played = false, raf = 0;
+
+    const fontReady = () => {
+      if (!document.fonts || !document.fonts.load) return Promise.resolve();
+      return Promise.race([document.fonts.load('600 200px "Fraunces"'), new Promise((r) => setTimeout(r, 2500))]).catch(() => {});
+    };
+
+    // Telas largas: "H ▯ i." com o celular ocupando o espaço entre as letras.
+    // Telas estreitas: um halo de pontos atrás do celular (as letras não cabem dos lados).
+    function build() {
+      const rect = stage.getBoundingClientRect();
+      w = Math.round(rect.width); h = Math.round(rect.height);
+      if (!w || !h) return false;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      const off = document.createElement("canvas");
+      off.width = w; off.height = h;
+      const o = off.getContext("2d", { willReadFrequently: true });
+      o.fillStyle = "#000";
+
+      // Posição do celular sem as animações (offset ignora transform).
+      const wrap = phone ? phone.parentElement : null;
+      const pw = phone ? phone.offsetWidth : w * .3, ph = phone ? phone.offsetHeight : h * .8;
+      const pl = wrap ? wrap.offsetLeft - pw / 2 : (w - pw) / 2;
+      const pt = wrap ? wrap.offsetTop : 6;
+      const cx = pl + pw / 2, cy = pt + ph * .42;
+      const wordMode = w >= 760;
+
+      if (wordMode) {
+        // Desenha pequeno e amplia: no tamanho óptico de texto, a barra do H do Fraunces é
+        // grossa o bastante para virar pontos (no corte de display ela é um fio).
+        const DRAW = 36;
+        o.font = `600 ${DRAW}px "Fraunces", Georgia, serif`;
+        const margin = Math.max(28, w * .025), edge = Math.max(24, w * .04);
+        const mH = o.measureText("H"), mI = o.measureText("i.");
+        const hW = (mH.actualBoundingBoxRight + mH.actualBoundingBoxLeft) / DRAW;
+        const iW = (mI.actualBoundingBoxRight + mI.actualBoundingBoxLeft) / DRAW;
+        const cap = (mH.actualBoundingBoxAscent || DRAW * .7) / DRAW;
+        const leftSpace = pl - margin - edge, rightSpace = (w - edge) - (pl + pw + margin);
+        const size = Math.max(60, Math.min(leftSpace / hW, rightSpace / iW, (h * .6) / cap));
+        const k = size / DRAW;
+        const base = Math.min(h - 30, pt + ph * .97);
+        o.save(); o.translate((pl - margin) - mH.actualBoundingBoxRight * k, base); o.scale(k, k); o.fillText("H", 0, 0); o.restore();
+        o.save(); o.translate((pl + pw + margin) + mI.actualBoundingBoxLeft * k, base); o.scale(k, k); o.fillText("i.", 0, 0); o.restore();
+      } else {
+        o.beginPath();
+        o.arc(cx, cy, Math.min(w * .64, 300), 0, Math.PI * 2);
+        o.fill();
+      }
+      const data = o.getImageData(0, 0, w, h).data;
+
+      const reach = wordMode ? Math.max(w * .55, 420) : Math.min(w * .64, 300);
+      const gap = wordMode ? 9 : 8;
+      dots = [];
+      let row = 0;
+      for (let y = gap / 2; y < h; y += gap, row++) {
+        for (let x0 = gap / 2; x0 < w + gap; x0 += gap) {
+          const xx = x0 + (row % 2 ? gap / 2 : 0);
+          const ix = Math.round(xx), iy = Math.round(y);
+          if (ix < 0 || ix >= w || iy >= h) continue;
+          if (data[(iy * w + ix) * 4 + 3] < 120) continue;
+          const d = Math.min(1, Math.hypot(xx - cx, (y - cy) * (wordMode ? 1.15 : 1)) / reach);
+          const glow = 1 - d * d * (3 - 2 * d);
+          const r = wordMode ? (gap / 2) * (0.42 + 0.44 * glow) : (gap / 2) * (0.12 + 0.8 * Math.pow(1 - d, 1.3));
+          dots.push({ x: xx, y, r, d });
+        }
+      }
+      return true;
+    }
+
+    function draw(progress) {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      const g = ctx.createLinearGradient(0, h * .15, 0, h);
+      g.addColorStop(0, "rgba(122, 200, 245, 0.55)");
+      g.addColorStop(1, "rgba(82, 175, 231, 0.85)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      for (let i = 0; i < dots.length; i++) {
+        const p = dots[i];
+        let k = 1;
+        if (progress < 1) {
+          const t = (progress * 1.5 - p.d) / .5;
+          k = t <= 0 ? 0 : t >= 1 ? 1 : 1 - Math.pow(1 - t, 3);
+        }
+        const r = p.r * k;
+        if (r < .2) continue;
+        ctx.moveTo(p.x + r, p.y);
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      }
+      ctx.fill();
+    }
+
+    function render(animate) {
+      cancelAnimationFrame(raf);
+      if (!build()) return;
+      stage.classList.add("has-halftone");
+      if (!animate || reduced()) { draw(1); return; }
+      const start = performance.now(), dur = 1500;
+      let done = false;
+      const step = (now) => {
+        const p = Math.min(1, (now - start) / dur);
+        draw(p);
+        if (p < 1) raf = requestAnimationFrame(step); else done = true;
+      };
+      raf = requestAnimationFrame(step);
+      // Se a aba estiver em segundo plano (quadros pausados), garante o desenho final.
+      setTimeout(() => { if (!done) { cancelAnimationFrame(raf); draw(1); done = true; } }, dur + 500);
+    }
+
+    fontReady().then(() => {
+      render(!played); played = true; lastW = w;
+      if ("ResizeObserver" in window) {
+        let timer = 0;
+        new ResizeObserver(() => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            const nw = Math.round(stage.getBoundingClientRect().width);
+            if (Math.abs(nw - lastW) > 2) { lastW = nw; render(false); }
+          }, 140);
+        }).observe(stage);
+      }
+    });
+  }
+
+  /* ---------- Lição de exemplo (conteúdo real da unidade "Entrevista simples") ---------- */
+  const LESSON_WORDS = {
+    deadline: { en: "deadline", ipa: "/ˈded.laɪn/", pt: "prazo final", ex: "We need to meet the deadline.", exPt: "Precisamos cumprir o prazo.", tone: "chip--peach" },
+    available: { en: "available", ipa: "/əˈveɪ.lə.bəl/", pt: "disponível", ex: "I am available for an interview.", exPt: "Estou disponível para uma entrevista.", tone: "chip--butter" },
+    experience: { en: "experience", ipa: "/ɪkˈspɪr.i.əns/", pt: "experiência profissional", ex: "I have two years of experience in marketing.", exPt: "Tenho dois anos de experiência em marketing.", tone: "chip--sky" },
+  };
+  const LESSON_STEPS = [
+    { kind: "descobrir", word: "deadline" },
+    { kind: "escolha", word: "deadline", options: [{ pt: "Reunião", en: "meeting" }, { pt: "Prazo final", en: "deadline" }, { pt: "Contrato", en: "contract" }, { pt: "Experiência profissional", en: "experience" }], correct: 1 },
+    { kind: "ordenar", word: "available", promptPt: "Estou disponível para uma entrevista.", answer: "I am available for an interview", tiles: ["available", "for", "an", "I", "interview", "have", "am"] },
+    { kind: "dialogo", word: "experience", context: "Entrevista de emprego", hi: "Tell me about your experience.", hiPt: "Fale sobre sua experiência.", before: "I have two years of", after: "in marketing.", answerPt: "Tenho dois anos de experiência em marketing.", options: ["experience", "available", "position"], correct: "experience" },
+  ];
+  const STAGE_INDEX = { descobrir: 0, escolha: 1, ordenar: 2, dialogo: 3 };
+  const STAGE_NAMES = ["Descobrir", "Reconhecer", "Recordar", "Aplicar"];
+
+  function initLesson() {
+    const root = $("[data-lesson]");
+    if (!root) return;
+    const el = {
+      track: $("[data-l-track]", root), progress: $("[data-l-progress]", root), count: $("[data-l-count]", root),
+      stages: $$("[data-l-stage]", root), stageList: $("[data-l-stages]", root),
+      body: $("[data-l-body]", root), foot: $("[data-l-foot]", root), live: $("[data-l-live]", root),
+    };
+    const total = LESSON_STEPS.length;
+    let s;
+
+    const announce = (msg) => { el.live.textContent = ""; setTimeout(() => { el.live.textContent = msg; }, 30); };
+    const highlight = (text, word) => esc(text).replace(new RegExp(`\\b(${word})\\b`, "i"), "<strong>$1</strong>");
+    const speakBtn = (text, label, cls = "glass", lang = "") =>
+      `<button type="button" class="speak ${cls}" data-act="speak" data-text="${esc(text)}"${lang ? ` data-lang="${lang}"` : ""} aria-label="${esc(label)}">${icon("volume")}</button>`;
+    const example = (w, butter) =>
+      `<div class="example${butter ? " example--butter" : ""}"><div><p lang="en">${highlight(w.ex, w.en)}</p><p class="example__pt">${esc(w.exPt)}</p></div>${speakBtn(w.ex, "Ouvir a frase")}</div>`;
+
+    const VIEWS = {
+      descobrir(st) {
+        const w = LESSON_WORDS[st.word];
+        return `<article class="wordcard">
+            <span class="wordcard__icon">${icon("calendar")}</span>
+            <h3 class="wordcard__word" lang="en" tabindex="-1" data-l-focus>${w.en}</h3>
+            <p class="wordcard__ipa">${w.ipa}</p>
+            <div class="wordcard__audio">${speakBtn(w.en, "Ouvir " + w.en, "speak--dark speak--lg")}<button type="button" class="speak-slow glass" data-act="speak" data-text="${w.en}" data-rate="0.5" aria-label="Ouvir ${w.en} devagar">${icon("volume")}0,5×</button></div>
+            <p class="wordcard__label">significa</p>
+            <p class="wordcard__pt">${w.pt}</p>
+          </article>${example(w, true)}`;
+      },
+      escolha(st) {
+        const w = LESSON_WORDS[st.word];
+        return `<div class="ask"><p class="ask__label">O que significa</p>
+            <div class="ask__row"><h3 class="ask__word" lang="en" tabindex="-1" data-l-focus>${w.en}</h3>${speakBtn(w.en, "Ouvir " + w.en)}</div></div>
+          <div class="opts" role="group" aria-label="Opções de resposta">${st.options.map((o, i) =>
+            `<button type="button" class="opt" data-act="pick" data-val="${i}" aria-pressed="false"><span class="opt__n">${i + 1}</span><span class="opt__t">${esc(o.pt)}</span><span class="opt__mark" data-mark></span></button>`).join("")}</div>`;
+      },
+      ordenar(st) {
+        return `<h3 class="l-title" tabindex="-1" data-l-focus>Monte a frase em inglês</h3>
+          <div class="prompt"><span class="prompt__avatar">${mascot("#F2B705", "duvida", 42)}</span>
+            <div class="prompt__bubble">${speakBtn(st.promptPt, "Ouvir a frase em português", "glass speak--sm", "pt-BR")}<p>${esc(st.promptPt)}</p></div></div>
+          <div class="answer-line" data-answer role="group" aria-label="Sua frase"></div>
+          <div class="bank" data-bank role="group" aria-label="Palavras disponíveis"></div>`;
+      },
+      dialogo(st) {
+        return `<div class="l-center"><h3 class="l-title" tabindex="-1" data-l-focus>Complete a conversa</h3><span class="chip chip--sky">${esc(st.context)}</span></div>
+          <div class="convo">
+            <div class="convo__hi"><p class="bubble bubble--hi" lang="en">${esc(st.hi)}</p><p class="convo__pt">${esc(st.hiPt)}</p></div>
+            <div class="convo__me"><p class="bubble bubble--me" lang="en">${esc(st.before)} <span class="gap" data-gap>…</span> ${esc(st.after)}</p><p class="convo__pt">${esc(st.answerPt)}</p></div>
+          </div>
+          <p class="convo__hint">Escolha a palavra que completa a frase</p>
+          <div class="words" role="group" aria-label="Palavras">${st.options.map((o) =>
+            `<button type="button" class="word" data-act="pick" data-val="${esc(o)}" aria-pressed="false" lang="en">${esc(o)}</button>`).join("")}</div>`;
+      },
+    };
+
+    function reset() {
+      s = { i: 0, sel: null, placed: [], checked: false, results: {}, started: Date.now() };
+      render(false);
+    }
+
+    function setVerify(enabled) {
+      const b = $('[data-act="verify"]', el.foot);
+      if (b) b.disabled = !enabled;
+    }
+
+    function render(focus) {
+      closeSheet();
+      const done = s.i >= total;
+      const pct = done ? 100 : Math.round(((s.i + 1) / total) * 100);
+      el.track.style.width = pct + "%";
+      el.progress.setAttribute("aria-valuenow", String(Math.min(s.i + 1, total)));
+      el.count.textContent = `${Math.min(s.i + 1, total)}/${total}`;
+      el.stages.forEach((li, k) => {
+        if (!done && k === STAGE_INDEX[LESSON_STEPS[s.i].kind]) li.setAttribute("aria-current", "step");
+        else li.removeAttribute("aria-current");
+      });
+      if (done) {
+        el.body.innerHTML = summaryView();
+        el.foot.innerHTML = `<a class="btn btn--mint btn--block btn--lg" href="#lista" data-cta>Quero entrar na lista ${icon("arrow", "i--arrow")}</a>
+          <button type="button" class="btn btn--glass glass btn--block" data-act="restart">${icon("rotate")}Refazer a lição</button>`;
+        announce("Lição concluída. " + $(".summary__title", el.body).textContent);
+      } else {
+        const st = LESSON_STEPS[s.i];
+        el.body.innerHTML = VIEWS[st.kind](st);
+        el.foot.innerHTML = st.kind === "descobrir"
+          ? `<button type="button" class="btn btn--mint btn--block btn--lg" data-act="next">Entendi ${icon("arrow", "i--arrow")}</button>`
+          : `<button type="button" class="btn btn--mint btn--block btn--lg" data-act="verify" disabled>${st.kind === "escolha" ? "Verificar resposta" : "Verificar"}</button>`;
+        if (st.kind === "ordenar") renderTiles();
+        announce(`Etapa ${s.i + 1} de ${total}: ${STAGE_NAMES[STAGE_INDEX[st.kind]]}.`);
+      }
+      if (focus) { const f = $("[data-l-focus]", el.body); f && f.focus({ preventScroll: true }); }
+    }
+
+    function renderTiles(focusHint) {
+      const st = LESSON_STEPS[s.i];
+      const ans = $("[data-answer]", el.body), bank = $("[data-bank]", el.body);
+      ans.innerHTML = s.placed.length
+        ? s.placed.map((k) => `<button type="button" class="tile" data-act="unplace" data-key="${k}" lang="en" aria-label="Tirar “${esc(st.tiles[k])}” da frase">${esc(st.tiles[k])}</button>`).join("")
+        : `<span class="answer-line__hint">Toque nas palavras abaixo, na ordem.</span>`;
+      bank.innerHTML = st.tiles.map((t, k) => s.placed.includes(k)
+        ? `<span class="tile tile--ghost" aria-hidden="true">${esc(t)}</span>`
+        : `<button type="button" class="tile" data-act="place" data-key="${k}" lang="en">${esc(t)}</button>`).join("");
+      setVerify(s.placed.length > 0);
+      if (focusHint) {
+        const target = focusHint.from === "bank"
+          ? ($$("[data-act='place']", bank).find((b) => +b.dataset.key > focusHint.key) || $("[data-act='place']", bank) || $('[data-act="verify"]', el.foot))
+          : ($(`[data-act='place'][data-key='${focusHint.key}']`, bank));
+        target && target.focus({ preventScroll: true });
+      }
+    }
+
+    function summaryView() {
+      const scored = Object.keys(s.results).length || 3;
+      const right = Object.values(s.results).filter(Boolean).length;
+      const acc = Math.round((right / scored) * 100);
+      const missedWords = Object.entries(s.results).filter(([, ok]) => !ok).map(([i]) => LESSON_STEPS[i].word);
+      const secs = Math.max(1, Math.round((Date.now() - s.started) / 1000));
+      const time = secs < 60 ? `${secs} s` : `${Math.round(secs / 60)} min`;
+      const note = missedWords.length === 0
+        ? "Nenhuma precisou voltar. Mandou bem!"
+        : missedWords.length === 1 ? "1 delas volta na revisão de amanhã." : `${missedWords.length} delas voltam na revisão de amanhã.`;
+      const confetti = [
+        ["left:14%;top:8px;width:8px;height:22px;transform:rotate(40deg);border-radius:3px", "var(--hi-sky)"],
+        ["left:8%;top:62px;width:14px;height:14px;border-radius:50%", "var(--hi-peach)"],
+        ["right:13%;top:2px;width:18px;height:18px;transform:rotate(12deg);border-radius:6px", "var(--hi-lilac)"],
+        ["right:22%;top:74px;width:12px;height:12px;border-radius:50%", "var(--hi-butter)"],
+        ["left:22%;top:112px;width:24px;height:8px;transform:rotate(-40deg);border-radius:8px", "var(--hi-mint-soft)"],
+        ["right:8%;top:120px;width:24px;height:8px;transform:rotate(30deg);border-radius:8px", "var(--hi-peach)"],
+      ].map(([st, c], i) => `<span style="${st};background:${c};animation-delay:${i * 60}ms"></span>`).join("");
+      return `<div class="summary">
+          <div class="confetti" aria-hidden="true">${confetti}</div>
+          ${mascot("#F2B705", "sorriso", 104)}
+          <span class="chip chip--mint" style="margin-top:14px">Lição concluída</span>
+          <h3 class="summary__title" tabindex="-1" data-l-focus>Você praticou 3 palavras novas</h3>
+          <div class="summary__stats">
+            <div class="stat-card"><p class="stat-card__n">${acc}%</p><p class="stat-card__l">acerto na 1ª tentativa</p></div>
+            <div class="stat-card"><p class="stat-card__n">${time}</p><p class="stat-card__l">de prática</p></div>
+          </div>
+          <ul class="summary__words">${["experience", "available", "deadline"].map((k) => `<li class="chip ${LESSON_WORDS[k].tone}" lang="en">${k}</li>`).join("")}</ul>
+          <p class="summary__note">${note}</p>
+        </div>`;
+    }
+
+    function closeSheet() { $$(".scrim, .sheet", root).forEach((n) => n.remove()); }
+
+    function openSheet(st, ok) {
+      const w = LESSON_WORDS[st.word];
+      const retry = `<span class="chip chip--sky">${icon("calendar")}Volta na revisão de amanhã</span>`;
+      let body = "";
+      if (st.kind === "escolha") {
+        const picked = st.options[s.sel];
+        body = ok
+          ? `<p><strong lang="en">${w.en}</strong> = ${w.pt}</p>${example(w, false)}`
+          : `<p><strong lang="en">${w.en}</strong> é <strong>${w.pt}</strong>. “${esc(picked.pt)}” seria <em lang="en">${esc(picked.en)}</em>.</p>
+             <div class="chips"><span class="chip chip--mint">${icon("check")}Resposta: ${w.pt}</span>${retry}</div>`;
+      } else if (st.kind === "ordenar") {
+        body = ok
+          ? `<p class="sheet__sentence" lang="en">${esc(st.answer)}.</p><p class="muted" style="font-size:1rem">${esc(st.promptPt)}</p>`
+          : `<p class="muted" style="font-size:1rem">A frase certa é:</p><p class="sheet__sentence" lang="en">${esc(st.answer)}.</p>
+             <div class="chips"><span class="chip chip--mint">${icon("check")}<span lang="en">${w.en}</span> = ${w.pt}</span>${retry}</div>`;
+      } else {
+        body = ok
+          ? `<p><strong lang="en">${w.en}</strong> = ${w.pt}</p>${example(w, false)}`
+          : `<p>Aqui cabe <strong lang="en">${esc(st.correct)}</strong>: <span lang="en">${esc(st.before)} <strong>${esc(st.correct)}</strong> ${esc(st.after)}</span></p>
+             <div class="chips"><span class="chip chip--mint">${icon("check")}Resposta: <span lang="en">${esc(st.correct)}</span></span>${retry}</div>`;
+      }
+      const title = ok ? "Muito bom!" : "Quase lá!";
+      root.insertAdjacentHTML("beforeend", `<div class="scrim" aria-hidden="true"></div>
+        <div class="sheet sheet--${ok ? "ok" : "almost"}" role="group" aria-labelledby="l-sheet-title">
+          <div class="sheet__head"><span class="sheet__icon">${icon(ok ? "check" : "alert")}</span><h4 class="sheet__title" id="l-sheet-title">${title}</h4></div>
+          <div class="sheet__body">${body}</div>
+          <div class="sheet__actions"><button type="button" class="btn btn--mint btn--block btn--lg" data-act="next" data-l-action>${ok ? "Continuar" : "Entendi"} ${icon("arrow", "i--arrow")}</button></div>
+        </div>`);
+      const sheet = $(".sheet", root);
+      announce(`${title} ${sheet.querySelector(".sheet__body").textContent.replace(/\s+/g, " ").trim()}`);
+      const action = $("[data-l-action]", root);
+      action && action.focus({ preventScroll: true });
+      const r = sheet.getBoundingClientRect();
+      if (r.bottom > window.innerHeight) sheet.scrollIntoView({ block: "nearest", behavior: reduced() ? "auto" : "smooth" });
+    }
+
+    function verify() {
+      const st = LESSON_STEPS[s.i];
+      if (s.checked) return;
+      let ok = false;
+      if (st.kind === "escolha") { if (s.sel === null) return; ok = s.sel === st.correct; }
+      else if (st.kind === "ordenar") { if (!s.placed.length) return; ok = s.placed.map((k) => st.tiles[k]).join(" ") === st.answer; }
+      else if (st.kind === "dialogo") { if (!s.sel) return; ok = s.sel === st.correct; }
+      s.checked = true;
+      s.results[s.i] = ok;
+      if (st.kind === "escolha") {
+        $$(".opt", el.body).forEach((b, i) => {
+          b.disabled = true;
+          const mark = $("[data-mark]", b);
+          if (i === st.correct && ok) { b.classList.add("is-right"); mark.innerHTML = icon("check"); }
+          else if (i === s.sel && !ok) { b.classList.add("is-wrong"); mark.innerHTML = icon("x"); }
+          else if (i === st.correct) { b.classList.add("is-answer"); mark.textContent = "CERTA"; }
+        });
+      } else if (st.kind === "ordenar") {
+        $$(".tile", el.body).forEach((b) => { if (b.tagName === "BUTTON") b.disabled = true; });
+        $("[data-answer]", el.body).classList.add(ok ? "is-right" : "is-wrong");
+        if (ok) speak(st.answer);
+      } else {
+        $$(".word", el.body).forEach((b) => { b.disabled = true; });
+        if (!ok) $("[data-gap]", el.body).classList.add("is-wrong");
+      }
+      el.foot.innerHTML = "";
+      openSheet(st, ok);
+    }
+
+    root.addEventListener("click", (e) => {
+      const t = e.target.closest("[data-act]");
+      if (!t || !root.contains(t)) return;
+      const act = t.dataset.act;
+      const st = LESSON_STEPS[s.i];
+      if (act === "speak") { speak(t.dataset.text, t.dataset.lang || "en-US", Number(t.dataset.rate || 1)); return; }
+      if (act === "restart") { reset(); const f = $("[data-l-focus]", el.body); f && f.focus({ preventScroll: true }); return; }
+      if (act === "next") { s.i += 1; s.sel = null; s.placed = []; s.checked = false; render(true); return; }
+      if (act === "verify") { verify(); return; }
+      if (s.checked) return;
+      if (act === "pick" && st) {
+        if (st.kind === "escolha") {
+          s.sel = Number(t.dataset.val);
+          $$(".opt", el.body).forEach((b) => b.setAttribute("aria-pressed", String(b === t)));
+        } else if (st.kind === "dialogo") {
+          s.sel = t.dataset.val;
+          $$(".word", el.body).forEach((b) => b.setAttribute("aria-pressed", String(b === t)));
+          const gap = $("[data-gap]", el.body);
+          gap.textContent = s.sel; gap.classList.add("is-on");
+        }
+        setVerify(true);
+        return;
+      }
+      if (act === "place") {
+        const k = Number(t.dataset.key);
+        if (!s.placed.includes(k)) s.placed.push(k);
+        renderTiles({ from: "bank", key: k });
+        announce("Sua frase: " + s.placed.map((i) => st.tiles[i]).join(" "));
+        return;
+      }
+      if (act === "unplace") {
+        const k = Number(t.dataset.key);
+        s.placed = s.placed.filter((i) => i !== k);
+        renderTiles({ from: "answer", key: k });
+        announce(s.placed.length ? "Sua frase: " + s.placed.map((i) => st.tiles[i]).join(" ") : "Frase vazia.");
+      }
+    });
+
+    reset();
+  }
+
+  /* ---------- Mapa da trilha ---------- */
+  const START_UNIT = { A1: 1, A2: 7, B1: 13, B2: 19 };
+  const ORDER = ["A1", "A2", "B1", "B2"];
+  let formLevelTouched = false;
+
+  function setFormLevel(level, fromUser) {
+    const input = $(`#form-lista input[name="nivel"][value="${level}"]`);
+    if (!input) return;
+    if (!fromUser && formLevelTouched) return;
+    input.checked = true;
+    syncLevelClasses();
+  }
+  function syncLevelClasses() {
+    $$(".lvl").forEach((l) => l.classList.toggle("is-checked", !!$("input", l).checked));
+    $$(".pick").forEach((l) => l.classList.toggle("is-checked", !!$("input", l).checked));
+  }
+
+  function initTrail() {
+    const sec = $("#trilha");
+    if (!sec) return;
+    const radios = $$('input[name="start-level"]', sec);
+    const cols = $$("[data-level-col]", sec);
+    const units = $$("[data-unit]", sec);
+    const out = $("[data-trail-result]", sec);
+    const scroller = $("[data-map-scroller]", sec);
+    const prev = $("[data-map-prev]", sec), next = $("[data-map-next]", sec);
+
+    const scrollToCol = (idx) => {
+      if (!scroller || scroller.scrollWidth <= scroller.clientWidth + 4) return;
+      const col = cols[idx];
+      const pad = parseFloat(getComputedStyle(scroller).paddingLeft) || 0;
+      scroller.scrollTo({ left: col.offsetLeft - pad, behavior: reduced() ? "auto" : "smooth" });
+    };
+
+    function apply(level, scroll) {
+      const si = ORDER.indexOf(level);
+      cols.forEach((c) => {
+        const ci = ORDER.indexOf(c.dataset.levelCol);
+        c.classList.toggle("is-skipped", ci < si);
+        c.classList.toggle("is-start", ci === si);
+      });
+      const startN = START_UNIT[level];
+      units.forEach((u) => u.classList.toggle("is-start", Number(u.dataset.unit) === startN));
+      const u = units.find((x) => Number(x.dataset.unit) === startN);
+      const title = u ? $(".unit__t", u).textContent : "";
+      out.innerHTML = `Você começaria na <strong>Unidade ${String(startN).padStart(2, "0")} · ${esc(title)}</strong>. ` +
+        (si === 0 ? "A trilha começa do zero, sem pressupor nada." : "O que vem antes pode ser pulado, e o nivelamento confirma no app.");
+      syncLevelClasses();
+      if (scroll) scrollToCol(si);
+    }
+
+    radios.forEach((r) => r.addEventListener("change", () => {
+      if (!r.checked) return;
+      apply(r.value, true);
+      setFormLevel(r.value, false);
+    }));
+
+    if (scroller && prev && next) {
+      const step = () => (cols[1] ? cols[1].offsetLeft - cols[0].offsetLeft : scroller.clientWidth);
+      const update = () => {
+        prev.disabled = scroller.scrollLeft <= 4;
+        next.disabled = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 4;
+      };
+      prev.addEventListener("click", () => scroller.scrollBy({ left: -step(), behavior: reduced() ? "auto" : "smooth" }));
+      next.addEventListener("click", () => scroller.scrollBy({ left: step(), behavior: reduced() ? "auto" : "smooth" }));
+      scroller.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
+      update();
+    }
+
+    const checked = radios.find((r) => r.checked);
+    apply(checked ? checked.value : "A1", false);
+    initTrail.apply = (lvl) => { const r = radios.find((x) => x.value === lvl); if (r) { r.checked = true; apply(lvl, false); } };
+  }
+
+  /* ---------- Perfis: levam ao formulário com o nível já marcado ---------- */
+  function initProfiles() {
+    $$("[data-pick-level]").forEach((a) => a.addEventListener("click", () => {
+      const lvl = a.dataset.pickLevel;
+      formLevelTouched = true;
+      setFormLevel(lvl, true);
+      if (initTrail.apply) initTrail.apply(lvl);
+      const email = $("#email");
+      if (email && !$("[data-form]").hidden) setTimeout(() => email.focus({ preventScroll: true }), reduced() ? 0 : 650);
+    }));
+  }
+
+  /* ---------- Cartão de indicação ---------- */
+  const refUI = {};
+  function initRefCard() {
+    const card = $("[data-refcard]");
+    if (!card) return;
+    Object.assign(refUI, {
+      card, slots: $$("[data-slot]", card), bar: $("[data-ref-bar]", card), progress: $("[data-ref-progress]", card),
+      count: $("[data-ref-count]", card), left: $("[data-ref-left]", card), ticket: $("[data-ticket]", card),
+      ticketState: $("[data-ticket-state]", card), tag: $("[data-ref-tag]", card), mine: $("[data-ref-mine]", card),
+      note: $("[data-ref-note]", card), replay: $("[data-ref-replay]", card), mode: "example",
+    });
+    refUI.replay.addEventListener("click", () => playRef(true));
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((en) => en.isIntersecting)) { io.disconnect(); if (refUI.mode === "example") playRef(false); }
+      }, { threshold: .55 });
+      io.observe(card);
+    }
+  }
+  function setFriends(n) {
+    if (!refUI.card) return;
+    refUI.slots.forEach((sl, i) => sl.classList.toggle("is-on", i < n));
+    refUI.bar.style.width = (n / 3) * 100 + "%";
+    refUI.progress.setAttribute("aria-valuenow", String(n));
+    refUI.count.textContent = `${n} de 3`;
+    const left = 3 - n;
+    refUI.left.textContent = left <= 0 ? "Semestre grátis liberado." : left === 1 ? "Falta 1 para o semestre grátis." : `Faltam ${left} para o semestre grátis.`;
+    refUI.ticket.classList.toggle("is-open", n >= 3);
+    refUI.ticketState.textContent = n >= 3 ? "Liberado" : "Libera com 3 amigos ativados";
+  }
+  let refTimer = 0;
+  function playRef(fromStart) {
+    clearTimeout(refTimer);
+    if (fromStart) setFriends(1);
+    const go = (n) => { setFriends(n); if (n < 3) refTimer = setTimeout(() => go(n + 1), reduced() ? 0 : 700); };
+    refTimer = setTimeout(() => go(fromStart ? 2 : 3), reduced() ? 0 : 600);
+  }
+  function refPersonal(signup) {
+    if (!refUI.card) return;
+    clearTimeout(refTimer);
+    if (signup) {
+      refUI.mode = "mine";
+      setFriends(0);
+      refUI.tag.textContent = "seu progresso";
+      refUI.mine.hidden = false;
+      refUI.note.textContent = "O progresso atualiza quando seus amigos ativarem a conta.";
+      refUI.replay.hidden = true;
+    } else {
+      refUI.mode = "example";
+      setFriends(2);
+      refUI.tag.textContent = "exemplo";
+      refUI.mine.hidden = true;
+      refUI.note.textContent = "Simulação de como o progresso aparece.";
+      refUI.replay.hidden = false;
+    }
+  }
+
+  /* ---------- Formulário ---------- */
+  const DOMAINS = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com.br", "yahoo.com", "icloud.com", "live.com", "uol.com.br", "bol.com.br", "terra.com.br"];
+  function lev(a, b) {
+    const m = a.length, n = b.length;
+    if (Math.abs(m - n) > 2) return 3;
+    const d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
+    for (let j = 1; j <= n; j++) d[0][j] = j;
+    for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) {
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    return d[m][n];
+  }
+  function suggestEmail(email) {
+    const at = email.lastIndexOf("@");
+    if (at < 1) return null;
+    const dom = email.slice(at + 1).toLowerCase();
+    if (!dom || DOMAINS.includes(dom)) return null;
+    let best = null, bd = 3;
+    DOMAINS.forEach((dm) => { const dist = lev(dom, dm); if (dist < bd) { bd = dist; best = dm; } });
+    return best && bd <= 2 ? email.slice(0, at + 1) + best : null;
+  }
+  function emailProblem(v) {
+    if (!v) return "Digite seu e-mail para entrar na lista.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Confira o e-mail. Ele precisa ter @ e um domínio, como nome@gmail.com.";
+    return null;
+  }
+  function makeCode(name) {
+    const base = (name || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z]/g, "").toUpperCase().slice(0, 5) || "HI";
+    const abc = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+    const arr = new Uint32Array(4);
+    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(arr);
+    else for (let i = 0; i < 4; i++) arr[i] = Math.floor(Math.random() * 1e9);
+    return base + "-" + Array.from(arr, (n) => abc[n % abc.length]).join("");
+  }
+  function siteBase() {
+    if (CONFIG.siteUrl) return CONFIG.siteUrl;
+    try { if (/^https?:$/.test(location.protocol)) return location.origin + location.pathname; } catch (e) {}
+    return "https://seu-dominio.com.br/";
+  }
+  const refLink = (code) => { const b = siteBase(); return b + (b.includes("?") ? "&" : "?") + "ref=" + encodeURIComponent(code); };
+
+  async function submitLead(payload) {
+    if (CONFIG.endpoint) {
+      const res = await fetch(CONFIG.endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      let data = {};
+      try { data = await res.json(); } catch (e) {}
+      return { code: (data && data.referralCode) || makeCode(payload.name), demo: false };
+    }
+    await new Promise((r) => setTimeout(r, 650));
+    return { code: makeCode(payload.name), demo: true };
+  }
+
+  let currentSignup = null;
+  function setSignedUp(signup) {
+    currentSignup = signup;
+    const link = signup ? refLink(signup.code) : "";
+    $$("[data-ref-input]").forEach((i) => { i.value = link; });
+    const wa = $("[data-whatsapp]");
+    if (wa && signup) wa.href = "https://wa.me/?text=" + encodeURIComponent(`Entrei na lista do Hi, um app de inglês pra quem está começando ou recomeçando. Entra comigo pelo meu link: ${link}`);
+    const label = signup ? "Copiar meu link de convite" : null;
+    $$("[data-dock-btn], [data-cta-final]").forEach((b) => {
+      if (!b.dataset.label) b.dataset.label = b.innerHTML;
+      b.innerHTML = label ? `${icon("copy")}${label}` : b.dataset.label;
+    });
+    $$(".nav__cta").forEach((b) => { if (!b.dataset.label) b.dataset.label = b.textContent; b.textContent = signup ? "Convidar amigos" : b.dataset.label; });
+    refPersonal(signup);
+  }
+
+  function initForm() {
+    const form = $("[data-form]");
+    if (!form) return;
+    const email = $("#email", form), name = $("#nome", form), hp = $("#site", form), refInput = $("#ref", form);
+    const err = $("#email-erro", form), errText = $("[data-error-text]", form);
+    const sug = $("#email-sugestao", form), sugBtn = $("[data-suggest]", form);
+    const submit = $("[data-submit]", form), formErr = $("[data-form-error]", form);
+    const success = $("[data-success]"), demoNote = $("[data-demo-note]");
+    let tried = false, sending = false;
+
+    let ref = null;
+    try { ref = (new URLSearchParams(location.search).get("ref") || "").replace(/[^A-Za-z0-9-]/g, "").slice(0, 32) || null; } catch (e) {}
+    if (ref) { refInput.value = ref; const inv = $("[data-invite]"); if (inv) inv.hidden = false; }
+
+    const showErr = (msg) => { errText.textContent = msg; err.hidden = false; email.setAttribute("aria-invalid", "true"); };
+    const clearErr = () => { err.hidden = true; email.removeAttribute("aria-invalid"); };
+    const checkSuggest = () => {
+      const s2 = suggestEmail(email.value.trim());
+      if (s2) { sugBtn.textContent = s2; sug.hidden = false; } else sug.hidden = true;
+    };
+    email.addEventListener("blur", () => {
+      const v = email.value.trim();
+      if (v && tried) { const p = emailProblem(v); p ? showErr(p) : clearErr(); }
+      if (v) checkSuggest();
+    });
+    email.addEventListener("input", () => { if (tried && !emailProblem(email.value.trim())) clearErr(); sug.hidden = true; });
+    sugBtn.addEventListener("click", () => { email.value = sugBtn.textContent; sug.hidden = true; clearErr(); email.focus(); });
+    $$('input[name="nivel"]', form).forEach((r) => r.addEventListener("change", () => { formLevelTouched = true; syncLevelClasses(); }));
+
+    function showSuccess(signup, focus) {
+      setSignedUp(signup);
+      form.hidden = true;
+      success.hidden = false;
+      const first = (signup.name || "").trim().split(/\s+/)[0];
+      $("[data-ok-title]").textContent = first ? `Pronto, ${first}!` : "Pronto!";
+      demoNote.hidden = !signup.demo;
+      if (focus) success.focus({ preventScroll: false });
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (sending) return;
+      tried = true;
+      formErr.hidden = true;
+      const v = email.value.trim();
+      const problem = emailProblem(v);
+      if (problem) { showErr(problem); email.focus(); return; }
+      clearErr();
+      const level = ($('input[name="nivel"]:checked', form) || {}).value || null;
+      const payload = { email: v, name: name.value.trim() || null, level, ref: refInput.value || null, source: "landing-acesso-antecipado", createdAt: new Date().toISOString() };
+      if (hp.value) { showSuccess({ name: payload.name, level, code: makeCode(payload.name), demo: !CONFIG.endpoint }, true); return; }
+      sending = true;
+      submit.disabled = true;
+      const label = submit.innerHTML;
+      submit.innerHTML = `<span class="spinner" aria-hidden="true"></span>Entrando na lista…`;
+      try {
+        const res = await submitLead(payload);
+        const signup = { name: payload.name, level, code: res.code, demo: res.demo, at: Date.now() };
+        store.set(KEY_SIGNUP, signup);
+        showSuccess(signup, true);
+      } catch (ex) {
+        $("span", formErr).textContent = "Não conseguimos enviar agora. Confira sua conexão e tente de novo.";
+        formErr.hidden = false;
+      } finally {
+        sending = false;
+        submit.disabled = false;
+        submit.innerHTML = label;
+      }
+    });
+
+    $("[data-reset]").addEventListener("click", () => {
+      store.del(KEY_SIGNUP);
+      setSignedUp(null);
+      success.hidden = true;
+      form.hidden = false;
+      form.reset();
+      formLevelTouched = false;
+      syncLevelClasses();
+      email.focus();
+    });
+
+    const saved = store.get(KEY_SIGNUP);
+    if (saved && saved.code) showSuccess(saved, false);
+
+    initForm.restore = (data) => {
+      if (!data || currentSignup) return;
+      if (data.email) email.value = data.email;
+      if (data.name) name.value = data.name;
+      if (data.level) { formLevelTouched = true; setFormLevel(data.level, true); }
+    };
+    initForm.snapshot = () => ({ email: email.value, name: name.value, level: ($('input[name="nivel"]:checked', form) || {}).value || null });
+  }
+
+  /* ---------- Copiar link e CTAs depois da inscrição ---------- */
+  function initShare() {
+    document.addEventListener("click", async (e) => {
+      const copyBtn = e.target.closest("[data-copy-link]");
+      const cta = e.target.closest("[data-dock-btn], [data-cta-final]");
+      if (!copyBtn && !(cta && currentSignup)) return;
+      if (!currentSignup) return;
+      e.preventDefault();
+      const ok = await copyText(refLink(currentSignup.code));
+      if (ok) toast("Link copiado. Agora é só mandar pros seus amigos.");
+      else {
+        const input = $("[data-ref-input]");
+        if (input) { input.focus(); input.select(); }
+        toast("Selecione o link e copie.");
+      }
+    });
+  }
+
+  /* ---------- Documentos pendentes ---------- */
+  function initDocs() {
+    $$("[data-doc]").forEach((a) => {
+      const url = CONFIG.links[a.dataset.doc];
+      if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; return; }
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        toast(a.dataset.doc === "regulamento" ? "O regulamento da indicação sai antes do lançamento." : "A política de privacidade sai antes do lançamento.");
+      });
+    });
+  }
+
+  /* ---------- Contador e parceiro (só com dados reais) ---------- */
+  function initRealData() {
+    const n = Number(CONFIG.waitlistCount);
+    if (CONFIG.waitlistCount !== null && Number.isFinite(n) && n > 0) {
+      const box = $("[data-waitlist]");
+      $("[data-waitlist-num]").textContent = n.toLocaleString("pt-BR");
+      box.hidden = false;
+    }
+    if (CONFIG.partner && CONFIG.partner.name) {
+      const p = $("[data-partner]");
+      $("[data-partner-name]").textContent = CONFIG.partner.name;
+      p.hidden = false;
+    }
+  }
+
+  /* ---------- Inicialização ---------- */
+  safe("movimento", initMotionToggle);
+  safe("menu", initMenu);
+  safe("cta", initDock);
+  safe("meio-tom", initHalftone);
+  safe("lição", initLesson);
+  safe("trilha", initTrail);
+  safe("perfis", initProfiles);
+  safe("indicação", initRefCard);
+  safe("formulário", initForm);
+  safe("compartilhar", initShare);
+  safe("documentos", initDocs);
+  safe("dados reais", initRealData);
+  safe("níveis", syncLevelClasses);
+
+  // Mantém o que a pessoa digitou se a página for atualizada no visualizador.
+  safe("estado", () => {
+    const hot = window.claude && window.claude.hot;
+    if (hot && hot.snapshot && initForm.snapshot) hot.snapshot(() => initForm.snapshot());
+    const start = (data) => { if (initForm.restore) initForm.restore(data || {}); };
+    if (hot && hot.ready) hot.ready(start); else start((hot && hot.data) || {});
+  });
+})();
+</script>
+</body>
+</html>
