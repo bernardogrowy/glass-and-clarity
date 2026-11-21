@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { getActiveSession, startLesson, useLessonStore } from "@/lib/lesson-store";
 import { getLesson } from "@/lib/lessons";
-import { STEP_ROUTES } from "@/lib/use-lesson-step";
+import { STEP_ROUTES, useCourseLock } from "@/lib/use-lesson-step";
 
 export const Route = createFileRoute("/licao/$id/")({
   head: () => ({ meta: [{ title: "Lição — Hi" }] }),
@@ -17,9 +17,10 @@ function LicaoStart() {
   const navigate = useNavigate();
   const hydrated = useHydrated();
   const store = useLessonStore();
+  const locked = useCourseLock(id);
 
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || locked) return;
     const lesson = getLesson(id);
     if (!lesson) {
       navigate({ to: "/", replace: true });
@@ -32,7 +33,7 @@ function LicaoStart() {
     }
     const step = lesson.steps[session.stepIndex];
     if (step) navigate({ to: STEP_ROUTES[step.kind], params: { id }, replace: true });
-  }, [hydrated, store, id, navigate]);
+  }, [hydrated, locked, store, id, navigate]);
 
   return (
     <AppShell hideTabs>

@@ -5,6 +5,8 @@ export type Level = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 export type AvatarExpression = "duvida" | "duvida-intensa" | "piscada" | "sorriso";
 
 export const LEVELS: Level[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
+/** Níveis que a pessoa pode escolher: o C2 fica de fora até existir conteúdo planejado pra ele. */
+export const SELECTABLE_LEVELS: Level[] = LEVELS.filter((l) => l !== "C2");
 
 export const AVATAR_COLORS = [
   "#F2B705",

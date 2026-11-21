@@ -33,6 +33,7 @@ import {
   type TutorSession,
 } from "@/lib/ai";
 import { ASSUNTO_LABELS, CORRECAO_LABELS, useOnboardingStore } from "@/lib/onboarding-store";
+import { DEFAULT_MISSION, pickMission, type Mission } from "@/lib/mission-topics";
 import { canSpeak, speak, stopSpeaking } from "@/lib/speech";
 import { canLiveCaption, startLiveCaptions } from "@/lib/live-captions";
 import { VoiceOrb, type OrbState } from "@/components/VoiceOrb";
@@ -52,12 +53,7 @@ import {
 } from "@/lib/chat-store";
 import { registerActivity } from "@/lib/streak-store";
 
-const MISSION_TITLE = "Fim de semana";
-const OPENING_MESSAGE: ChatMessage = {
-  from: "hi",
-  text: "Hey! How was your weekend? Did you do anything fun?",
-};
-const MISSION_GOAL = "tell how the learner's weekend was, using the simple past and connectors";
+const openingOf = (m: Mission): ChatMessage => ({ from: "hi", text: m.opening });
 const PRONUNCIATION_TIPS = [
   'Palavras terminadas em "-ed" geralmente somam só uma sílaba a mais depois de "t" ou "d" (ex: wanted, needed).',
   'O som de "th" não existe em português — tente colocar a língua entre os dentes pra praticar.',
@@ -105,8 +101,11 @@ function Pratica() {
   const [mode, setMode] = useState<"chat" | "voz">("chat");
   const [text, setText] = useState("");
   const [secs, setSecs] = useState(0);
+  // O cronômetro só começa quando a pessoa pratica de fato (1ª mensagem ou 1ª fala), não ao abrir a missão.
+  const [practicing, setPracticing] = useState(false);
   const [startedAt, setStartedAt] = useState(0);
-  const [msgs, setMsgs] = useState<ChatMessage[]>([OPENING_MESSAGE]);
+  const [mission, setMission] = useState<Mission>(DEFAULT_MISSION);
+  const [msgs, setMsgs] = useState<ChatMessage[]>([openingOf(DEFAULT_MISSION)]);
   const [addedWords, setAddedWords] = useState<string[]>([]);
   const [streakInfo, setStreakInfo] = useState<number | null>(null);
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -125,10 +124,10 @@ function Pratica() {
   const voiceTurnRef = useRef(0);
 
   useEffect(() => {
-    if (phase !== "chat") return;
+    if (phase !== "chat" || !practicing) return;
     const t = setInterval(() => setSecs((s) => s + 1), 1000);
     return () => clearInterval(t);
-  }, [phase]);
+  }, [phase, practicing]);
 
   const resetVoice = () => {
     voiceTurnRef.current += 1;
@@ -161,21 +160,30 @@ function Pratica() {
   const startMission = () => {
     markOnboarded();
     const { answers } = onboarding;
+    // A missão (e a primeira fala do Hi) sai dos assuntos escolhidos no onboarding.
+    const next = pickMission(
+      answers.assuntos,
+      chatState.conversations.slice(0, 3).map((c) => c.missionTitle),
+      Math.random,
+      profile.level,
+    );
+    setMission(next);
     tutorRef.current = createTutorSession({
       userName: profile.name,
       level: profile.level,
-      missionTitle: MISSION_TITLE,
-      missionGoal: MISSION_GOAL,
-      openingMessage: OPENING_MESSAGE.text,
+      missionTitle: next.title,
+      missionGoal: next.goal,
+      openingMessage: next.opening,
       correctionStyle: answers.correcaoPref ? CORRECAO_LABELS[answers.correcaoPref] : null,
-      topics: answers.assuntos.map((a) => ASSUNTO_LABELS[a]),
+      topics: answers.assuntos.filter((a) => a !== "outro").map((a) => ASSUNTO_LABELS[a]),
     });
     setThinking(false);
     setMissionWords([]);
-    setMsgs([OPENING_MESSAGE]);
+    setMsgs([openingOf(next)]);
     setAddedWords([]);
     resetVoice();
     setSecs(0);
+    setPracticing(false);
     setStartedAt(Date.now());
     setPhase("chat");
   };
@@ -199,6 +207,7 @@ function Pratica() {
         return;
       }
       recordingRef.current = recording;
+      setPracticing(true);
       setLiveText("");
       setVoicePhase("listening");
       if (captionsOn) captionsRef.current = startLiveCaptions(setLiveText);
@@ -296,6 +305,7 @@ function Pratica() {
       return;
     }
 
+    setPracticing(true);
     setMsgs((m) => [...m, { from: "me", text: message }]);
     setText("");
     setThinking(true);
@@ -343,13 +353,13 @@ function Pratica() {
 
   const conclude = () => {
     saveConversation({
-      missionTitle: MISSION_TITLE,
+      missionTitle: mission.title,
       startedAt,
       messages: msgs,
       score,
       newWords: missionWords,
     });
-    completeSession({ missionTitle: MISSION_TITLE, minutes: Math.max(1, Math.round(secs / 60)) });
+    completeSession({ missionTitle: mission.title, minutes: Math.max(1, Math.round(secs / 60)) });
     toast.success("Missão concluída!");
     const result = registerActivity();
     if (result.isFirstToday) setStreakInfo(result.streak);
@@ -532,7 +542,7 @@ function Pratica() {
 
         <div className="mt-8 text-center">
           <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
-            <span>Missão · {MISSION_TITLE}</span>
+            <span>Missão · {mission.title}</span>
             <span className="inline-flex items-center gap-1">
               <Timer className="h-3 w-3" />
               {fmt(secs)}

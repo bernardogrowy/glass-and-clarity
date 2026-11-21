@@ -39,9 +39,21 @@ export function AppShell({ children, hideTabs }: { children: ReactNode; hideTabs
   );
 }
 
-export function GlassIconButton({ children, label, onClick }: { children: ReactNode; label: string; onClick?: () => void }) {
+export function GlassIconButton({
+  children,
+  label,
+  onClick,
+}: {
+  children: ReactNode;
+  label: string;
+  onClick?: () => void;
+}) {
   return (
-    <button aria-label={label} onClick={onClick} className="glass press grid h-11 w-11 place-items-center rounded-full text-foreground">
+    <button
+      aria-label={label}
+      onClick={onClick}
+      className="glass press grid h-11 w-11 place-items-center rounded-full text-foreground"
+    >
       {children}
     </button>
   );

@@ -1,6 +1,6 @@
 import { ArrowUp, Check, Lock, Play, X } from "lucide-react";
 import { BottomSheet } from "@/components/trail/BottomSheet";
-import { SECTIONS, UNITS, type Unit } from "@/lib/trail";
+import { getVisibleSections, getVisibleUnits, isReviewSection, type Unit } from "@/lib/trail";
 import {
   getAdjacentUnit,
   getUnitProgress,
@@ -14,6 +14,7 @@ export function SectionSheet({
   open,
   onOpenChange,
   trail,
+  level,
   viewingUnitId,
   trailName,
   onSelectUnit,
@@ -22,6 +23,8 @@ export function SectionSheet({
   open: boolean;
   onOpenChange: (open: boolean) => void;
   trail: TrailState;
+  /** Nível do perfil: decide quais seções aparecem e quais são só revisão. */
+  level: string;
   viewingUnitId: string | null;
   trailName: string;
   onSelectUnit: (unit: Unit) => void;
@@ -50,9 +53,11 @@ export function SectionSheet({
           </button>
         </div>
 
-        {SECTIONS.map((section) => {
+        {getVisibleSections(level).map((section) => {
+          const review = isReviewSection(section, level);
           const sectionOpen =
-            section.units.length > 0 && getUnitStatus(trail, section.units[0]!) !== "bloqueada";
+            section.units.length > 0 &&
+            getUnitStatus(trail, section.units[0]!, level) !== "bloqueada";
           return (
             <div key={section.id} className="mt-6">
               <div className="flex items-center gap-3">
@@ -72,19 +77,22 @@ export function SectionSheet({
                 >
                   {section.title}
                 </h3>
-                <span className="text-sm text-muted-foreground">{section.level}</span>
+                <span className="text-sm text-muted-foreground">
+                  {section.level}
+                  {review && " · revisão"}
+                </span>
               </div>
 
               {section.units.length === 0 ? (
                 <p className="mt-3 text-sm text-muted-foreground">
-                  Bloqueada · conclua a Seção {section.number - 1} para abrir. Em breve.
+                  Em breve · o conteúdo do nível {section.level} ainda está sendo preparado.
                 </p>
               ) : (
                 <ul className="mt-3 space-y-3">
                   {section.units.map((unit) => {
-                    const status = getUnitStatus(trail, unit);
+                    const status = getUnitStatus(trail, unit, level);
                     const { done, total, pct } = getUnitProgress(trail, unit);
-                    const previous = getAdjacentUnit(unit, -1);
+                    const previous = getAdjacentUnit(unit, -1, level);
                     const isViewing = unit.id === viewingUnitId;
                     const locked = status === "bloqueada";
                     return (
@@ -160,7 +168,9 @@ export function SectionSheet({
         <button
           type="button"
           onClick={onBackToCurrent}
-          disabled={UNITS.every((u) => getUnitStatus(trail, u) === "concluida")}
+          disabled={getVisibleUnits(level).every(
+            (u) => getUnitStatus(trail, u, level) === "concluida",
+          )}
           className="glass-dark press mt-8 flex h-14 w-full items-center justify-center gap-2 rounded-full font-medium disabled:opacity-50"
         >
           <ArrowUp className="h-4 w-4" /> Voltar à atividade atual

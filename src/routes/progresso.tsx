@@ -22,6 +22,7 @@ import {
   toggleStep,
   useProgressStore,
 } from "@/lib/progress-store";
+import { useProfileStore } from "@/lib/profile-store";
 import { registerActivity, useStreakStore } from "@/lib/streak-store";
 import { ACTIVITIES } from "@/lib/trail";
 import { getCurrent, getTotalDone, getUnitProgress, useTrailStore } from "@/lib/trail-store";
@@ -52,7 +53,8 @@ function Progresso() {
   const lessons = useLessonStore();
   const streakState = useStreakStore();
   const trail = useTrailStore();
-  const trailCurrent = getCurrent(trail);
+  const { level } = useProfileStore();
+  const trailCurrent = getCurrent(trail, level);
   const trailUnit = trailCurrent ? getUnitProgress(trail, trailCurrent.unit) : null;
   const trailDone = getTotalDone(trail);
   const [wizardOpen, setWizardOpen] = useState(false);

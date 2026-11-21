@@ -86,7 +86,11 @@ export function LessonSheet({
           {words.length > 0 && (
             <>
               <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                {activity.skill === "descobrir" ? "Palavras novas" : "Palavras que voltam"}
+                {activity.skill === "entrada" ||
+                activity.skill === "aplicar" ||
+                activity.skill === "falar"
+                  ? "Itens desta etapa"
+                  : "Itens que voltam"}
               </h3>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {words.map((w) => (

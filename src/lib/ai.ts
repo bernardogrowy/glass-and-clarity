@@ -42,17 +42,41 @@ export type TutorSession = {
   sendAudio: (wav: Blob) => Promise<TutorTurn>;
 };
 
+/**
+ * Como o Hi conversa em cada nível: quem está no A1 precisa de frases curtas e de um modelo pra
+ * repetir; quem está no C1 precisa ser desafiado em nuance, tom e naturalidade. O C2 usa o estilo
+ * do C1 e um nível desconhecido usa o do B1.
+ */
+export const LEVEL_STYLE: Record<"A1" | "A2" | "B1" | "B2" | "C1", string> = {
+  A1: 'Speak very simply: present tense, common words, sentences of at most 8 words, no idioms or phrasal verbs. Be very encouraging. When the learner seems stuck, offer a short model they can repeat, like: You can say: "...". Keep any explanation in "correction" to one very short sentence.',
+  A2: "Use short, clear sentences with everyday words and simple past or future. Avoid idioms. Ask questions that can be answered in one short sentence, and offer a sentence starter when the learner struggles.",
+  B1: 'Speak natural everyday English at a relaxed pace. Ask opinion questions ("What do you think about...?") and occasionally use a common phrasal verb or expression, clear from context. Encourage answers of 2-3 sentences.',
+  B2: 'Speak naturally, as you would with a colleague. Use common idioms and linking words. Ask the learner to give reasons, compare options or disagree politely, and push for longer, more developed answers. In "correction", prefer a more natural or precise alternative over trivial fixes.',
+  C1: 'Speak at a near-native pace and register, with idioms, nuance and hedging. Challenge the learner with follow-ups that require arguing, speculating or summarizing without a script. Do not correct minor slips: focus "correction" and "newWords" on collocations, idiom, tone and register (formal vs informal).',
+};
+
+export function levelStyle(level: string): string {
+  if (level in LEVEL_STYLE) return LEVEL_STYLE[level as keyof typeof LEVEL_STYLE];
+  return level === "C2" ? LEVEL_STYLE.C1 : LEVEL_STYLE.B1;
+}
+
 export function buildSystemInstruction(ctx: TutorContext): string {
   const lines = [
     'You are "Hi", a warm, encouraging English conversation tutor for a Brazilian Portuguese speaker.',
     `Learner: ${ctx.userName || "the learner"}, CEFR level ${ctx.level}.`,
     `Mission: "${ctx.missionTitle}" — ${ctx.missionGoal}.`,
-    ctx.topics.length > 0 ? `Topics the learner enjoys: ${ctx.topics.join(", ")}.` : "",
+    ctx.topics.length > 0
+      ? `Topics the learner chose as their interests: ${ctx.topics.join(", ")}. The mission theme comes from these interests.`
+      : "",
     `You already opened the conversation with: "${ctx.openingMessage}"`,
     "",
     "Rules:",
     `- "reply": answer in English in 1-3 short sentences, using vocabulary and grammar suited to level ${ctx.level}. Keep the conversation going by asking exactly ONE natural follow-up question related to the mission.`,
+    `- Conversation style for this learner (level ${ctx.level}): ${levelStyle(ctx.level)}`,
     '- "correction": ONLY when the learner\'s last message has a real grammar/vocabulary error or sounds unnatural. Write it in Brazilian Portuguese, starting with: Mais natural: "<corrected English sentence>". Add at most one short sentence in Brazilian Portuguese explaining why. Ignore capitalization and punctuation. If the message is fine, leave "correction" empty. Never invent errors.',
+    ctx.topics.length > 0
+      ? "- Interests: make the follow-up questions about the mission theme and, when it fits naturally, connect them to the learner's other interests (never force it). Avoid generic small talk that has nothing to do with what the learner enjoys. This applies to text AND voice turns."
+      : "",
     ctx.correctionStyle
       ? `- The learner prefers this correction style: "${ctx.correctionStyle}". Respect it when writing "correction".`
       : "",

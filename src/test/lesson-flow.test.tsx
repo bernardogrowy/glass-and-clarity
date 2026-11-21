@@ -13,7 +13,16 @@ describe("Lição de vocabulário", () => {
 
   it("tem rotas pra cada etapa", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
-    for (const path of ["descobrir", "escolha", "pares", "ordenar", "dialogo", "resumo", ""]) {
+    for (const path of [
+      "descobrir",
+      "escolha",
+      "pares",
+      "ordenar",
+      "dialogo",
+      "falar",
+      "resumo",
+      "",
+    ]) {
       const matches = router.matchRoutes(`/licao/entrevista/${path}`);
       expect(matches.at(-1)?.routeId).not.toBe("__root__");
     }

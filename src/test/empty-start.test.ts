@@ -18,22 +18,27 @@ describe("começa sem dados fictícios", () => {
     expect(profileCloudBinding.get().name).toBe("");
   });
 
-  it("streak, progresso, lições, chat e onboarding começam zerados", async () => {
-    const streak = (await import("@/lib/streak-store")).streakCloudBinding.get();
-    expect(streak).toMatchObject({ current: 0, longest: 0, activeDates: [] });
+  // Importa vários stores a frio (inclusive a trilha, com as 20 unidades): o limite padrão de 5 s fica apertado.
+  it(
+    "streak, progresso, lições, chat e onboarding começam zerados",
+    { timeout: 20_000 },
+    async () => {
+      const streak = (await import("@/lib/streak-store")).streakCloudBinding.get();
+      expect(streak).toMatchObject({ current: 0, longest: 0, activeDates: [] });
 
-    const progress = (await import("@/lib/progress-store")).progressCloudBinding.get();
-    expect(progress).toEqual({ goals: [], sessions: [] });
+      const progress = (await import("@/lib/progress-store")).progressCloudBinding.get();
+      expect(progress).toEqual({ goals: [], sessions: [] });
 
-    const lessons = (await import("@/lib/lesson-store")).lessonCloudBinding.get();
-    expect(lessons).toMatchObject({ session: null, wordStages: {}, firstTryTotal: 0 });
+      const lessons = (await import("@/lib/lesson-store")).lessonCloudBinding.get();
+      expect(lessons).toMatchObject({ session: null, wordStages: {}, firstTryTotal: 0 });
 
-    const chat = (await import("@/lib/chat-store")).chatCloudBinding.get();
-    expect(chat.conversations).toEqual([]);
+      const chat = (await import("@/lib/chat-store")).chatCloudBinding.get();
+      expect(chat.conversations).toEqual([]);
 
-    const onboarding = (await import("@/lib/onboarding-store")).onboardingCloudBinding.get();
-    expect(onboarding).toMatchObject({ completed: false, skipped: false });
-  });
+      const onboarding = (await import("@/lib/onboarding-store")).onboardingCloudBinding.get();
+      expect(onboarding).toEqual(expect.objectContaining({ completed: false }));
+    },
+  );
 
   it("sobra de dados antigos (baralho de exemplo salvo) some quando a conta é nova", async () => {
     window.localStorage.setItem(

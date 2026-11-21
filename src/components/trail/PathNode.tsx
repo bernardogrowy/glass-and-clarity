@@ -20,10 +20,10 @@ type PathNodeProps = {
 
 /** Cor da face e da base (a "espessura" 3D) de cada habilidade quando concluída. */
 const DONE_COLORS: Record<SkillId, { face: string; edge: string }> = {
-  descobrir: { face: "oklch(0.83 0.15 85)", edge: "oklch(0.62 0.14 75)" },
-  reconhecer: { face: "oklch(0.78 0.12 235)", edge: "oklch(0.55 0.13 245)" },
+  entrada: { face: "oklch(0.83 0.15 85)", edge: "oklch(0.62 0.14 75)" },
   recordar: { face: "oklch(0.76 0.13 295)", edge: "oklch(0.53 0.15 295)" },
   aplicar: { face: "oklch(0.79 0.14 45)", edge: "oklch(0.58 0.16 40)" },
+  falar: { face: "oklch(0.78 0.12 235)", edge: "oklch(0.55 0.13 245)" },
   checkpoint: { face: "oklch(0.85 0.16 92)", edge: "oklch(0.64 0.15 80)" },
 };
 const CURRENT_COLORS = { face: "oklch(0.74 0.15 165)", edge: "oklch(0.5 0.12 170)" };
@@ -161,7 +161,7 @@ export const PathNode = forwardRef<HTMLButtonElement, PathNodeProps>(function Pa
               <Icon
                 className="relative z-10 h-8 w-8 text-white drop-shadow-[0_3px_0_oklch(0_0_0/0.28)]"
                 strokeWidth={2.4}
-                fill={activity.skill === "reconhecer" ? "currentColor" : "none"}
+                fill="none"
               />
             )}
           </button>

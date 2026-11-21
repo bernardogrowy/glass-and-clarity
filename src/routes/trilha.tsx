@@ -1,5 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight, Flame, Lock, Route as RouteIcon } from "lucide-react";
+import {
+  BookOpen,
+  ChevronRight,
+  Flame,
+  Lock,
+  RotateCcw,
+  Route as RouteIcon,
+  Sparkles,
+} from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { LessonSheet } from "@/components/trail/LessonSheet";
@@ -11,12 +19,18 @@ import { UnitHeader } from "@/components/trail/UnitHeader";
 import { getDueCards, useFlashcardsStore, type Card } from "@/lib/flashcards-store";
 import { getActiveSession, useLessonStore } from "@/lib/lesson-store";
 import { getLesson } from "@/lib/lessons";
+import { getReviewDue } from "@/lib/review-session";
+import { useReviewStore } from "@/lib/review-store";
+import { updateProfile, useProfileStore, type Level } from "@/lib/profile-store";
 import { useStreakStore } from "@/lib/streak-store";
 import {
   SKILLS,
   TRAIL_NAME,
   UNITS,
   getActivity,
+  getNextLevelWithContent,
+  getTrackLevel,
+  getVisibleUnits,
   getPreviousActivity,
   getSectionOf,
   getUnit,
@@ -27,6 +41,7 @@ import {
 import {
   getActivityStatus,
   getAdjacentUnit,
+  getCoursesUnlock,
   getCurrent,
   getUnitProgress,
   getUnitStatus,
@@ -79,6 +94,9 @@ function Trilha() {
   const lessons = useLessonStore();
   const flashcards = useFlashcardsStore();
   const streak = useStreakStore();
+  const profile = useProfileStore();
+  const reviewState = useReviewStore();
+  const level = profile.level;
 
   const [viewUnitId, setViewUnitId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -90,9 +108,12 @@ function Trilha() {
   const scrollPending = useRef(false);
   const clearHint = useCallback(() => setHint(null), []);
 
-  const current = getCurrent(trail);
+  const current = getCurrent(trail, level);
   const unit: Unit | undefined =
-    (viewUnitId ? getUnit(viewUnitId) : undefined) ?? current?.unit ?? UNITS.at(-1);
+    (viewUnitId ? getUnit(viewUnitId) : undefined) ??
+    current?.unit ??
+    getVisibleUnits(level).at(-1) ??
+    UNITS.at(-1);
   const viewingCurrentUnit = !!unit && current?.unit.id === unit.id;
   const currentActivityId = viewingCurrentUnit ? current?.activity.id : undefined;
 
@@ -129,8 +150,11 @@ function Trilha() {
 
   const section = getSectionOf(unit);
   const progress = getUnitProgress(trail, unit);
-  const previousUnit = getAdjacentUnit(unit, -1);
-  const nextUnit = getAdjacentUnit(unit, 1);
+  const upcomingLevel = getNextLevelWithContent(level);
+  const coursesUnlock = getCoursesUnlock(trail);
+  const reviewDue = getReviewDue(reviewState, Date.now()).length;
+  const previousUnit = getAdjacentUnit(unit, -1, level);
+  const nextUnit = getAdjacentUnit(unit, 1, level);
   const total = unit.activities.length;
   const doneUntil = unit.activities.filter((a) => isActivityDone(trail, a.id)).length;
   const now = Date.now();
@@ -176,7 +200,7 @@ function Trilha() {
   };
 
   const pressNode = (activity: Activity) => {
-    if (getActivityStatus(trail, activity) === "bloqueada") {
+    if (getActivityStatus(trail, activity, level) === "bloqueada") {
       setHint(hintFor(activity));
       return;
     }
@@ -211,7 +235,7 @@ function Trilha() {
         </Link>
       </header>
 
-      {previousUnit && getUnitStatus(trail, previousUnit) === "concluida" && (
+      {previousUnit && getUnitStatus(trail, previousUnit, level) === "concluida" && (
         <div className="surface mt-5 flex items-center gap-4 rounded-3xl p-4">
           <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-mint">
             <ChevronRight className="h-5 w-5 rotate-180" />
@@ -244,7 +268,7 @@ function Trilha() {
       <div className="relative mt-6" style={{ height: pathHeight }}>
         <PathConnectors points={points} doneUntil={doneUntil} height={pathHeight} />
         {unit.activities.map((activity, i) => {
-          const status = getActivityStatus(trail, activity);
+          const status = getActivityStatus(trail, activity, level);
           const record = trail.completed[activity.id];
           return (
             <PathNode
@@ -263,7 +287,7 @@ function Trilha() {
       </div>
 
       {nextUnit ? (
-        getUnitStatus(trail, nextUnit) === "bloqueada" ? (
+        getUnitStatus(trail, nextUnit, level) === "bloqueada" ? (
           <div className="mt-4 flex items-center gap-4 rounded-3xl border-2 border-dashed border-foreground/25 p-4">
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-card">
               <Lock className="h-5 w-5 text-muted-foreground" />
@@ -290,17 +314,98 @@ function Trilha() {
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
                 Unidade {nextUnit.number} ·{" "}
-                {getUnitStatus(trail, nextUnit) === "concluida" ? "Concluída" : "Disponível"}
+                {getUnitStatus(trail, nextUnit, level) === "concluida" ? "Concluída" : "Disponível"}
               </p>
               <p className="font-semibold leading-snug">{nextUnit.title}</p>
             </div>
           </button>
         )
+      ) : upcomingLevel && getUnitStatus(trail, unit, level) === "concluida" ? (
+        <div className="surface mt-4 rounded-3xl p-5 text-center">
+          <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-butter">
+            <Sparkles className="h-5 w-5" />
+          </span>
+          <p className="mt-3 font-display text-2xl leading-tight">
+            Você concluiu o nível {section.level}!
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Quando quiser, siga para o nível {upcomingLevel}. O {section.level} continua aberto para
+            revisão.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              updateProfile({ ...profile, level: upcomingLevel as Level });
+              setViewUnitId(null);
+              window.scrollTo({ top: 0 });
+            }}
+            className="glass-dark press mt-4 flex h-12 w-full items-center justify-center rounded-full font-medium"
+          >
+            Seguir para o nível {upcomingLevel}
+          </button>
+        </div>
       ) : (
         <p className="mt-4 rounded-3xl border-2 border-dashed border-foreground/25 p-4 text-center text-sm text-muted-foreground">
           Mais unidades em breve.
         </p>
       )}
+
+      {reviewDue > 0 && (
+        <Link to="/revisao" className="surface press mt-4 flex items-center gap-4 rounded-3xl p-4">
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-peach">
+            <RotateCcw className="h-5 w-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-semibold leading-snug">Revisão do dia</span>
+            <span className="block text-sm text-muted-foreground">
+              {reviewDue} {reviewDue === 1 ? "palavra" : "palavras"} de unidades anteriores para não
+              esquecer.
+            </span>
+          </span>
+          <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
+        </Link>
+      )}
+
+      {upcomingLevel && current && (
+        <Link
+          to="/teste-de-nivel"
+          className="surface press mt-4 flex items-center gap-4 rounded-3xl p-4"
+        >
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-lilac">
+            <Sparkles className="h-5 w-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-semibold leading-snug">
+              Já domina o {getTrackLevel(level)}?
+            </span>
+            <span className="block text-sm text-muted-foreground">
+              Faça um teste rápido e avance para o {upcomingLevel}.
+            </span>
+          </span>
+          <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
+        </Link>
+      )}
+
+      <Link to="/cursos" className="surface press mt-4 flex items-center gap-4 rounded-3xl p-4">
+        <span
+          className={`grid h-12 w-12 shrink-0 place-items-center rounded-full ${coursesUnlock.unlocked ? "bg-sky" : "bg-card"}`}
+        >
+          {coursesUnlock.unlocked ? (
+            <BookOpen className="h-5 w-5" />
+          ) : (
+            <Lock className="h-5 w-5 text-muted-foreground" />
+          )}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-semibold leading-snug">Cursos extras</span>
+          <span className="block text-sm text-muted-foreground">
+            {coursesUnlock.unlocked
+              ? "Vida cotidiana, viagem, tecnologia e mais, em trilhas paralelas."
+              : `Conclua mais ${coursesUnlock.remaining} ${coursesUnlock.remaining === 1 ? "atividade" : "atividades"} da trilha para liberar.`}
+          </span>
+        </span>
+        <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
+      </Link>
 
       <BackToCurrent
         visible={showBackToCurrent}
@@ -314,7 +419,7 @@ function Trilha() {
         onOpenChange={setSheetOpen}
         activity={selected ?? null}
         unit={selected ? getUnitOf(selected) : null}
-        status={selected ? getActivityStatus(trail, selected) : "bloqueada"}
+        status={selected ? getActivityStatus(trail, selected, level) : "bloqueada"}
         resumeStep={
           session && selectedLesson
             ? { current: session.stepIndex + 1, total: selectedLesson.steps.length }
@@ -337,6 +442,7 @@ function Trilha() {
         open={sectionsOpen}
         onOpenChange={setSectionsOpen}
         trail={trail}
+        level={level}
         viewingUnitId={unit.id}
         trailName={TRAIL_NAME}
         onSelectUnit={(target) => {

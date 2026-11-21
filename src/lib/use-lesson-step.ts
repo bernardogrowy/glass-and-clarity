@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { advanceStep, getActiveSession, startLesson, useLessonStore } from "@/lib/lesson-store";
 import { getLesson, type Lesson, type LessonStep, type StepKind } from "@/lib/lessons";
+import { isLessonLocked, useTrailStore } from "@/lib/trail-store";
 
 export const STEP_ROUTES = {
   descobrir: "/licao/$id/descobrir",
@@ -10,7 +11,23 @@ export const STEP_ROUTES = {
   pares: "/licao/$id/pares",
   ordenar: "/licao/$id/ordenar",
   dialogo: "/licao/$id/dialogo",
+  falar: "/licao/$id/falar",
 } as const satisfies Record<StepKind, string>;
+
+/**
+ * Lição de curso extra ainda bloqueada (abriram a URL direto, sem as atividades mínimas da trilha):
+ * manda pra tela de cursos, que mostra quanto falta. Devolve `true` enquanto estiver bloqueada, e
+ * quem chama não pode iniciar nem concluir a lição.
+ */
+export function useCourseLock(lessonId: string): boolean {
+  const navigate = useNavigate();
+  const trail = useTrailStore();
+  const locked = isLessonLocked(trail, lessonId);
+  useEffect(() => {
+    if (locked) navigate({ to: "/cursos", replace: true });
+  }, [locked, navigate]);
+  return locked;
+}
 
 export type StepContext<K extends StepKind> = {
   lesson: Lesson;
@@ -31,13 +48,14 @@ export function useLessonStep<K extends StepKind>(
   const navigate = useNavigate();
   const hydrated = useHydrated();
   const store = useLessonStore();
+  const locked = useCourseLock(lessonId);
 
   const lesson = getLesson(lessonId);
   const session = getActiveSession(store, lessonId);
   const step = lesson && session ? lesson.steps[session.stepIndex] : undefined;
 
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || locked) return;
     if (!lesson) {
       navigate({ to: "/", replace: true });
     } else if (!session) {
@@ -47,9 +65,9 @@ export function useLessonStep<K extends StepKind>(
     } else if (step.kind !== kind) {
       navigate({ to: STEP_ROUTES[step.kind], params: { id: lessonId }, replace: true });
     }
-  }, [hydrated, lesson, session, step, kind, lessonId, navigate]);
+  }, [hydrated, locked, lesson, session, step, kind, lessonId, navigate]);
 
-  if (!lesson || !session || !step || step.kind !== kind) return null;
+  if (locked || !lesson || !session || !step || step.kind !== kind) return null;
   return {
     lesson,
     step: step as Extract<LessonStep, { kind: K }>,

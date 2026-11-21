@@ -10,11 +10,16 @@ import {
   Flame,
   Layers,
   CalendarCheck,
+  RotateCcw,
 } from "lucide-react";
-import { AppShell, GlassIconButton } from "@/components/AppShell";
+import { AppShell } from "@/components/AppShell";
 import { ActivityWeek } from "@/components/ActivityWeek";
 import { MascotAvatar } from "@/components/MascotAvatar";
+import { MentorCard } from "@/components/MentorCard";
+import { unreadCount, useInbox } from "@/lib/notifications-store";
 import { getDueCards, getMasteryBuckets, useFlashcardsStore } from "@/lib/flashcards-store";
+import { getReviewDue } from "@/lib/review-session";
+import { useReviewStore } from "@/lib/review-store";
 import { getActiveSession, getLessonStagesReached, useLessonStore } from "@/lib/lesson-store";
 import { DAILY_LESSON_ID, getLesson } from "@/lib/lessons";
 import { useOnboardingStore } from "@/lib/onboarding-store";
@@ -85,9 +90,11 @@ function Index() {
   const lessons = useLessonStore();
   const flashcards = useFlashcardsStore();
   const trail = useTrailStore();
+  const profile = useProfileStore();
   // Atalho "Palavras de hoje" = atividade atual da trilha (mesma lição, mesmo progresso).
   // Com a trilha toda concluída, volta pra lição avulsa.
-  const trailCurrent = getCurrent(trail);
+  const unreadNotifications = unreadCount(useInbox().items);
+  const trailCurrent = getCurrent(trail, profile.level);
   const dailyLesson = getLesson(trailCurrent?.activity.lessonId ?? DAILY_LESSON_ID);
   const activeSession = dailyLesson ? getActiveSession(lessons, dailyLesson.id) : null;
   const trailUnitProgress = trailCurrent ? getUnitProgress(trail, trailCurrent.unit) : null;
@@ -96,15 +103,16 @@ function Index() {
     0,
   );
   const mastery = getMasteryBuckets(flashcards);
-  const profile = useProfileStore();
+  const reviewDue = getReviewDue(useReviewStore(), Date.now()).length;
   const onboarding = useOnboardingStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!onboarding.completed && !onboarding.skipped) {
+    // Não existe pular: enquanto o questionário não foi respondido, a Home leva para ele.
+    if (!onboarding.completed) {
       navigate({ to: "/onboarding", replace: true });
     }
-  }, [onboarding.completed, onboarding.skipped, navigate]);
+  }, [onboarding.completed, navigate]);
 
   return (
     <AppShell>
@@ -130,9 +138,20 @@ function Index() {
             <Flame className="h-4 w-4" />
             {streak.current}
           </Link>
-          <GlassIconButton label="Notificações">
+          <Link
+            to="/notificacoes"
+            aria-label={
+              unreadNotifications > 0
+                ? `Notificações, ${unreadNotifications} não lida${unreadNotifications === 1 ? "" : "s"}`
+                : "Notificações"
+            }
+            className="glass press relative grid h-11 w-11 place-items-center rounded-full text-foreground"
+          >
             <Bell className="h-5 w-5" />
-          </GlassIconButton>
+            {unreadNotifications > 0 && (
+              <span className="absolute right-2.5 top-2.5 h-2.5 w-2.5 rounded-full bg-accent ring-2 ring-white" />
+            )}
+          </Link>
         </div>
       </header>
 
@@ -145,6 +164,8 @@ function Index() {
           Que conversa você quer viver hoje?
         </h1>
       </section>
+
+      <MentorCard />
 
       <ActivityWeek practicedDates={getActiveDates(streak)} />
 
@@ -195,10 +216,7 @@ function Index() {
             </p>
             {trailCurrent && trailUnitProgress ? (
               <>
-                <Segments
-                  filled={trailUnitProgress.done}
-                  count={trailUnitProgress.total}
-                />
+                <Segments filled={trailUnitProgress.done} count={trailUnitProgress.total} />
                 <p className="mt-2 text-[11px] text-muted-foreground">
                   Trilha · Unidade {trailCurrent.unit.number}
                 </p>
@@ -231,6 +249,21 @@ function Index() {
           </div>
         </Link>
       </div>
+
+      {reviewDue > 0 && (
+        <Link to="/revisao" className="surface press mt-3 flex items-center gap-4 rounded-3xl p-4">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-lilac">
+            <RotateCcw className="h-5 w-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-semibold leading-snug">Revisão do dia</span>
+            <span className="block text-xs text-muted-foreground">
+              {reviewDue} {reviewDue === 1 ? "palavra" : "palavras"} de unidades anteriores
+            </span>
+          </span>
+          <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+        </Link>
+      )}
 
       <h3 className="mt-10 mb-4 text-sm font-medium text-muted-foreground">Situações reais</h3>
       <div className="grid grid-cols-2 gap-3">

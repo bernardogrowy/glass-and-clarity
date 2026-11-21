@@ -7,7 +7,8 @@ import { useHydrated } from "@/hooks/use-hydrated";
 import { finishLesson, useLessonStore } from "@/lib/lesson-store";
 import { getLesson } from "@/lib/lessons";
 import { useProfileStore } from "@/lib/profile-store";
-import { CHECKPOINT_PASS_ACCURACY, getActivity, getUnitOf } from "@/lib/trail";
+import { useCourseLock } from "@/lib/use-lesson-step";
+import { CHECKPOINT_PASS_ACCURACY, getActivity, getCourseOfActivity, getUnitOf } from "@/lib/trail";
 import { getAdjacentUnit, isActivityDone, isUnitDone, useTrailStore } from "@/lib/trail-store";
 
 export const Route = createFileRoute("/licao/$id/resumo")({
@@ -31,27 +32,29 @@ function Resumo() {
   const store = useLessonStore();
   const profile = useProfileStore();
   const trail = useTrailStore();
+  const locked = useCourseLock(id);
   const lesson = getLesson(id);
   const session = store.session?.lessonId === id ? store.session : null;
   const summary = session?.summary;
 
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || locked) return;
     if (!lesson || !session) {
       navigate({ to: "/", replace: true });
       return;
     }
     // Idempotente: só calcula o resumo e conta a sequência na primeira vez.
     finishLesson();
-  }, [hydrated, lesson, session, navigate]);
+  }, [hydrated, locked, lesson, session, navigate]);
 
-  if (!lesson || !summary) return null;
+  if (locked || !lesson || !summary) return null;
 
   const missedCount = summary.missedWordIds.length;
 
   // Lição da trilha: mostra o que aconteceu com a atividade e leva de volta pra trilha.
   const activity = getActivity(id);
   const unit = activity ? getUnitOf(activity) : null;
+  const course = activity ? getCourseOfActivity(activity) : undefined;
   const isCheckpoint = activity?.skill === "checkpoint";
   const activityDone = activity ? isActivityDone(trail, activity.id) : false;
   const unitDone = unit ? isUnitDone(trail, unit) : false;
@@ -134,8 +137,12 @@ function Resumo() {
             : unitDone && nextUnit
               ? `Próxima parada: Unidade ${nextUnit.number} · ${nextUnit.title}.`
               : unitDone
-                ? "Você chegou ao fim da trilha por enquanto. Novas unidades em breve."
-                : "Sua trilha foi atualizada com este progresso."}
+                ? course
+                  ? "Você concluiu este curso. Bom trabalho!"
+                  : "Você chegou ao fim da trilha por enquanto. Novas unidades em breve."
+                : course
+                  ? "Seu curso foi atualizado com este progresso."
+                  : "Sua trilha foi atualizada com este progresso."}
         </p>
       )}
 
@@ -143,10 +150,16 @@ function Resumo() {
         {activity ? (
           <>
             <Link
-              to="/trilha"
+              to={course ? "/cursos" : "/trilha"}
               className="glass-dark press flex h-14 items-center justify-center gap-2 rounded-full font-medium"
             >
-              {failedCheckpoint ? "Voltar à trilha" : "Continuar na trilha"}{" "}
+              {course
+                ? failedCheckpoint
+                  ? "Voltar ao curso"
+                  : "Continuar no curso"
+                : failedCheckpoint
+                  ? "Voltar à trilha"
+                  : "Continuar na trilha"}{" "}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link

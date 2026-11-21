@@ -167,6 +167,14 @@
   0% { transform: rotate(var(--a)) translateY(0) scale(1); opacity: 1; }
   100% { transform: rotate(var(--a)) translateY(-64px) scale(0.4); opacity: 0; }
 }
+@keyframes float-a {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(14px, -12px); }
+}
+@keyframes float-b {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-14px, 12px); }
+}
 @keyframes node-pop {
   0% { transform: scale(0.8); }
   60% { transform: scale(1.12); }
@@ -179,6 +187,8 @@
   .anim-node-ping-late { animation: node-ping 2s ease-out 1s infinite; }
   .anim-tag-bob { animation: tag-bob 1.7s ease-in-out infinite; }
   .anim-mascot-cheer { animation: mascot-cheer 1.7s ease-in-out infinite; transform-origin: 50% 100%; }
+  .anim-float-a { animation: float-a 18s ease-in-out infinite; }
+  .anim-float-b { animation: float-b 22s ease-in-out infinite; }
   .anim-burst { animation: burst-fly 0.9s ease-out forwards; }
   .anim-node-pop { animation: node-pop 0.5s cubic-bezier(0.3, 0.7, 0.4, 1.4); }
 }

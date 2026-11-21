@@ -2,24 +2,25 @@ import { Briefcase, CalendarDays, Clock, Sparkles, Target, type LucideIcon } fro
 import { TRAIL_LESSONS } from "@/lib/trail";
 
 /**
- * Conteúdo das lições de vocabulário. Cada palavra passa por 4 etapas:
- * Descobrir → Reconhecer → Recordar → Aplicar (ver `Stage`).
+ * Conteúdo das lições. Cada item passa por 4 etapas:
+ * Entrada → Recordar → Aplicar → Falar (ver `Stage`); o checkpoint da unidade mistura todas.
  * A ordem das opções/peças é fixa (não aleatória) pra evitar mismatch de hidratação.
  */
 
-export type Stage = "descobrir" | "reconhecer" | "recordar" | "aplicar";
+export type Stage = "entrada" | "recordar" | "aplicar" | "falar";
 
 export const STAGES: { id: Stage; label: string; tone: string }[] = [
-  { id: "descobrir", label: "Descobrir", tone: "bg-butter" },
-  { id: "reconhecer", label: "Reconhecer", tone: "bg-sky" },
+  { id: "entrada", label: "Entrada", tone: "bg-butter" },
   { id: "recordar", label: "Recordar", tone: "bg-lilac" },
   { id: "aplicar", label: "Aplicar", tone: "bg-peach" },
+  { id: "falar", label: "Falar", tone: "bg-sky" },
 ];
 
 export type LessonWord = {
   id: string;
   en: string;
-  ipa: string;
+  /** Pronúncia; some da tela quando o item (uma expressão) não tem. */
+  ipa?: string;
   pt: string;
   example: string;
   examplePt: string;
@@ -51,6 +52,13 @@ export type LessonStep =
       answerPt: string;
       options: string[];
       correct: string;
+    }
+  | {
+      /** Repetir uma frase em voz alta; a fala é avaliada pela transcrição (ou autoavaliação). */
+      kind: "falar";
+      wordId: string;
+      target: string;
+      targetPt: string;
     };
 
 export type StepKind = LessonStep["kind"];
@@ -65,11 +73,12 @@ export type Lesson = {
 };
 
 export const STEP_STAGE: Record<StepKind, Stage> = {
-  descobrir: "descobrir",
-  escolha: "reconhecer",
-  pares: "reconhecer",
+  descobrir: "entrada",
+  escolha: "entrada",
+  pares: "entrada",
   ordenar: "recordar",
   dialogo: "aplicar",
+  falar: "falar",
 };
 
 const interviewWords: LessonWord[] = [

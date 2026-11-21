@@ -17,6 +17,7 @@ import {
   aiErrorMessage,
   buildSystemInstruction,
   createTutorSession,
+  levelStyle,
   parseTutorTurn,
   type TutorContext,
 } from "@/lib/ai";
@@ -83,7 +84,30 @@ describe("buildSystemInstruction", () => {
   it("omite preferência e assuntos quando não existem", () => {
     const text = buildSystemInstruction({ ...ctx, correctionStyle: null, topics: [] });
     expect(text).not.toContain("prefers this correction style");
-    expect(text).not.toContain("Topics the learner enjoys");
+    expect(text).not.toContain("their interests");
+    expect(text).not.toContain("Interests:");
+  });
+});
+
+describe("estilo do chat por nível", () => {
+  it("cada nível tem um estilo próprio e o prompt usa o do nível da pessoa", () => {
+    const styles = (["A1", "A2", "B1", "B2", "C1"] as const).map((l) => levelStyle(l));
+    expect(new Set(styles).size).toBe(5);
+    for (const level of ["A1", "A2", "B1", "B2", "C1"] as const) {
+      const text = buildSystemInstruction({ ...ctx, level });
+      expect(text).toContain(`level ${level}): ${levelStyle(level)}`);
+    }
+  });
+
+  it("A1 pede frases muito curtas e C1 pede nuance e registro", () => {
+    expect(levelStyle("A1")).toContain("at most 8 words");
+    expect(levelStyle("C1")).toContain("register");
+    expect(levelStyle("C1")).toContain("idiom");
+  });
+
+  it("C2 usa o estilo do C1 e nível desconhecido usa o do B1", () => {
+    expect(levelStyle("C2")).toBe(levelStyle("C1"));
+    expect(levelStyle("??")).toBe(levelStyle("B1"));
   });
 });
 

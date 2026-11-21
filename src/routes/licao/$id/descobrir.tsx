@@ -56,8 +56,16 @@ function Descobrir({ ctx }: { ctx: StepContext<"descobrir"> }) {
         <div className={`${word.tone} mx-auto grid h-16 w-16 place-items-center rounded-full`}>
           <Icon className="h-7 w-7" />
         </div>
-        <h1 className="mt-5 font-display text-5xl leading-none">{word.en}</h1>
-        <p className="mt-3 text-muted-foreground">{word.ipa}</p>
+        <h1
+          className={
+            word.en.length > 16
+              ? "mt-5 font-display text-3xl leading-tight"
+              : "mt-5 font-display text-5xl leading-none"
+          }
+        >
+          {word.en}
+        </h1>
+        {word.ipa && <p className="mt-3 text-muted-foreground">{word.ipa}</p>}
         <div className="mt-4 flex items-center justify-center gap-3">
           <SpeakButton text={word.en} label={`Ouvir ${word.en}`} dark className="h-14 w-14" />
           <button

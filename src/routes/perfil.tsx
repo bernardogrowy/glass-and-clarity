@@ -10,6 +10,7 @@ import {
   Check,
   ListChecks,
   LogOut,
+  FileSignature,
 } from "lucide-react";
 import { signOut } from "@/lib/auth-store";
 import { isFirebaseConfigured } from "@/lib/firebase";
@@ -29,14 +30,13 @@ import {
   CORRECAO_LABELS,
   MOTIVO_LABELS,
   NIVEL_INFO,
-  resetOnboarding,
   useOnboardingStore,
 } from "@/lib/onboarding-store";
 import { useProgressStore } from "@/lib/progress-store";
 import {
   AVATAR_COLORS,
   AVATAR_EXPRESSIONS,
-  LEVELS,
+  SELECTABLE_LEVELS,
   updateProfile,
   useProfileStore,
   type AvatarExpression,
@@ -90,11 +90,6 @@ function Perfil() {
   };
 
   const vocabMasteryPct = getVocabMasteryPct(flashcards);
-
-  const retakeOnboarding = () => {
-    resetOnboarding();
-    navigate({ to: "/onboarding" });
-  };
 
   return (
     <AppShell hideTabs>
@@ -186,6 +181,16 @@ function Perfil() {
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </button>
         <Link
+          to="/plano"
+          className="surface press flex w-full items-center justify-between rounded-2xl px-5 py-4"
+        >
+          <span className="flex items-center gap-3">
+            <FileSignature className="h-4 w-4 text-muted-foreground" />
+            Contrato de estudo
+          </span>
+          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+        </Link>
+        <Link
           to="/baralhos"
           className="surface press flex w-full items-center justify-between rounded-2xl px-5 py-4"
         >
@@ -236,7 +241,7 @@ function Perfil() {
             <div>
               <p className="mb-2 text-xs text-muted-foreground">Nível atual de inglês</p>
               <div className="flex flex-wrap gap-2">
-                {LEVELS.map((l) => (
+                {SELECTABLE_LEVELS.map((l) => (
                   <button
                     key={l}
                     onClick={() => setLevel(l)}
@@ -354,14 +359,21 @@ function Perfil() {
               Você ainda não respondeu o questionário inicial.
             </p>
           )}
-          <DialogFooter>
-            <button
-              onClick={retakeOnboarding}
-              className="glass press flex h-12 w-full items-center justify-center rounded-2xl font-medium"
-            >
-              {onboarding.completed ? "Refazer questionário" : "Responder agora"}
-            </button>
-          </DialogFooter>
+          {onboarding.completed ? (
+            <p className="text-xs text-muted-foreground">
+              O questionário é respondido uma única vez: este é o seu perfil. Para mudar o nível,
+              use a edição do perfil.
+            </p>
+          ) : (
+            <DialogFooter>
+              <button
+                onClick={() => navigate({ to: "/onboarding" })}
+                className="glass press flex h-12 w-full items-center justify-center rounded-2xl font-medium"
+              >
+                Responder agora
+              </button>
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     </AppShell>

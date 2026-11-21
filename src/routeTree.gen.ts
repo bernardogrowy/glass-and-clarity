@@ -11,18 +11,24 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BaralhosRouteImport } from './routes/baralhos'
+import { Route as CursosRouteImport } from './routes/cursos'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as NotificacoesRouteImport } from './routes/notificacoes'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as PlanoRouteImport } from './routes/plano'
 import { Route as PraticaRouteImport } from './routes/pratica'
 import { Route as ProgressoRouteImport } from './routes/progresso'
+import { Route as RevisaoRouteImport } from './routes/revisao'
 import { Route as StreakRouteImport } from './routes/streak'
+import { Route as TesteDeNivelRouteImport } from './routes/teste-de-nivel'
 import { Route as TrilhaRouteImport } from './routes/trilha'
 import { Route as FlashcardsDeckIdRouteImport } from './routes/flashcards/$deckId'
 import { Route as LicaoIdIndexRouteImport } from './routes/licao/$id/index'
 import { Route as LicaoIdDescobrirRouteImport } from './routes/licao/$id/descobrir'
 import { Route as LicaoIdDialogoRouteImport } from './routes/licao/$id/dialogo'
 import { Route as LicaoIdEscolhaRouteImport } from './routes/licao/$id/escolha'
+import { Route as LicaoIdFalarRouteImport } from './routes/licao/$id/falar'
 import { Route as LicaoIdOrdenarRouteImport } from './routes/licao/$id/ordenar'
 import { Route as LicaoIdParesRouteImport } from './routes/licao/$id/pares'
 import { Route as LicaoIdResumoRouteImport } from './routes/licao/$id/resumo'
@@ -37,9 +43,19 @@ const BaralhosRoute = BaralhosRouteImport.update({
   path: '/baralhos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CursosRoute = CursosRouteImport.update({
+  id: '/cursos',
+  path: '/cursos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificacoesRoute = NotificacoesRouteImport.update({
+  id: '/notificacoes',
+  path: '/notificacoes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -52,6 +68,11 @@ const PerfilRoute = PerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlanoRoute = PlanoRouteImport.update({
+  id: '/plano',
+  path: '/plano',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PraticaRoute = PraticaRouteImport.update({
   id: '/pratica',
   path: '/pratica',
@@ -62,9 +83,19 @@ const ProgressoRoute = ProgressoRouteImport.update({
   path: '/progresso',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RevisaoRoute = RevisaoRouteImport.update({
+  id: '/revisao',
+  path: '/revisao',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StreakRoute = StreakRouteImport.update({
   id: '/streak',
   path: '/streak',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TesteDeNivelRoute = TesteDeNivelRouteImport.update({
+  id: '/teste-de-nivel',
+  path: '/teste-de-nivel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrilhaRoute = TrilhaRouteImport.update({
@@ -97,6 +128,11 @@ const LicaoIdEscolhaRoute = LicaoIdEscolhaRouteImport.update({
   path: '/licao/$id/escolha',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LicaoIdFalarRoute = LicaoIdFalarRouteImport.update({
+  id: '/licao/$id/falar',
+  path: '/licao/$id/falar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LicaoIdOrdenarRoute = LicaoIdOrdenarRouteImport.update({
   id: '/licao/$id/ordenar',
   path: '/licao/$id/ordenar',
@@ -116,17 +152,23 @@ const LicaoIdResumoRoute = LicaoIdResumoRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/baralhos': typeof BaralhosRoute
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
+  '/notificacoes': typeof NotificacoesRoute
   '/onboarding': typeof OnboardingRoute
   '/perfil': typeof PerfilRoute
+  '/plano': typeof PlanoRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
+  '/revisao': typeof RevisaoRoute
   '/streak': typeof StreakRoute
+  '/teste-de-nivel': typeof TesteDeNivelRoute
   '/trilha': typeof TrilhaRoute
   '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
   '/licao/$id/descobrir': typeof LicaoIdDescobrirRoute
   '/licao/$id/dialogo': typeof LicaoIdDialogoRoute
   '/licao/$id/escolha': typeof LicaoIdEscolhaRoute
+  '/licao/$id/falar': typeof LicaoIdFalarRoute
   '/licao/$id/ordenar': typeof LicaoIdOrdenarRoute
   '/licao/$id/pares': typeof LicaoIdParesRoute
   '/licao/$id/resumo': typeof LicaoIdResumoRoute
@@ -135,17 +177,23 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/baralhos': typeof BaralhosRoute
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
+  '/notificacoes': typeof NotificacoesRoute
   '/onboarding': typeof OnboardingRoute
   '/perfil': typeof PerfilRoute
+  '/plano': typeof PlanoRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
+  '/revisao': typeof RevisaoRoute
   '/streak': typeof StreakRoute
+  '/teste-de-nivel': typeof TesteDeNivelRoute
   '/trilha': typeof TrilhaRoute
   '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
   '/licao/$id/descobrir': typeof LicaoIdDescobrirRoute
   '/licao/$id/dialogo': typeof LicaoIdDialogoRoute
   '/licao/$id/escolha': typeof LicaoIdEscolhaRoute
+  '/licao/$id/falar': typeof LicaoIdFalarRoute
   '/licao/$id/ordenar': typeof LicaoIdOrdenarRoute
   '/licao/$id/pares': typeof LicaoIdParesRoute
   '/licao/$id/resumo': typeof LicaoIdResumoRoute
@@ -155,17 +203,23 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/baralhos': typeof BaralhosRoute
+  '/cursos': typeof CursosRoute
   '/login': typeof LoginRoute
+  '/notificacoes': typeof NotificacoesRoute
   '/onboarding': typeof OnboardingRoute
   '/perfil': typeof PerfilRoute
+  '/plano': typeof PlanoRoute
   '/pratica': typeof PraticaRoute
   '/progresso': typeof ProgressoRoute
+  '/revisao': typeof RevisaoRoute
   '/streak': typeof StreakRoute
+  '/teste-de-nivel': typeof TesteDeNivelRoute
   '/trilha': typeof TrilhaRoute
   '/flashcards/$deckId': typeof FlashcardsDeckIdRoute
   '/licao/$id/descobrir': typeof LicaoIdDescobrirRoute
   '/licao/$id/dialogo': typeof LicaoIdDialogoRoute
   '/licao/$id/escolha': typeof LicaoIdEscolhaRoute
+  '/licao/$id/falar': typeof LicaoIdFalarRoute
   '/licao/$id/ordenar': typeof LicaoIdOrdenarRoute
   '/licao/$id/pares': typeof LicaoIdParesRoute
   '/licao/$id/resumo': typeof LicaoIdResumoRoute
@@ -176,17 +230,23 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/baralhos'
+    | '/cursos'
     | '/login'
+    | '/notificacoes'
     | '/onboarding'
     | '/perfil'
+    | '/plano'
     | '/pratica'
     | '/progresso'
+    | '/revisao'
     | '/streak'
+    | '/teste-de-nivel'
     | '/trilha'
     | '/flashcards/$deckId'
     | '/licao/$id/descobrir'
     | '/licao/$id/dialogo'
     | '/licao/$id/escolha'
+    | '/licao/$id/falar'
     | '/licao/$id/ordenar'
     | '/licao/$id/pares'
     | '/licao/$id/resumo'
@@ -195,17 +255,23 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/baralhos'
+    | '/cursos'
     | '/login'
+    | '/notificacoes'
     | '/onboarding'
     | '/perfil'
+    | '/plano'
     | '/pratica'
     | '/progresso'
+    | '/revisao'
     | '/streak'
+    | '/teste-de-nivel'
     | '/trilha'
     | '/flashcards/$deckId'
     | '/licao/$id/descobrir'
     | '/licao/$id/dialogo'
     | '/licao/$id/escolha'
+    | '/licao/$id/falar'
     | '/licao/$id/ordenar'
     | '/licao/$id/pares'
     | '/licao/$id/resumo'
@@ -214,17 +280,23 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/baralhos'
+    | '/cursos'
     | '/login'
+    | '/notificacoes'
     | '/onboarding'
     | '/perfil'
+    | '/plano'
     | '/pratica'
     | '/progresso'
+    | '/revisao'
     | '/streak'
+    | '/teste-de-nivel'
     | '/trilha'
     | '/flashcards/$deckId'
     | '/licao/$id/descobrir'
     | '/licao/$id/dialogo'
     | '/licao/$id/escolha'
+    | '/licao/$id/falar'
     | '/licao/$id/ordenar'
     | '/licao/$id/pares'
     | '/licao/$id/resumo'
@@ -234,17 +306,23 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BaralhosRoute: typeof BaralhosRoute
+  CursosRoute: typeof CursosRoute
   LoginRoute: typeof LoginRoute
+  NotificacoesRoute: typeof NotificacoesRoute
   OnboardingRoute: typeof OnboardingRoute
   PerfilRoute: typeof PerfilRoute
+  PlanoRoute: typeof PlanoRoute
   PraticaRoute: typeof PraticaRoute
   ProgressoRoute: typeof ProgressoRoute
+  RevisaoRoute: typeof RevisaoRoute
   StreakRoute: typeof StreakRoute
+  TesteDeNivelRoute: typeof TesteDeNivelRoute
   TrilhaRoute: typeof TrilhaRoute
   FlashcardsDeckIdRoute: typeof FlashcardsDeckIdRoute
   LicaoIdDescobrirRoute: typeof LicaoIdDescobrirRoute
   LicaoIdDialogoRoute: typeof LicaoIdDialogoRoute
   LicaoIdEscolhaRoute: typeof LicaoIdEscolhaRoute
+  LicaoIdFalarRoute: typeof LicaoIdFalarRoute
   LicaoIdOrdenarRoute: typeof LicaoIdOrdenarRoute
   LicaoIdParesRoute: typeof LicaoIdParesRoute
   LicaoIdResumoRoute: typeof LicaoIdResumoRoute
@@ -267,11 +345,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BaralhosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cursos': {
+      id: '/cursos'
+      path: '/cursos'
+      fullPath: '/cursos'
+      preLoaderRoute: typeof CursosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notificacoes': {
+      id: '/notificacoes'
+      path: '/notificacoes'
+      fullPath: '/notificacoes'
+      preLoaderRoute: typeof NotificacoesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -288,6 +380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/plano': {
+      id: '/plano'
+      path: '/plano'
+      fullPath: '/plano'
+      preLoaderRoute: typeof PlanoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pratica': {
       id: '/pratica'
       path: '/pratica'
@@ -302,11 +401,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgressoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/revisao': {
+      id: '/revisao'
+      path: '/revisao'
+      fullPath: '/revisao'
+      preLoaderRoute: typeof RevisaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/streak': {
       id: '/streak'
       path: '/streak'
       fullPath: '/streak'
       preLoaderRoute: typeof StreakRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teste-de-nivel': {
+      id: '/teste-de-nivel'
+      path: '/teste-de-nivel'
+      fullPath: '/teste-de-nivel'
+      preLoaderRoute: typeof TesteDeNivelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/trilha': {
@@ -351,6 +464,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LicaoIdEscolhaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/licao/$id/falar': {
+      id: '/licao/$id/falar'
+      path: '/licao/$id/falar'
+      fullPath: '/licao/$id/falar'
+      preLoaderRoute: typeof LicaoIdFalarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/licao/$id/ordenar': {
       id: '/licao/$id/ordenar'
       path: '/licao/$id/ordenar'
@@ -378,17 +498,23 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BaralhosRoute: BaralhosRoute,
+  CursosRoute: CursosRoute,
   LoginRoute: LoginRoute,
+  NotificacoesRoute: NotificacoesRoute,
   OnboardingRoute: OnboardingRoute,
   PerfilRoute: PerfilRoute,
+  PlanoRoute: PlanoRoute,
   PraticaRoute: PraticaRoute,
   ProgressoRoute: ProgressoRoute,
+  RevisaoRoute: RevisaoRoute,
   StreakRoute: StreakRoute,
+  TesteDeNivelRoute: TesteDeNivelRoute,
   TrilhaRoute: TrilhaRoute,
   FlashcardsDeckIdRoute: FlashcardsDeckIdRoute,
   LicaoIdDescobrirRoute: LicaoIdDescobrirRoute,
   LicaoIdDialogoRoute: LicaoIdDialogoRoute,
   LicaoIdEscolhaRoute: LicaoIdEscolhaRoute,
+  LicaoIdFalarRoute: LicaoIdFalarRoute,
   LicaoIdOrdenarRoute: LicaoIdOrdenarRoute,
   LicaoIdParesRoute: LicaoIdParesRoute,
   LicaoIdResumoRoute: LicaoIdResumoRoute,

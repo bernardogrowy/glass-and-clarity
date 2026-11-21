@@ -5,7 +5,7 @@ import { AppShell } from "@/components/AppShell";
 import { useLessonStore } from "@/lib/lesson-store";
 import { STAGES, STEP_STAGE, type LessonWord, type StepKind } from "@/lib/lessons";
 import { speak } from "@/lib/speech";
-import { getActivity } from "@/lib/trail";
+import { getActivity, getCourseOfActivity } from "@/lib/trail";
 import { cn } from "@/lib/utils";
 
 /** Moldura de qualquer tela da lição: fechar, barra de progresso, contador e etapa atual. */
@@ -24,9 +24,11 @@ export function LessonFrame({
 }) {
   const stage = STEP_STAGE[kind];
   const pct = Math.round(((index + 1) / total) * 100);
-  // Lição da trilha: sair volta pra trilha; o atalho "Palavras de hoje" avulso volta pro início.
+  // Lição da trilha: sair volta pra trilha; de um curso extra, volta pros cursos; o atalho
+  // "Palavras de hoje" avulso volta pro início.
   const lessonId = useLessonStore().session?.lessonId;
-  const exitTo = lessonId && getActivity(lessonId) ? "/trilha" : "/";
+  const activity = lessonId ? getActivity(lessonId) : undefined;
+  const exitTo = !activity ? "/" : getCourseOfActivity(activity) ? "/cursos" : "/trilha";
   return (
     <AppShell hideTabs>
       <header className="flex items-center gap-3">

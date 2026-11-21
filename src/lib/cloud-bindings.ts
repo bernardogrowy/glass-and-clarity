@@ -5,7 +5,9 @@ import { lessonCloudBinding } from "./lesson-store";
 import { onboardingCloudBinding } from "./onboarding-store";
 import { profileCloudBinding } from "./profile-store";
 import { progressCloudBinding } from "./progress-store";
+import { reviewCloudBinding } from "./review-store";
 import { streakCloudBinding } from "./streak-store";
+import { studyPlanCloudBinding } from "./study-plan-store";
 import { trailCloudBinding } from "./trail-store";
 
 /**
@@ -22,4 +24,6 @@ export const CLOUD_BINDINGS: CloudBinding<any>[] = [
   trailCloudBinding,
   flashcardsCloudBinding,
   chatCloudBinding,
+  studyPlanCloudBinding,
+  reviewCloudBinding,
 ];
