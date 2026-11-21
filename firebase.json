@@ -2,22 +2,43 @@
   "firestore": {
     "rules": "firestore.rules"
   },
-  "hosting": {
-    "site": "hi-project-aae87-2d1a9",
-    "public": ".output/public",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "_headers"],
-    "rewrites": [{ "source": "**", "destination": "/_shell.html" }],
-    "headers": [
-      {
-        "source": "/assets/**",
-        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
-      },
-      {
-        "source": "/_shell.html",
-        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
-      }
-    ]
-  },
+  "hosting": [
+    {
+      "site": "hi-project-aae87-2d1a9",
+      "public": ".output/public",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "_headers"],
+      "rewrites": [{ "source": "**", "destination": "/_shell.html" }],
+      "headers": [
+        {
+          "source": "/assets/**",
+          "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+        },
+        {
+          "source": "/_shell.html",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        }
+      ]
+    },
+    {
+      "site": "hi-project-aae87",
+      "public": "landing",
+      "ignore": ["backend/**", "**/.*", "**/node_modules/**"],
+      "trailingSlash": true,
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            { "key": "X-Content-Type-Options", "value": "nosniff" },
+            { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+          ]
+        },
+        {
+          "source": "**/*.@(html|css|js)",
+          "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+        }
+      ]
+    }
+  ],
   "emulators": {
     "auth": { "port": 9099 },
     "firestore": { "port": 8080 },

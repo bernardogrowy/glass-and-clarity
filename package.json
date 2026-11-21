@@ -14,7 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "firebase:emulators": "firebase emulators:start --only auth,firestore",
-    "deploy": "vite build && firebase deploy --only hosting,firestore:rules"
+    "deploy": "vite build && firebase deploy --only hosting,firestore:rules",
+    "deploy:landing": "firebase deploy --only hosting:hi-project-aae87"
   },
   "overrides": {
     "rolldown": "1.2.1"

@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Promoção: 3 amigos, 1 semestre grátis | Hi</title>
+<meta name="description" content="Entre na lista de acesso antecipado do Hi, mande seu link e, quando 3 amigos ativarem a conta, você ganha um semestre grátis.">
+<meta name="theme-color" content="#0E171E">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Hi">
+<meta property="og:title" content="3 amigos entram. Você ganha um semestre.">
+<meta property="og:description" content="Promoção de acesso antecipado do Hi: quando 3 amigos ativarem a conta pelo seu link, o semestre é seu.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='52' r='46' fill='%23F2B705'/%3E%3Cg fill='none' stroke='%231B2140' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M30 46 Q34 41 38 46'/%3E%3Cpath d='M60 48 Q64 43 68 48'/%3E%3Cpath d='M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60'/%3E%3Cpath d='M42 62 Q54 74 66 60'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Figtree:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&display=swap">
+<script>
+  /* Preferência de movimento antes da primeira pintura: escolha salva no rodapé > ajuste do sistema. */
+  (function () {
+    var m = "full";
+    try {
+      var s = localStorage.getItem("hi.lp.motion");
+      if (s) m = JSON.parse(s) === "reduce" ? "reduce" : "full";
+      else if (matchMedia("(prefers-reduced-motion: reduce)").matches) m = "reduce";
+    } catch (e) {
+      try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) m = "reduce"; } catch (_) {}
+    }
+    document.documentElement.setAttribute("data-motion", m);
+    document.documentElement.classList.add("js");
+  })();
+</script>
+<link rel="stylesheet" href="../hi.css">
+<style>
+/* =====================================================================
+   PÁGINA DA PROMOÇÃO · só o que é específico daqui.
+   Tokens, botões, navegação, cartões, FAQ, formulário e rodapé vêm do ../hi.css.
+   Toda animação termina no estado final já visível (fill "backwards"), então com
+   movimento reduzido nada fica escondido.
+   ===================================================================== */
+
+/* ---------- Herói escuro com o cupom ---------- */
+.phero { position: relative; isolation: isolate; overflow: clip; background: var(--hi-night); color: var(--hi-cream); padding: calc(128px + env(safe-area-inset-top)) 0 clamp(72px, 9vw, 120px); }
+.phero::before, .phero::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.phero::before {
+  background:
+    radial-gradient(55% 55% at 8% 0%, rgb(45 192 142 / .3), transparent 70%),
+    radial-gradient(50% 50% at 100% 90%, rgb(122 200 245 / .22), transparent 70%);
+}
+.phero::after {
+  background-image: radial-gradient(rgb(168 225 253 / .17) 1.3px, transparent 1.9px);
+  background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 60%);
+  mask-image: linear-gradient(to bottom, #000, transparent 60%);
+}
+.phero__grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(36px, 5vw, 80px); align-items: center; }
+.phero .hero__pill { color: var(--hi-cream); background: rgb(255 255 255 / .08); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .18); }
+.phero__title { margin-top: 24px; font: 370 clamp(2.7rem, 1rem + 5vw, 5.6rem)/.98 var(--font-display); letter-spacing: -.028em; color: #fff; }
+.phero__title .l { display: block; text-wrap: balance; }
+.phero__title em { font-style: italic; font-weight: 360; color: var(--hi-mint-soft); }
+.phero__sub { margin-top: 24px; max-width: 46ch; font-size: clamp(1.05rem, 1rem + .3vw, 1.25rem); line-height: 1.55; color: var(--on-night-muted); text-wrap: pretty; }
+.phero__actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 26px; }
+.tlink--night { color: #fff; text-decoration-color: rgb(255 255 255 / .4); }
+.tlink--night:hover { text-decoration-color: #fff; }
+.phero__note { margin-top: 12px; font-size: .875rem; color: rgb(238 249 250 / .62); }
+.phero .hero__invite { color: var(--hi-ink); }
+.phero :focus-visible { outline-color: #fff; }
+/* A barra de vidro precisa ler bem tanto sobre o herói escuro quanto sobre as seções claras. */
+.nav__pill.glass { background: linear-gradient(180deg, rgb(250 254 255 / .94), rgb(244 252 252 / .9)); }
+
+.pstage { position: relative; display: grid; place-items: center; min-height: 540px; }
+.vwrap { position: relative; width: min(100%, 430px); rotate: -2.5deg; filter: drop-shadow(0 36px 44px rgb(0 0 0 / .45)); animation: bob 7s ease-in-out 1.1s infinite alternate; }
+/* Cupom em duas metades; cada metade recorta o seu meio-círculo da picotagem. */
+.vtop, .vbot { position: relative; background: var(--hi-cream); color: var(--hi-ink); }
+.vtop {
+  padding: 28px 30px 26px; border-radius: 30px 30px 0 0;
+  -webkit-mask: radial-gradient(circle 16px at 0 100%, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 16px at 100% 100%, #0000 97%, #000) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle 16px at 0 100%, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 16px at 100% 100%, #0000 97%, #000) right / 51% 100% no-repeat;
+}
+.vbot {
+  padding: 24px 30px 28px; border-radius: 0 0 30px 30px;
+  -webkit-mask: radial-gradient(circle 16px at 0 0, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 16px at 100% 0, #0000 97%, #000) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle 16px at 0 0, #0000 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 16px at 100% 0, #0000 97%, #000) right / 51% 100% no-repeat;
+}
+.vbot::before { content: ""; position: absolute; left: 26px; right: 26px; top: 0; border-top: 2px dashed rgb(14 23 30 / .25); }
+.vkick, .vlabel { font: 500 .75rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.vmain { margin-top: 18px; display: flex; align-items: center; gap: 14px; }
+.vnum { font: 300 8.5rem/.78 var(--font-display); letter-spacing: -.05em; }
+.vunit { display: grid; font: 400 2.4rem/1.02 var(--font-display); letter-spacing: -.02em; }
+.vunit i { font-style: italic; }
+.vstamp {
+  margin-left: auto; rotate: 9deg; padding: 9px 15px; border-radius: 999px; background: var(--hi-mint); color: var(--hi-ink);
+  font: 500 .8125rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+  box-shadow: inset 0 0 0 2px var(--hi-cream), inset 0 0 0 3.5px rgb(14 23 30 / .4);
+  animation: stamp .55s var(--ease-spring) .5s backwards;
+}
+@keyframes stamp { from { opacity: 0; transform: scale(1.9); } }
+.vslots { margin-top: 16px; display: flex; align-items: center; gap: 10px; }
+.vslot { position: relative; flex: none; width: 66px; height: 66px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 2px rgb(14 23 30 / .2); }
+.vslot > .i { position: absolute; width: 22px; height: 22px; color: rgb(14 23 30 / .4); }
+.vslot .mascot { position: relative; width: 66px; height: 66px; animation: vpop .5s var(--ease-spring) calc(1s + var(--i) * .75s) backwards; }
+@keyframes vpop { from { opacity: 0; transform: scale(.4); } }
+.vdash { flex: 1; border-top: 3px dotted rgb(14 23 30 / .25); }
+.vstatus { position: relative; margin-top: 18px; height: 54px; }
+.vstatus > * { position: absolute; inset: 0; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-radius: 18px; font-weight: 650; }
+.vstatus .i { width: 20px; height: 20px; }
+.vstatus__wait { border: 2px dashed rgb(14 23 30 / .22); color: var(--hi-muted); font-weight: 600; opacity: 0; animation: vwait 3.4s linear; }
+@keyframes vwait { 0%, 92% { opacity: 1; } 100% { opacity: 0; } }
+.vstatus__done { background: var(--hi-mint); animation: vdone .5s var(--ease-spring) 3.4s backwards; }
+@keyframes vdone { from { opacity: 0; transform: scale(.92); } }
+.pfloat {
+  position: absolute; z-index: 3; right: -6px; bottom: 6px; display: flex; align-items: center; gap: 12px; padding: 13px 20px 13px 13px;
+  border-radius: 22px; background: rgb(250 254 255 / .97); color: var(--hi-ink); box-shadow: var(--shadow-float);
+  animation: pfloat .7s var(--ease-spring) 3.7s backwards;
+}
+@keyframes pfloat { from { opacity: 0; transform: translateY(18px) scale(.94); } }
+.pfloat .ok-badge { width: 42px; height: 42px; }
+.pfloat b { display: block; font: 500 1.2rem/1.1 var(--font-display); }
+.pfloat span { font-size: .8125rem; color: var(--hi-muted); }
+@media (max-width: 959px) {
+  .phero__grid { grid-template-columns: 1fr; }
+  .pstage { min-height: 0; padding-bottom: 34px; }
+}
+@media (max-width: 480px) {
+  .vtop { padding: 24px 22px 22px; } .vbot { padding: 22px 22px 24px; }
+  .vbot::before { left: 20px; right: 20px; }
+  .vnum { font-size: 6.4rem; } .vunit { font-size: 1.85rem; }
+  .vstamp { padding: 7px 11px; font-size: .6875rem; }
+  .vslot, .vslot .mascot { width: 58px; height: 58px; }
+  .pfloat { right: 0; bottom: 0; }
+}
+
+/* ---------- Passos: telas de exemplo ---------- */
+.fake { display: flex; align-items: center; min-height: 48px; padding: 0 14px; border-radius: 14px; border: 1.5px solid var(--hi-line); background: #fff; font-size: .9375rem; color: var(--hi-muted); }
+.fake--mono { font-family: var(--font-mono); font-size: .8125rem; overflow: hidden; white-space: nowrap; }
+.fakebtn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 16px; border-radius: 999px; font-weight: 600; font-size: .9375rem; color: var(--hi-ink); background: linear-gradient(180deg, #5AD5A6, var(--hi-mint) 55%, #08B384); box-shadow: inset 0 1px 0 rgb(255 255 255 / .6); }
+.fakebtn--ink { color: #fff; background: linear-gradient(180deg, #2E3339, #171B1F); box-shadow: inset 0 1px 0 rgb(255 255 255 / .18); }
+.fakebtn .i { width: 16px; height: 16px; }
+.fakerow { display: flex; gap: 8px; }
+.fakerow .fake { flex: 1; min-width: 0; }
+.mslots { display: flex; align-items: center; gap: 8px; }
+.mslots .mascot { width: 44px; height: 44px; }
+.mslots .vdash { border-top-width: 2px; }
+
+/* ---------- O que você ganha: bento de tons do app ---------- */
+.bento { display: grid; grid-template-columns: 1.1fr 1fr 1fr; grid-template-rows: auto auto; gap: clamp(12px, 1.6vw, 18px); }
+.bt { display: flex; flex-direction: column; gap: 10px; padding: clamp(22px, 2.6vw, 32px); border-radius: 30px; background: var(--tone); }
+.bt__k { font: 500 .75rem/1.2 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--hi-teal-ink); }
+.bt__t { font: 400 clamp(1.6rem, 1.2rem + .9vw, 2.05rem)/1.1 var(--font-display); letter-spacing: -.012em; text-wrap: balance; }
+.bt__d { max-width: 38ch; }
+.bt--big { grid-row: span 2; justify-content: space-between; min-height: 380px; }
+.bt__num { font: 300 clamp(9rem, 5rem + 12vw, 15rem)/.78 var(--font-display); letter-spacing: -.05em; }
+.bt--wide { grid-column: span 2; }
+.bento__note { margin-top: 24px; color: var(--hi-muted); font-size: .9688rem; }
+@media (max-width: 899px) {
+  .bento { grid-template-columns: 1fr 1fr; }
+  .bt--big { grid-column: 1 / -1; grid-row: auto; min-height: 0; gap: 22px; }
+  .bt--wide { grid-column: 1 / -1; }
+}
+@media (max-width: 559px) { .bento { grid-template-columns: 1fr; } }
+
+/* ---------- Mensagem pronta ---------- */
+.msg-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
+.msg-actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+.msg-tip { margin-top: 16px; color: var(--hi-muted); font-size: .9688rem; }
+.chat { width: 100%; max-width: 440px; margin-inline: auto; padding: 18px 18px 22px; border-radius: 34px; background: var(--gradient-app); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .85), var(--shadow-float); }
+.chat__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 6px 16px; font: 500 .75rem/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--hi-muted); }
+.chat__who { display: flex; align-items: center; gap: 10px; }
+.chat .bubble--me { margin-left: 10%; padding: 16px 20px; border-radius: 24px 24px 8px 24px; font-size: 1.0625rem; line-height: 1.5; }
+.linkpill { display: block; margin-top: 10px; padding: 8px 12px; border-radius: 14px; background: rgb(255 255 255 / .14); font: 500 .8125rem/1.4 var(--font-mono); word-break: break-all; color: #fff; }
+.linkpill[data-empty] { color: rgb(255 255 255 / .6); }
+.chat__foot { margin: 12px 8px 0; font-size: .8125rem; color: var(--hi-muted); text-align: right; }
+@media (max-width: 899px) { .msg-grid { grid-template-columns: 1fr; } }
+@media (max-width: 559px) { .msg-actions .btn { flex: 1 1 100%; } }
+
+/* ---------- Regras (bloco escuro, reaproveita o fundo de .method) ---------- */
+.rule { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 18px; padding: 22px 0; border-top: 1px solid rgb(255 255 255 / .14); }
+.rule:last-of-type { border-bottom: 1px solid rgb(255 255 255 / .14); }
+.rule__n { grid-row: span 2; font: italic 300 2.4rem/1 var(--font-display); color: var(--hi-mint); }
+.rule__t { font-weight: 650; font-size: 1.125rem; line-height: 1.35; color: #fff; }
+.rule__d { color: var(--on-night-muted); }
+.rules-cta { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.btn--night { color: #fff; background: transparent; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .55); }
+.btn--night:hover { background: #fff; color: var(--hi-night); }
+.rules-note { color: rgb(238 249 250 / .6); font-size: .9375rem; }
+@media (max-width: 899px) { .rule { grid-template-columns: 48px minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 18.4a9 9 0 0 0 0-12.8"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.85z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><path d="m16.24 7.76-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27z"/><circle cx="12" cy="12" r="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+
+    <symbol id="m-duvida" viewBox="0 0 100 100">
+      <g fill="none" stroke="#1B2140" stroke-width="4" stroke-linecap="round"><path d="M28 40 Q34 36 40 39"/><path d="M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60"/><path d="M46 63 Q52 66 58 62"/></g>
+      <g fill="#1B2140"><circle cx="34" cy="47" r="4"/><circle cx="63" cy="50" r="4"/><circle cx="18" cy="20" r="3"/><circle cx="24" cy="14" r="2.3"/><circle cx="31" cy="10" r="1.6"/></g>
+    </symbol>
+    <symbol id="m-sorriso" viewBox="0 0 100 100">
+      <g fill="none" stroke="#1B2140" stroke-width="4" stroke-linecap="round"><path d="M30 46 Q34 41 38 46"/><path d="M60 48 Q64 43 68 48"/><path d="M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60"/><path d="M42 62 Q54 74 66 60"/></g>
+      <path d="M78 14 L80 20 L86 22 L80 24 L78 30 L76 24 L70 22 L76 20 Z" fill="#1B2140"/>
+    </symbol>
+    <symbol id="m-piscada" viewBox="0 0 100 100">
+      <g fill="none" stroke="#1B2140" stroke-width="4" stroke-linecap="round"><path d="M58 46 Q64 42 69 46"/><path d="M46 40 C42 40 40 44 41 48 C42 53 42 57 46 60"/><path d="M42 62 Q54 70 65 61"/></g>
+      <circle cx="34" cy="46" r="4" fill="#1B2140"/>
+      <path d="M78 14 L80 20 L86 22 L80 24 L78 30 L76 24 L70 22 L76 20 Z" fill="#1B2140"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="nav">
+  <nav class="nav__pill glass" aria-label="Principal">
+    <a class="brand" href="../" aria-label="Hi, voltar à página inicial">
+      <svg class="mascot brand__mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg>
+      <span class="brand__word" aria-hidden="true">Hi.</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="#como-funciona">Como funciona</a></li>
+      <li><a href="#simule">Simule</a></li>
+      <li><a href="#ganha">O que você ganha</a></li>
+      <li><a href="#regras">Regras</a></li>
+      <li><a href="#duvidas">Dúvidas</a></li>
+    </ul>
+    <a class="btn btn--mint btn--sm nav__cta" href="#participar" data-cta>Pegar meu link</a>
+    <button type="button" class="nav__menu glass" aria-expanded="false" aria-controls="menu" data-menu>
+      <svg class="i" aria-hidden="true"><use href="#i-menu"/></svg>Menu
+    </button>
+  </nav>
+  <div class="nav__sheet glass" id="menu" hidden>
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#simule">Simule o progresso</a>
+    <a href="#ganha">O que você ganha</a>
+    <a href="#regras">Regras</a>
+    <a href="#duvidas">Dúvidas</a>
+    <a href="../">Voltar à página inicial</a>
+    <a class="btn btn--mint btn--block" href="#participar" data-cta>Quero meu link de convite</a>
+  </div>
+</header>
+
+<main id="conteudo">
+
+<!-- 1 · Herói -->
+<section class="phero" id="inicio" aria-labelledby="hero-title">
+  <div class="wrap phero__grid">
+    <div class="phero__copy">
+      <p class="hero__pill"><span class="live" aria-hidden="true"></span>Promoção de acesso antecipado</p>
+      <h1 class="phero__title" id="hero-title"><span class="l">3 amigos entram.</span> <span class="l">Você ganha <em>um semestre</em>.</span></h1>
+      <p class="phero__sub">Entre na lista, mande seu link e, quando 3 amigos ativarem a conta, o semestre de Hi é seu. Sem sorteio. A conta é simples.</p>
+      <div class="phero__actions">
+        <a class="btn btn--mint btn--lg" href="#participar" data-cta data-hero-cta>Quero meu link de convite <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="tlink tlink--night" href="#regras">Ver as regras</a>
+      </div>
+      <p class="phero__note">Entrar na lista é grátis. Só pedimos seu e-mail.</p>
+      <p class="hero__invite" data-invite hidden><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg>Você chegou por um convite. Entrando na lista, seu amigo fica mais perto do semestre grátis.</p>
+    </div>
+
+    <div class="pstage">
+      <div class="vwrap" role="img" aria-label="Cupom: 1 semestre de Hi grátis. Três lugares, um para cada amigo que ativa a conta. Quando os três estão preenchidos, o semestre é liberado.">
+        <div class="vtop" aria-hidden="true">
+          <p class="vkick">Promoção · Acesso antecipado</p>
+          <div class="vmain">
+            <span class="vnum">1</span>
+            <span class="vunit"><span>semestre</span><i>de Hi</i></span>
+            <span class="vstamp">grátis</span>
+          </div>
+        </div>
+        <div class="vbot" aria-hidden="true">
+          <p class="vlabel">3 amigos ativam a conta</p>
+          <div class="vslots">
+            <span class="vslot" style="--i:0"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#5AA9E6"/><use href="#m-piscada" width="100" height="100"/></svg></span>
+            <span class="vdash"></span>
+            <span class="vslot" style="--i:1"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2719A"/><use href="#m-sorriso" width="100" height="100"/></svg></span>
+            <span class="vdash"></span>
+            <span class="vslot" style="--i:2"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#6FCF97"/><use href="#m-duvida" width="100" height="100"/></svg></span>
+          </div>
+          <div class="vstatus">
+            <span class="vstatus__wait"><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg>Libera com 3 amigos ativados</span>
+            <span class="vstatus__done"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Semestre liberado</span>
+          </div>
+        </div>
+      </div>
+      <div class="pfloat" aria-hidden="true">
+        <span class="ok-badge"><svg class="i"><use href="#i-gift"/></svg></span>
+        <div><b>Confira seu e-mail</b><span>Seu semestre foi confirmado.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Como funciona -->
+<section class="section" id="como-funciona" aria-labelledby="como-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Como funciona</p>
+      <h2 class="h2" id="como-title">Três passos. O último é com seus amigos.</h2>
+      <p class="lead">Você só precisa mandar o link. Quem entra por ele e ativa a conta conta para o seu semestre.</p>
+    </header>
+    <ol class="steps">
+      <li class="step reveal">
+        <div class="step__top"><span class="step__num">01</span><span class="step__rule"></span></div>
+        <h3 class="step__title">Entre na lista</h3>
+        <p class="step__text">Só o e-mail é obrigatório. Seu link pessoal aparece assim que você entra.</p>
+        <div class="step__ui">
+          <div class="mini" aria-hidden="true">
+            <p class="mini__eyebrow">Seu e-mail</p>
+            <div class="fake">voce@email.com</div>
+            <span class="fakebtn">Quero meu link <svg class="i"><use href="#i-arrow"/></svg></span>
+            <span class="chip chip--mint" style="justify-self:start"><svg class="i"><use href="#i-check"/></svg>Só o e-mail é obrigatório</span>
+          </div>
+        </div>
+      </li>
+      <li class="step reveal">
+        <div class="step__top"><span class="step__num">02</span><span class="step__rule"></span></div>
+        <h3 class="step__title">Mande seu link</h3>
+        <p class="step__text">Mande pra quem também quer começar ou recomeçar o inglês. Cada amigo entra pelo seu link.</p>
+        <div class="step__ui">
+          <div class="mini" aria-hidden="true">
+            <p class="mini__eyebrow">Seu link de convite</p>
+            <div class="fakerow"><span class="fake fake--mono">…/?ref=SEU-CODIGO</span><span class="fakebtn fakebtn--ink"><svg class="i"><use href="#i-copy"/></svg>Copiar</span></div>
+            <p class="mini__meta"><span>Mande por onde preferir.</span></p>
+          </div>
+        </div>
+      </li>
+      <li class="step reveal">
+        <div class="step__top"><span class="step__num">03</span><span class="step__rule"></span></div>
+        <h3 class="step__title">Semestre liberado</h3>
+        <p class="step__text">Quando o terceiro amigo ativar a conta, a gente é avisado e confirma o seu semestre por e-mail.</p>
+        <div class="step__ui">
+          <div class="mini" aria-hidden="true">
+            <div class="mslots">
+              <svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#5AA9E6"/><use href="#m-piscada" width="100" height="100"/></svg><span class="vdash"></span>
+              <svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2719A"/><use href="#m-sorriso" width="100" height="100"/></svg><span class="vdash"></span>
+              <svg class="mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#6FCF97"/><use href="#m-duvida" width="100" height="100"/></svg>
+            </div>
+            <span class="chip chip--mint" style="justify-self:start"><svg class="i"><use href="#i-gift"/></svg>1 semestre grátis</span>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 3 · Simulador -->
+<section class="section band-sky" id="simule" aria-labelledby="simule-title">
+  <div class="wrap exp">
+    <div class="exp__copy">
+      <header class="sec-head reveal">
+        <p class="eyebrow">Simule</p>
+        <h2 class="h2 h2--md" id="simule-title">Seu progresso, sempre à vista.</h2>
+        <p class="lead">Toque no botão e veja a contagem avançar, amigo por amigo, até o semestre ser liberado.</p>
+      </header>
+      <ul class="ticks reveal">
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Cada amigo que ativa a conta ocupa um lugar.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>No terceiro, o semestre é liberado.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Só conta quem entra pelo seu link.</li>
+      </ul>
+      <div class="msg-actions reveal">
+        <button type="button" class="btn btn--ink" data-sim><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><span data-sim-label>Simular um amigo ativando</span></button>
+      </div>
+    </div>
+
+    <div class="refcard reveal" data-sim-card>
+      <div class="refcard__head">
+        <p class="refcard__title">Sua indicação</p>
+        <span class="tag tag--ghost">simulação</span>
+      </div>
+      <ol class="slots" aria-label="Amigos ativados">
+        <li class="slot" data-slot><span class="slot__face"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#5AA9E6"/><use href="#m-piscada" width="100" height="100"/></svg></span><span class="slot__l">Amigo 1</span></li>
+        <li class="slot" data-slot><span class="slot__face"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2719A"/><use href="#m-sorriso" width="100" height="100"/></svg></span><span class="slot__l">Amigo 2</span></li>
+        <li class="slot" data-slot><span class="slot__face"><svg class="i" aria-hidden="true"><use href="#i-plus"/></svg><svg class="mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#6FCF97"/><use href="#m-duvida" width="100" height="100"/></svg></span><span class="slot__l">Amigo 3</span></li>
+      </ol>
+      <div class="bar refcard__bar" role="progressbar" aria-label="Amigos ativados" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" data-sim-progress><i data-sim-bar style="width:0%"></i></div>
+      <p class="refcard__status" aria-live="polite"><strong data-sim-count>0 de 3</strong> amigos ativados. <span data-sim-left>Faltam 3 para o semestre grátis.</span></p>
+      <div class="ticket" data-sim-ticket>
+        <span class="ticket__icon"><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg></span>
+        <div><p class="ticket__title">1 semestre grátis</p><p class="ticket__state" data-sim-state>Libera com 3 amigos ativados</p></div>
+      </div>
+      <div class="refcard__foot"><span>Simulação de como o progresso aparece.</span><button type="button" class="linkbtn" data-sim-reset>Recomeçar</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · O que você ganha -->
+<section class="section" id="ganha" aria-labelledby="ganha-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow">O que você ganha</p>
+      <h2 class="h2" id="ganha-title">Um semestre inteiro de Hi.</h2>
+      <p class="lead">Seis meses para fazer a trilha do começo ao fim, no seu ritmo, sem pagar nada por eles.</p>
+    </header>
+    <div class="bento">
+      <article class="bt bt--big reveal" style="--tone: var(--hi-butter)">
+        <p class="bt__k">Promoção de acesso antecipado</p>
+        <p class="bt__num" aria-hidden="true">6</p>
+        <div><h3 class="bt__t">meses de Hi, por conta da casa.</h3></div>
+      </article>
+      <article class="bt bt--wide reveal" style="--tone: var(--hi-sky)">
+        <p class="bt__k">A trilha completa</p>
+        <h3 class="bt__t">24 unidades, do A1 ao B2.</h3>
+        <p class="bt__d">Com nivelamento no começo para você entrar no ponto certo e teste final no fim para ver quanto avançou.</p>
+      </article>
+      <article class="bt reveal" style="--tone: var(--hi-lilac)">
+        <p class="bt__k">Quatro etapas por palavra</p>
+        <h3 class="bt__t">Ver uma vez não basta.</h3>
+        <p class="bt__d">Descobrir, reconhecer, recordar e aplicar numa conversa.</p>
+      </article>
+      <article class="bt reveal" style="--tone: var(--hi-peach)">
+        <p class="bt__k">Erro sem punição</p>
+        <h3 class="bt__t">Sem vidas pra perder.</h3>
+        <p class="bt__d">O que você erra volta na revisão do dia seguinte.</p>
+      </article>
+    </div>
+    <p class="bento__note reveal">Os detalhes do semestre ficam no <a href="#regulamento" class="tlink" data-doc="regulamento">regulamento da promoção</a>.</p>
+  </div>
+</section>
+
+<!-- 5 · Mensagem pronta -->
+<section class="section band-sky" id="mensagem" aria-labelledby="msg-title">
+  <div class="wrap msg-grid">
+    <div>
+      <header class="sec-head reveal" style="margin-bottom:0">
+        <p class="eyebrow">Mensagem pronta</p>
+        <h2 class="h2 h2--md" id="msg-title">Convidar leva dez segundos.</h2>
+        <p class="lead">A gente já escreveu a mensagem. É só copiar e mandar para quem faz sentido.</p>
+      </header>
+      <div class="msg-actions reveal">
+        <button type="button" class="btn btn--ink" data-copy-msg><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg>Copiar mensagem</button>
+        <a class="btn btn--glass glass" data-wa href="https://wa.me/" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg>Abrir no WhatsApp</a>
+      </div>
+      <p class="msg-tip reveal" data-msg-tip>Primeiro entre na lista: é lá que seu link nasce.</p>
+    </div>
+
+    <div class="chat reveal">
+      <div class="chat__head">
+        <span class="chat__who"><svg class="mascot" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg>Sua mensagem</span>
+        <span class="tag tag--ghost" data-msg-tag>exemplo</span>
+      </div>
+      <div class="bubble bubble--me">
+        <p>Oi! Entrei na lista do Hi, um app de inglês pra quem está começando ou recomeçando. Entra comigo pelo meu link:</p>
+        <span class="linkpill" data-msg-link data-empty>seu link aparece aqui</span>
+      </div>
+      <p class="chat__foot">Mande só para quem vai gostar de receber.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · Regras -->
+<section class="section method rules" id="regras" aria-labelledby="regras-title">
+  <div class="wrap faq-grid">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Regras</p>
+      <h2 class="h2 h2--md" id="regras-title">Sem letra miúda.</h2>
+      <p class="lead">O essencial, em cinco linhas. O regulamento completo sai antes do lançamento.</p>
+    </header>
+    <div class="reveal">
+      <div class="rule"><span class="rule__n">01</span><p class="rule__t">Vale para quem entrar na lista de acesso antecipado.</p></div>
+      <div class="rule"><span class="rule__n">02</span><p class="rule__t">Seu link é pessoal.</p><p class="rule__d">Só conta quem entra por ele.</p></div>
+      <div class="rule"><span class="rule__n">03</span><p class="rule__t">O amigo precisa ativar a conta.</p><p class="rule__d">Clicar no link não basta.</p></div>
+      <div class="rule"><span class="rule__n">04</span><p class="rule__t">No terceiro amigo ativado, a gente é avisado.</p><p class="rule__d">Aí confirmamos o seu semestre por e-mail.</p></div>
+      <div class="rule"><span class="rule__n">05</span><p class="rule__t">O que conta como ativação está no regulamento.</p><p class="rule__d">Ele sai antes do lançamento.</p></div>
+      <div class="rules-cta">
+        <a class="btn btn--night" href="#regulamento" data-doc="regulamento">Ler o regulamento</a>
+        <span class="rules-note">Ainda em preparação.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · Dúvidas -->
+<section class="section" id="duvidas" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <header class="sec-head reveal">
+      <p class="eyebrow">Dúvidas</p>
+      <h2 class="h2 h2--md" id="faq-title">Sobre a promoção.</h2>
+    </header>
+    <div class="faq reveal">
+      <details>
+        <summary><span>Como pego meu link de convite?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Entrando na lista. Assim que você informa o e-mail, o seu link aparece na tela, pronto para copiar.</p>
+      </details>
+      <details>
+        <summary><span>O que é “ativar a conta”?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">É o passo que o seu amigo faz depois de entrar pelo seu link. O <a href="#regulamento" data-doc="regulamento">regulamento</a> explica exatamente o que conta, e ele sai antes do lançamento.</p>
+      </details>
+      <details>
+        <summary><span>Meus amigos precisam entrar pelo meu link?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Sim. Só conta quem entra pelo seu link pessoal.</p>
+      </details>
+      <details>
+        <summary><span>Como vou saber que ganhei?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Quando o terceiro amigo ativar a conta, a gente é avisado e entra em contato por e-mail para confirmar o seu semestre.</p>
+      </details>
+      <details>
+        <summary><span>E se eu não conseguir 3 amigos?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Tudo bem. Você continua na lista e recebe o convite antes do lançamento do mesmo jeito. A promoção é um bônus.</p>
+      </details>
+      <details>
+        <summary><span>Quando o Hi vai lançar?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Ainda não temos data fechada. Quem está na lista recebe o convite por e-mail antes de todo mundo.</p>
+      </details>
+      <details>
+        <summary><span>O que vocês fazem com o meu <span class="nowrap">e-mail</span>?</span><span class="faq__plus" aria-hidden="true"></span></summary>
+        <p class="faq__a">Usamos só para falar do Hi: o convite, as novidades do lançamento e a sua indicação. Você pode sair da lista quando quiser. Os detalhes estão na <a href="#privacidade" data-doc="privacidade">política de privacidade</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Formulário -->
+<section class="section join-section" id="participar" aria-labelledby="lista-title">
+  <div class="wrap join">
+    <div>
+      <header class="sec-head reveal">
+        <p class="eyebrow">Pegue seu link</p>
+        <h2 class="h2 h2--md" id="lista-title">Entre na lista e comece a convidar.</h2>
+        <p class="lead">Só o e-mail é obrigatório. Você recebe o convite antes do lançamento e já sai com o seu link pronto.</p>
+      </header>
+      <ul class="perks reveal">
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Convite antes de todo mundo.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Seu link pessoal, pronto para copiar.</li>
+        <li><span class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>Sai da lista quando quiser, com um clique.</li>
+      </ul>
+      <div class="hello reveal" aria-hidden="true">
+        <svg class="mascot hello__mascot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-piscada" width="100" height="100"/></svg>
+        <div class="hello__bubble">
+          <p class="bubble bubble--hi" lang="en">Hey! Bring three friends.</p>
+          <p class="hello__pt">Oi! Chame três amigos.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="formcard">
+      <form class="form" id="form-lista" novalidate data-form>
+        <div class="field">
+          <label class="label" for="email">Seu e-mail</label>
+          <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="voce@email.com" required aria-describedby="email-erro email-sugestao">
+          <p class="error" id="email-erro" hidden><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg><span data-error-text></span></p>
+          <p class="suggest" id="email-sugestao" hidden>Você quis dizer <button type="button" data-suggest></button>?</p>
+        </div>
+        <div class="field">
+          <label class="label" for="nome">Seu nome <small>(opcional)</small></label>
+          <input class="input" id="nome" name="nome" type="text" autocomplete="given-name" maxlength="60" placeholder="Como podemos te chamar?">
+        </div>
+        <div class="hp" aria-hidden="true"><label for="site">Deixe em branco</label><input id="site" name="site" type="text" tabindex="-1" autocomplete="off"></div>
+        <input type="hidden" name="ref" id="ref" value="">
+        <button class="btn btn--mint btn--block btn--lg" type="submit" data-submit>Quero meu link de convite <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <p class="error form-error" role="alert" data-form-error hidden><svg class="i" aria-hidden="true"><use href="#i-alert"/></svg><span></span></p>
+        <p class="consent" style="margin-top:14px">Ao entrar, você aceita receber e-mails sobre o Hi. Dá pra sair quando quiser. Leia a <a href="#privacidade" data-doc="privacidade">política de privacidade</a>.</p>
+      </form>
+
+      <div class="success" data-success tabindex="-1" aria-labelledby="ok-title" hidden>
+        <div class="success__top">
+          <svg class="mascot" width="72" height="72" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg>
+          <span class="chip chip--mint"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Você está na lista</span>
+          <h3 class="success__title" id="ok-title" data-ok-title>Pronto!</h3>
+          <p class="muted">Avisamos por e-mail quando o seu convite estiver pronto.</p>
+        </div>
+        <div class="success__ref">
+          <h4>Agora, chame 3 amigos.</h4>
+          <p class="muted" style="font-size:.9688rem">Quando 3 amigos entrarem pelo seu link e ativarem a conta, você ganha um semestre grátis.</p>
+          <div class="bar" role="progressbar" aria-label="Amigos ativados" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><i style="width:0%"></i></div>
+          <p style="font-size:.9375rem"><strong>0 de 3</strong> amigos ativados até agora.</p>
+          <label class="label" for="ref-link">Seu link de convite</label>
+          <div class="linkrow"><input id="ref-link" type="text" readonly data-ref-input></div>
+          <div class="success__actions">
+            <button type="button" class="btn btn--ink" data-copy-link><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg>Copiar link</button>
+            <a class="btn btn--glass glass" data-wa href="https://wa.me/" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg>Enviar no WhatsApp</a>
+          </div>
+        </div>
+        <p class="demo-note" data-demo-note hidden>Modo demonstração: este formulário ainda não está conectado a um servidor, então nenhum dado foi enviado.</p>
+        <button type="button" class="linkbtn" data-reset style="justify-self:start">Inscrever outro e-mail</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · CTA final -->
+<section class="final" id="final" aria-labelledby="final-title">
+  <div class="wrap">
+    <p class="final__word reveal" aria-hidden="true">Hi<svg class="mascot final__dot" viewBox="0 0 100 100"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-piscada" width="100" height="100"/></svg></p>
+    <h2 class="final__title reveal" id="final-title">Três amigos. <em>Um semestre.</em></h2>
+    <div class="final__actions reveal">
+      <a class="btn btn--mint btn--lg" href="#participar" data-cta data-cta-final>Quero meu link de convite <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="brand" href="../" aria-label="Hi, voltar à página inicial"><svg class="mascot brand__mascot" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="52" r="46" fill="#F2B705"/><use href="#m-sorriso" width="100" height="100"/></svg><span class="brand__word" aria-hidden="true">Hi.</span></a>
+        <p>App de inglês para quem está começando ou recomeçando.</p>
+      </div>
+      <ul class="footer__links">
+        <li><a href="../">Página inicial</a></li>
+        <li><a href="#regulamento" data-doc="regulamento">Regulamento da promoção</a></li>
+        <li><a href="#privacidade" data-doc="privacidade">Política de privacidade</a></li>
+        <li><button type="button" data-motion-toggle aria-pressed="false"><span class="switch" aria-hidden="true"></span>Reduzir movimento</button></li>
+      </ul>
+    </div>
+    <p class="footer__legal">© 2026 Hi. Nenhum depoimento, logo ou número desta página foi inventado.</p>
+  </div>
+</footer>
+
+<div class="dock" data-dock aria-hidden="true">
+  <a class="btn btn--mint btn--block btn--lg" href="#participar" tabindex="-1" data-cta data-dock-btn>Quero meu link de convite <svg class="i i--arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script src="../config.js"></script>
+<script>
+(() => {
+  "use strict";
+
+  /* Configuração: vem de ../config.js (compartilhado com a landing). */
+  const CONFIG = window.HI_CONFIG || { endpoint: null, siteUrl: null, links: { regulamento: null, privacidade: null } };
+
+  const KEY_SIGNUP = "hi.lp.signup";   // mesma chave da landing: quem entrou lá já aparece como inscrito aqui
+  const KEY_MOTION = "hi.lp.motion";
+  const doc = document.documentElement;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+  const store = {
+    get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* sem armazenamento: segue em memória */ } },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+  };
+  const reduced = () => doc.dataset.motion === "reduce";
+  const safe = (name, fn) => { try { fn(); } catch (err) { console.warn("[Hi] " + name + ":", err); } };
+
+  let toastTimer = 0;
+  function toast(msg) {
+    const t = $("[data-toast]");
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add("is-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("is-on"), 3200);
+  }
+  async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); return true; } catch (e) { /* tenta o método antigo */ }
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand("copy"); ta.remove(); return ok;
+    } catch (e) { return false; }
+  }
+
+  /* ---------- Movimento e menu ---------- */
+  function initMotionToggle() {
+    const btn = $("[data-motion-toggle]");
+    if (!btn) return;
+    const sync = () => btn.setAttribute("aria-pressed", String(reduced()));
+    sync();
+    btn.addEventListener("click", () => {
+      const next = reduced() ? "full" : "reduce";
+      doc.dataset.motion = next;
+      store.set(KEY_MOTION, next);
+      sync();
+      toast(next === "reduce" ? "Movimento reduzido." : "Animações ligadas.");
+    });
+  }
+  function initMenu() {
+    const btn = $("[data-menu]"), sheet = $("#menu");
+    if (!btn || !sheet) return;
+    const close = (focusBtn) => { sheet.hidden = true; btn.setAttribute("aria-expanded", "false"); if (focusBtn) btn.focus(); };
+    btn.addEventListener("click", () => {
+      const open = sheet.hidden;
+      sheet.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+      if (open) { const first = $("a", sheet); first && first.focus(); }
+    });
+    sheet.addEventListener("click", (e) => { if (e.target.closest("a")) close(false); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !sheet.hidden) close(true); });
+    document.addEventListener("click", (e) => { if (!sheet.hidden && !e.target.closest(".nav")) close(false); });
+    matchMedia("(min-width: 900px)").addEventListener("change", (m) => { if (m.matches) close(false); });
+  }
+
+  /* ---------- CTA fixo: aparece depois do herói e some no formulário ---------- */
+  function initDock() {
+    const heroCta = $("[data-hero-cta]"), form = $("#participar"), fin = $("#final");
+    const dock = $("[data-dock]"), dockBtn = $("[data-dock-btn]");
+    const apply = (docked) => {
+      doc.classList.toggle("cta-docked", docked);
+      if (dock) dock.setAttribute("aria-hidden", String(!docked));
+      if (dockBtn) dockBtn.tabIndex = docked ? 0 : -1;
+    };
+    if (!("IntersectionObserver" in window) || !heroCta) { apply(true); return; }
+    const seen = new Map([[heroCta, true], [form, false], [fin, false]]);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => seen.set(en.target, en.isIntersecting));
+      apply(!seen.get(heroCta) && !seen.get(form) && !seen.get(fin));
+    }, { threshold: 0, rootMargin: "0px 0px -8% 0px" });
+    [heroCta, form, fin].forEach((el) => el && io.observe(el));
+  }
+
+  /* ---------- Simulador de progresso ---------- */
+  function initSim() {
+    const card = $("[data-sim-card]");
+    if (!card) return;
+    const slots = $$("[data-slot]", card), bar = $("[data-sim-bar]", card), prog = $("[data-sim-progress]", card);
+    const count = $("[data-sim-count]", card), left = $("[data-sim-left]", card);
+    const ticket = $("[data-sim-ticket]", card), state = $("[data-sim-state]", card);
+    const btn = $("[data-sim]"), label = $("[data-sim-label]");
+    let n = 0;
+    function render() {
+      slots.forEach((sl, i) => sl.classList.toggle("is-on", i < n));
+      bar.style.width = (n / 3) * 100 + "%";
+      prog.setAttribute("aria-valuenow", String(n));
+      count.textContent = `${n} de 3`;
+      const rest = 3 - n;
+      left.textContent = rest <= 0 ? "Semestre grátis liberado." : rest === 1 ? "Falta 1 para o semestre grátis." : `Faltam ${rest} para o semestre grátis.`;
+      ticket.classList.toggle("is-open", n >= 3);
+      state.textContent = n >= 3 ? "Liberado" : "Libera com 3 amigos ativados";
+      label.textContent = n >= 3 ? "Recomeçar a simulação" : n === 0 ? "Simular um amigo ativando" : "Simular mais um amigo";
+    }
+    btn.addEventListener("click", () => { n = n >= 3 ? 0 : n + 1; render(); });
+    $("[data-sim-reset]", card).addEventListener("click", () => { n = 0; render(); });
+    render();
+  }
+
+  /* ---------- Link, mensagem e inscrição ---------- */
+  const DOMAINS = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com.br", "yahoo.com", "icloud.com", "live.com", "uol.com.br", "bol.com.br", "terra.com.br"];
+  function lev(a, b) {
+    const m = a.length, n = b.length;
+    if (Math.abs(m - n) > 2) return 3;
+    const d = Array.from({ length: m + 1 }, (_, i) => [i, ...Array(n).fill(0)]);
+    for (let j = 1; j <= n; j++) d[0][j] = j;
+    for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) {
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    return d[m][n];
+  }
+  function suggestEmail(email) {
+    const at = email.lastIndexOf("@");
+    if (at < 1) return null;
+    const dom = email.slice(at + 1).toLowerCase();
+    if (!dom || DOMAINS.includes(dom)) return null;
+    let best = null, bd = 3;
+    DOMAINS.forEach((dm) => { const dist = lev(dom, dm); if (dist < bd) { bd = dist; best = dm; } });
+    return best && bd <= 2 ? email.slice(0, at + 1) + best : null;
+  }
+  function emailProblem(v) {
+    if (!v) return "Digite seu e-mail para entrar na lista.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Confira o e-mail. Ele precisa ter @ e um domínio, como nome@gmail.com.";
+    return null;
+  }
+  function makeCode(name) {
+    const base = (name || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^A-Za-z]/g, "").toUpperCase().slice(0, 5) || "HI";
+    const abc = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+    const arr = new Uint32Array(4);
+    if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(arr);
+    else for (let i = 0; i < 4; i++) arr[i] = Math.floor(Math.random() * 1e9);
+    return base + "-" + Array.from(arr, (n) => abc[n % abc.length]).join("");
+  }
+  /* O link de convite aponta para a RAIZ da landing (um nível acima desta página). */
+  function siteBase() {
+    if (CONFIG.siteUrl) return CONFIG.siteUrl;
+    try { if (/^https?:$/.test(location.protocol)) return new URL("../", location.href).href; } catch (e) {}
+    return "https://seu-dominio.com.br/";
+  }
+  const refLink = (code) => { const b = siteBase(); return b + (b.includes("?") ? "&" : "?") + "ref=" + encodeURIComponent(code); };
+  const MESSAGE_INTRO = "Oi! Entrei na lista do Hi, um app de inglês pra quem está começando ou recomeçando. Entra comigo pelo meu link:";
+
+  async function submitLead(payload) {
+    if (CONFIG.endpoint) {
+      // text/plain (corpo é JSON) evita o preflight de CORS, que o Google Apps Script não responde.
+      const res = await fetch(CONFIG.endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      let data = {};
+      try { data = await res.json(); } catch (e) {}
+      if (data && data.ok === false) throw new Error(data.error || "O servidor recusou o cadastro.");
+      return { code: (data && data.referralCode) || makeCode(payload.name), demo: false };
+    }
+    await new Promise((r) => setTimeout(r, 650));
+    return { code: makeCode(payload.name), demo: true };
+  }
+
+  let current = null;
+  const goToForm = (msg) => {
+    toast(msg);
+    const f = $("#participar");
+    if (f) f.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+  };
+  function setSignedUp(signup) {
+    current = signup;
+    const link = signup ? refLink(signup.code) : "";
+    $$("[data-ref-input]").forEach((i) => { i.value = link; });
+    $$("[data-wa]").forEach((a) => { a.href = signup ? "https://wa.me/?text=" + encodeURIComponent(MESSAGE_INTRO + " " + link) : "https://wa.me/"; });
+    const pill = $("[data-msg-link]");
+    if (pill) { pill.textContent = signup ? link : "seu link aparece aqui"; pill.toggleAttribute("data-empty", !signup); }
+    const tag = $("[data-msg-tag]"); if (tag) tag.textContent = signup ? "pronta" : "exemplo";
+    const tip = $("[data-msg-tip]"); if (tip) tip.textContent = signup ? "Seu link já está na mensagem. É só copiar." : "Primeiro entre na lista: é lá que seu link nasce.";
+    const label = signup ? "Copiar meu link de convite" : null;
+    $$("[data-dock-btn], [data-cta-final], [data-hero-cta]").forEach((b) => {
+      if (!b.dataset.label) b.dataset.label = b.innerHTML;
+      b.innerHTML = label ? `<svg class="i" aria-hidden="true"><use href="#i-copy"/></svg>${label}` : b.dataset.label;
+    });
+    $$(".nav__cta").forEach((b) => { if (!b.dataset.label) b.dataset.label = b.textContent; b.textContent = signup ? "Copiar meu link" : b.dataset.label; });
+  }
+
+  function initForm() {
+    const form = $("[data-form]");
+    if (!form) return;
+    const email = $("#email", form), name = $("#nome", form), hp = $("#site", form), refInput = $("#ref", form);
+    const err = $("#email-erro", form), errText = $("[data-error-text]", form);
+    const sug = $("#email-sugestao", form), sugBtn = $("[data-suggest]", form);
+    const submit = $("[data-submit]", form), formErr = $("[data-form-error]", form);
+    const success = $("[data-success]"), demoNote = $("[data-demo-note]");
+    let tried = false, sending = false;
+
+    let ref = null;
+    try { ref = (new URLSearchParams(location.search).get("ref") || "").replace(/[^A-Za-z0-9-]/g, "").slice(0, 32) || null; } catch (e) {}
+    if (ref) { refInput.value = ref; const inv = $("[data-invite]"); if (inv) inv.hidden = false; }
+
+    const showErr = (msg) => { errText.textContent = msg; err.hidden = false; email.setAttribute("aria-invalid", "true"); };
+    const clearErr = () => { err.hidden = true; email.removeAttribute("aria-invalid"); };
+    email.addEventListener("blur", () => {
+      const v = email.value.trim();
+      if (v && tried) { const p = emailProblem(v); p ? showErr(p) : clearErr(); }
+      if (v) { const s2 = suggestEmail(v); if (s2) { sugBtn.textContent = s2; sug.hidden = false; } else sug.hidden = true; }
+    });
+    email.addEventListener("input", () => { if (tried && !emailProblem(email.value.trim())) clearErr(); sug.hidden = true; });
+    sugBtn.addEventListener("click", () => { email.value = sugBtn.textContent; sug.hidden = true; clearErr(); email.focus(); });
+
+    function showSuccess(signup, focus) {
+      setSignedUp(signup);
+      form.hidden = true;
+      success.hidden = false;
+      const first = (signup.name || "").trim().split(/\s+/)[0];
+      $("[data-ok-title]").textContent = first ? `Pronto, ${first}!` : "Pronto!";
+      demoNote.hidden = !signup.demo;
+      if (focus) success.focus({ preventScroll: false });
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (sending) return;
+      tried = true;
+      formErr.hidden = true;
+      const v = email.value.trim();
+      const problem = emailProblem(v);
+      if (problem) { showErr(problem); email.focus(); return; }
+      clearErr();
+      const payload = { email: v, name: name.value.trim() || null, level: null, ref: refInput.value || null, source: "landing-promocao", createdAt: new Date().toISOString() };
+      if (hp.value) { showSuccess({ name: payload.name, code: makeCode(payload.name), demo: !CONFIG.endpoint }, true); return; }
+      sending = true;
+      submit.disabled = true;
+      const labelHtml = submit.innerHTML;
+      submit.innerHTML = `<span class="spinner" aria-hidden="true"></span>Entrando na lista…`;
+      try {
+        const res = await submitLead(payload);
+        const signup = { name: payload.name, level: null, code: res.code, demo: res.demo, at: Date.now() };
+        store.set(KEY_SIGNUP, signup);
+        showSuccess(signup, true);
+      } catch (ex) {
+        $("span", formErr).textContent = "Não conseguimos enviar agora. Confira sua conexão e tente de novo.";
+        formErr.hidden = false;
+      } finally {
+        sending = false;
+        submit.disabled = false;
+        submit.innerHTML = labelHtml;
+      }
+    });
+
+    $("[data-reset]").addEventListener("click", () => {
+      store.del(KEY_SIGNUP);
+      setSignedUp(null);
+      success.hidden = true;
+      form.hidden = false;
+      form.reset();
+      email.focus();
+    });
+
+    const saved = store.get(KEY_SIGNUP);
+    if (saved && saved.code) showSuccess(saved, false);
+  }
+
+  /* ---------- Copiar link / mensagem e CTAs depois da inscrição ---------- */
+  function initShare() {
+    document.addEventListener("click", async (e) => {
+      const copyLink = e.target.closest("[data-copy-link]");
+      const copyMsg = e.target.closest("[data-copy-msg]");
+      const wa = e.target.closest("[data-wa]");
+      const cta = e.target.closest("[data-dock-btn], [data-cta-final], [data-hero-cta], .nav__cta");
+      if (wa && !current) { e.preventDefault(); goToForm("Primeiro entre na lista para ter seu link."); return; }
+      if (copyMsg && !current) { e.preventDefault(); goToForm("Primeiro entre na lista para ter seu link."); return; }
+      if (!(copyLink || copyMsg || (cta && current))) return;
+      if (!current) return;
+      e.preventDefault();
+      const link = refLink(current.code);
+      const ok = await copyText(copyMsg ? `${MESSAGE_INTRO} ${link}` : link);
+      if (ok) toast(copyMsg ? "Mensagem copiada. Agora é só mandar." : "Link copiado. Agora é só mandar pros seus amigos.");
+      else {
+        const input = $("[data-ref-input]");
+        if (input) { input.focus(); input.select(); }
+        toast("Selecione o link e copie.");
+      }
+    });
+  }
+
+  /* ---------- Documentos pendentes ---------- */
+  function initDocs() {
+    const names = { regulamento: "O regulamento da promoção sai antes do lançamento.", privacidade: "A política de privacidade sai antes do lançamento." };
+    $$("[data-doc]").forEach((a) => {
+      const url = CONFIG.links && CONFIG.links[a.dataset.doc];
+      if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; return; }
+      a.addEventListener("click", (e) => { e.preventDefault(); toast(names[a.dataset.doc]); });
+    });
+  }
+
+  safe("movimento", initMotionToggle);
+  safe("menu", initMenu);
+  safe("cta", initDock);
+  safe("simulador", initSim);
+  safe("formulário", initForm);
+  safe("compartilhar", initShare);
+  safe("documentos", initDocs);
+})();
+</script>
+</body>
+</html>
