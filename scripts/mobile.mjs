@@ -29,8 +29,14 @@ if (process.platform === "win32") {
 
 const vite = spawn(
   process.execPath,
-  [path.join(root, "node_modules", "vite", "bin", "vite.js"), "--host", "--port", String(PORT), "--strictPort"],
-  { stdio: "inherit", cwd: root }
+  [
+    path.join(root, "node_modules", "vite", "bin", "vite.js"),
+    "--host",
+    "--port",
+    String(PORT),
+    "--strictPort",
+  ],
+  { stdio: "inherit", cwd: root },
 );
 
 process.on("SIGINT", () => vite.kill("SIGINT"));

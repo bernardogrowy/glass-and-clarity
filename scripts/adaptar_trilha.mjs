@@ -259,13 +259,19 @@ const human_review = [
 mkdirSync(outDir, { recursive: true });
 writeFileSync(
   join(outDir, "units.json"),
-  JSON.stringify({ source: "FluentPath — Conteúdo da Trilha de Inglês (v1)", totals, units, expansion_outline }, null, 2) + "\n",
+  JSON.stringify(
+    { source: "FluentPath — Conteúdo da Trilha de Inglês (v1)", totals, units, expansion_outline },
+    null,
+    2,
+  ) + "\n",
 );
 
 const report = [
   "# Relatório de conversão da trilha",
   "",
-  `- Unidades: **${totals.units}** (${Object.entries(totals.by_level).map(([k, v]) => `${k}: ${v}`).join(", ")})`,
+  `- Unidades: **${totals.units}** (${Object.entries(totals.by_level)
+    .map(([k, v]) => `${k}: ${v}`)
+    .join(", ")})`,
   `- Módulos: **${totals.modules}**`,
   `- Testes finais: **${totals.final_tests}**`,
   `- Roteiro C1–C2 (não ativar no app): **${expansion_outline.length}** itens`,
@@ -283,5 +289,7 @@ const report = [
 writeFileSync(join(outDir, "relatorio.md"), report);
 
 console.log(report.split("\n").slice(0, 8).join("\n"));
-console.log(`\nErros: ${errors.length} | Avisos: ${warnings.length} → ${join(outDir, "relatorio.md")}`);
+console.log(
+  `\nErros: ${errors.length} | Avisos: ${warnings.length} → ${join(outDir, "relatorio.md")}`,
+);
 process.exit(errors.length ? 1 : 0);
