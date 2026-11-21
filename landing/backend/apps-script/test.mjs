@@ -114,6 +114,8 @@ const ok = (name, cond, extra = "") => { cond ? pass++ : fail++; console.log((co
   const row = sheet.byEmail("ok@gmail.com");
   ok("nome que parece fórmula ganha apóstrofo", row[L.COL.name].startsWith("'="));
   ok("nível fora da lista vira vazio", row[L.COL.level] === "");
+  lead({ email: "c1@gmail.com", level: "C1" });
+  ok("nível C1 (Avançado) é aceito", sheet.byEmail("c1@gmail.com")[L.COL.level] === "C1");
   lead({ email: "n@gmail.com", name: "N".repeat(200) });
   ok("nome é cortado em 60 caracteres", sheet.byEmail("n@gmail.com")[L.COL.name].length === 60);
   lead({ email: "s@gmail.com", source: "hackeado" });

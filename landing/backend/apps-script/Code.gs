@@ -25,7 +25,7 @@ var HEADERS = ["createdAt", "email", "emailKey", "name", "level", "source", "ref
 var COL = {};
 HEADERS.forEach(function (h, i) { COL[h] = i; });
 var THRESHOLD = 3;
-var LEVELS = ["A1", "A2", "B1", "B2", "nao-sei"];
+var LEVELS = ["A1", "A2", "B1", "B2", "C1", "nao-sei"];
 var SOURCES = ["landing-acesso-antecipado", "landing-promocao"];
 var CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 
